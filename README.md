@@ -1,3 +1,3 @@
-# minimax
+# MiniMax
 Software package MiniMax searches for groups of several enriched transcription factor binding site (TFBS) motifs in the large list of motifs obtained for the test set of DNA sequences, typically these test sequences are ChIP-seq/ATAC-seq peaks or promoters of differentially expressed genes (DEGs)). 
 The enrichment is estimated in the comparison of these test (positive) seqence set with the control (negative) sequence set, which is may contain [randomly selected genomic loci, adopted by G/C-content to positive sequences](https://github.com/parthian-sterlet/antinoise/) or promoters of genes which are not DEGs.
