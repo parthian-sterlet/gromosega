@@ -12,7 +12,7 @@ GA input data:
 - a library of Mtot TFBS motifs derived from public databases like [Hocomoco](https://hocomoco14.autosome.org/) ([Vorontsov et al., 2024](https://doi.org/10.1093/nar/gkad1077)) or [Jaspar](https://jaspar.elixir.no/) ([Rauluseviciute et al., 2024](https://doi.org/10.1093/nar/gkad1059)), this library can be complemented by motifs derived by _de novo_ motifs search for an apropriate dataset, for each motifs it is required its name (e.g. TF name and motif designation) and short sescription of its TF class/family according to the hierarchical classification of mammalian ([Wingender et al., 2018](https://doi.org/10.1093/nar/gkx987)) and plant ([Blanc-Mathieu et al., 2024](https://doi.org/10.1016/j.tplants.2023.06.023)) TFs by DNA-binding domain (DBD) structure;
 - two matrices of the sizes Mtot x Npos and Mtot x Nbeg. The rows of these matrices represent sequences (1 <= n <= Npos, 1 <= n <= Nneg). The m-th column (1 <= m <= Mtot) of these matrices contain -Log<sub>10</sub>(ERR) values (Expected Recognition Rate, ERR) for best predicted hits of m-th motif in the respective sequence set ([Tsukanov et al., 2022](https://doi.org/10.3389/fpls.2022.938545)). 
 
-The GA task is to obtain for these input data the list of motif groups ranked by pAUPRC accuracy, each group includes exactly M motifs, M < Mtot.
+GA obtains for these input data the list of motif groups ranked by pAUPRC accuracy, each group includes exactly M motifs, M < Mtot.
 
 GA output data:
 - a list of motif group ranked in the descending order of the pAUPRC recognition accuracy;
