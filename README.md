@@ -6,11 +6,14 @@ For a motif representing TF binding sites (TFBS), the recognition accuracy is ca
 
 # Algorithm
 MiniMax algorithm considers a pair of positive/negative sequence sets derived either from from RNA-seq or ChIP-seq data. peaks. For RNA-seq data the positive and negative sequences are promoters of DEGs and not-DEGs, that are defined by the criteria {adjusted p-value < 0.05 & log2(FoldChange) > 1 / log2(FoldChange) < -1  for up-/down-regulated DEGs} and {adjusted p-value > 0.05 & 0.8 < FoldChange) < 1.25}, correspondingly. For ChIP-seq data the positive/negative sequences are ChIP-seq peaksor randomly selected genomic loci, correspondingly. In the case if RNA-seq data, the , respectively. For ChIP-seq/ATAC-seq data the negative set contains [randomly selected genomic loci, adopted by G/C-content selected by the AntiNoise tool](https://github.com/parthian-sterlet/antinoise/). 
+
 GA input data:
 - a pair of positive/negative sets, containg Npos/Nneg sequences;
 - a library of Mtot TFBS motifs derived from public databases like [Hocomoco](https://hocomoco14.autosome.org/) ([Vorontsov et al., 2024](https://doi.org/10.1093/nar/gkad1077)) or [Jaspar](https://jaspar.elixir.no/) ([Rauluseviciute et al., 2024](https://doi.org/10.1093/nar/gkad1059)), this library can be complemented by motifs derived by _de novo_ motifs search for an apropriate dataset, for each motifs it is required its name (e.g. TF name and motif designation) and short sescription of its TF class/family according to the hierarchical classification of mammalian ([Wingender et al., 2018](https://doi.org/10.1093/nar/gkx987)) and plant [Blanc-Mathieu et al., 2024](https://doi.org/10.1016/j.tplants.2023.06.023) TFs by DNA-binding domain (DBD) structure;
 - two matrices of the size Mtot x Npos and Mtot x Nbeg. The rows of these matrices represent sequences (1 <= n <= Npos, 1 <= n <= Nneg). The m-th column (1 <= m <= Mtot) of these matrices contain -Log<sub>10</sub>(ERR) values (Expected Recognition Rate, ERR) for best predicted hits of m-th motif in the respective sequence set. 
+
 The GA task is to obtain for these input data the list of notif groups ranked by pAUPRC accuracy, each group includes exactly M motifs, M < Mtot.
+
 GA output data:
 - a list of motif group ranked in the descending order of the pAUPRC recognition accuracy;
 - a list of PR curves for these motif groups, the list is also ranked in the descending order of the pAUPRC recognition accuracy;
