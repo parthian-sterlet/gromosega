@@ -15,9 +15,9 @@ GA input data:
 GA obtains for these input data the list of motif groups ranked by pAUPRC accuracy, each group includes exactly M motifs, M < Mtot.
 
 GA output data:
-- a list of elite (top-scored) ME motif groups ranked in the descending order of their pAUPRC recognition accuracy. For the group of one motifs (single motifs), the elite includes all motifs of the input library, otherwise, the default size of elite is 100 motifs.
-- a list of PR curves for elite motif groups, the list is also ranked in the descending order of the pAUPRC values;
-- internal structure of motif groups, a list of triangle matrices for elite motif groups, computed separately for positive and negative sequence sets, each matrix contains M x (M - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing separate motifs of the same group, the list these matrices is also ranked in the descending order of the pAUPRC values of motif groups;
+- a list of elite (top-scored) ME motif groups ranked in the descending order of their pAUPRC recognition accuracy. For the group of one motifs (single motifs), the elite includes all motifs of the input library, otherwise, the default size of the elite is 100 motifs.
+- a list of PR curves for ME motif groups, the list is also ranked in the descending order of the pAUPRC values;
+- internal structure of motif groups, a list of triangle matrices for ME motif groups, computed separately for positive and negative sequence sets, each matrix contains M x (M - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing separate motifs of the same group, the list of matrices is ranked in the descending order of the pAUPRC values;
 - external structure of motif groups, two triangle matrices for all elite motifs computed separately for positive and negative sequence sets, each matrix contains ME x (ME - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing the elite groups. 
 
 # Source code and command line arguments
