@@ -1,4 +1,6 @@
-cd examples/rnaseq_out
+cd ../examples
+mkdir rnaseq_out
+cd rnaseq_out
 ../../src/table_rnaseq_filter.exe ../rnaseq/E-MTAB-9805.txt 1 3 4 ../../genomes/protcod_dm6_m1kb_p1_tss.bed 5 up_orco1 do_orco1 no_orco1
 ../../src/select_lines01.exe	../examples/genomes/m1kb_p1_dm6_err238tbp.tab	up_orco1	up_orco1.tab
 ../../src/select_lines01.exe	../examples/genomes/m1kb_p1_dm6_err238tbp.tab	do_orco1	do_orco1.tab
