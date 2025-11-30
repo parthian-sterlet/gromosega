@@ -28,7 +28,7 @@ The analysis of ChIP-seq data is more simple, the positive and negative DNA sequ
 Preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. This step prepare recognition result for whole genome, this results fits any possible RNA-seq data containing gene lists, only one option may be here 5' and 3' ends of promoters relative to the transcription start sites, recognition for diiferent edges of promoters can resolve this issues. The next preliminary analysis performs two steps. 
 
 ## First step
-table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+[table_rnaseq_filter.cpp](https://github.com/parthian-sterlet/minimax/blob/main/cpp/table_rnaseq_filter.cpp) selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
@@ -42,7 +42,7 @@ table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEG
 This first step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and not-DEGs.
 
 ## Second step 
-select_lines01.cpp selects the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+[select_lines01.cpp](https://github.com/parthian-sterlet/minimax/blob/main/cpp/select_lines01.cpp) selects the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - a table of WG rows (input table).
 2. input file - file with WG rows, in each row only one symbol 0 or 1 (input list), so that only Npos/Neg rows for up- or down-regulated DEGs / not-DEG contain values of 1.
 3. output file - filtered input table containing only rows respecting 1 values in the input list (argument #2).
@@ -50,7 +50,7 @@ select_lines01.cpp selects the lines of pre-computed TFBS motif recognition data
 Now everithing is ready for the search of motif groups.
 
 ## Main analysis step
-minimax.cpp implements the GA search of motif groups.
+[minimax.cpp](https://github.com/parthian-sterlet/minimax/blob/main/cpp/minimax.cpp) implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs), the table has sizes Npos (rows, number of up- or down-regulated DEGs) × Mtot (columns, number of all motif in the input library).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs, the table has sizes Nneg (rows, number of not-DEGs) × Mtot (columns, number of all motif in the input library).
 3. input file - list of all Mtot motif names for the input library (for Jaspar these are TF names, for Hocomoco - motif IDs), this list includes Mtot motifs, Mtot is total number of motifs in the input library. Currently, for  _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 ([Hocomoco v14](https://hocomoco14.autosome.org/), TBP)}.
