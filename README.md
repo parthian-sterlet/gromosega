@@ -23,12 +23,11 @@ Folder [**genomes**](https://github.com/parthian-sterlet/antinoise/tree/main/gen
 * In Linux system: 
 ```
 git clone https://github.com/parthian-sterlet/minimax
-
 cd minimax/run
-
 chmod a+x build.sh
+cd ../genomes
 chmod a+x unpack.sh
-
+cd ../run
 ./build.sh
 ./unpack.sh
 ```
