@@ -35,19 +35,19 @@ First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs 
 9. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
 
 Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
-1. input file - any table of X rows (input table)
-2. input file - file with X rows, in each row only one symbol 0 or 1 (input list)
+1. input file - any table of X rows (input table).
+2. input file - file with X rows, in each row only one symbol 0 or 1 (input list).
 3. output file - filtered input table containing only rows respecting 1 values in the input list (argument #2).
 
-1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs)
-2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs
+1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs).
+2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs.
 3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs).
 4. input file - list of motif class or family name (one unique short description is required, see examples for H. sapiens, A. thaliana and D. melanogaster).
-5. integer value - total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 (Hocomoco v14, TBP)}
+5. integer value - total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 (Hocomoco v14, TBP)}.
 6. double value- ERR threshold, ot is required to filter out a left tail of the PR curve where the potential sites of the lowest affinity are expected, typically this value should be in the range from 3.3 (ERR = 5E-4, ~ 1 site is recognized per 2kb) to the minimal 2.69 (ERR = 2E-3, 1 site per 500 bpp).
-7. output file - PR curves for found groups of motifs
-8. output file - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs
-9. output file - correlations of -Log<sub>10</sub>(ERR) scores between motifs for found groups
-10. output file - main results, the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC (fitness function from GA), motif names and class/family names,.
+7. output file - PR curves for found groups of motifs.
+8. output file - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs.
+9. output file - correlations of -Log<sub>10</sub>(ERR) scores between motifs for found groups.
+10. output file - main results, the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC (fitness function from GA), motif names and class/family names.
 11. output file - log of GA evolution showing numbers of mutations and recombination in iteration of GA. 
 # Command line examples
