@@ -24,7 +24,7 @@ Folder [**genomes**](https://github.com/parthian-sterlet/antinoise/tree/main/gen
 ```
 git clone https://github.com/parthian-sterlet/minimax
 
-cd minimax
+cd minimax/run
 
 chmod a+x build.sh
 chmod a+x unpack.sh
