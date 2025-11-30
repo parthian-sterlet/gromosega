@@ -4,7 +4,7 @@ The MiniMax tool searches for groups of several enriched transcription factor (T
 # Description
 Basic computation principle of the MiniMax tool comes from the [MetArea tool](https://github.com/parthian-sterlet/metarea). For a motif representing TFBSs, the recognition accuracy is calculated as the partial area under the PR (Precision-Recall) curve (pAUPRC, [Levitsky et al., 2024](https://doi.org/10.18699/vjgb-24-90); [Davis, Goadrich, 2006](https://doi.org/10.1145/1143844.1143874)). Several motifs compiles a group of motifs. For this group for any DNA sequence certain motif of this group with the best hit among other motifs of this group defines the hit of the whole group, i.e. different motifs may represent group in various sequences. Thus, for the group of motifs the one PR curve and its pAUPRC value is computed. Hence, we can search the groups that better in terms of the pAUPRC measure distinguishes the positive and negative DNA sequence sets. Testing and optimizarion of the motif content for the population of many groups by the approach of genetic algorithm (GA) allows to detect and rank groups of motifs that reflect the diference between two sequence sets. The motifs of the same group can represent structurally different binding sites for the same TF and binding sites of different TFs acting together in single multiprotein complexes (Levitsky et al., [2014](https://doi.org/10.1186/1471-2164-15-80), [2024](https://doi.org/10.18699/vjgb-24-90)). Since the default option of TFs action is mutual cooperative interactions ([Morgunova & Taipale, 2017](https://doi.org/10.1016/j.sbi.2017.03.006)), the single protein complex of multiple TFs is reflected in various portions of peaks as different enriched motifs of various TFs, including TFs participating in transcription regulation of DEGs from the RNA-seq data, and the target and partner TFs related to TFBS motif enrichment for ChIP-seq data. Hence, the functional relationship of several distinct motifs of the same group is recognized through increased recognition performance. For the fixed number of motifs, the groups with the greater pAUPRC values are the better representatives of the functional TFs compared to other groups with the smaller pAUPRC values. Thus, MiniMax predicts TFBS motifs respecting TFs paricipating in the same multiprotein complexes functioning in gene transcription regulation.
 
-# Algorithm, input and output data
+# Algorithm
 MiniMax algorithm considers a pair of positive/negative sequence sets derived either from from RNA-seq or ChIP-seq data. peaks. For RNA-seq data the positive and negative sequences are promoters of DEGs and not-DEGs, that are defined by the criteria {adjusted p-value < 0.05 & log2(FoldChange) > 1 / log2(FoldChange) < -1  for up-/down-regulated DEGs} and {adjusted p-value > 0.05 & 0.8 < FoldChange) < 1.25}, correspondingly. For ChIP-seq data the positive/negative sequences are ChIP-seq peaksor randomly selected genomic loci, correspondingly. In the case if RNA-seq data, the , respectively. For ChIP-seq/ATAC-seq data the negative set contains [randomly selected genomic loci, adopted by G/C-content selected by the AntiNoise tool](https://github.com/parthian-sterlet/antinoise/). 
 
 ## GA input data:
@@ -21,9 +21,10 @@ GA obtains for these input data the list of motif groups ranked by pAUPRC accura
 - external structure of motif groups, two triangle matrices for all elite motifs computed separately for positive and negative sequence sets, each matrix contains ME × (ME - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing the elite groups. 
 
 # Source code and command line arguments
-## Zero step, preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
+## Zero step
+Preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
 
-- First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+- First step, table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
@@ -34,12 +35,14 @@ GA obtains for these input data the list of motif groups ranked by pAUPRC accura
 8. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
 9. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
 
-## Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+## Second step 
+select_lines01.cpp selects the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - any table of X rows (input table).
 2. input file - file with X rows, in each row only one symbol 0 or 1 (input list).
 3. output file - filtered input table containing only rows respecting 1 values in the input list (argument #2).
 
-## Main analysis, minimax.cpp implements the GA search of motif groups.
+## Main analysis step
+minimax.cpp implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs.
 3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs), this list includes Mtot motifs, Mtot is total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 ([Hocomoco v14](https://hocomoco14.autosome.org/), TBP)}..
