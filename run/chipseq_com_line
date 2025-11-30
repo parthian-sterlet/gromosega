@@ -1,4 +1,6 @@
-cd examples/chipseq_out
+cd ../examples
+mkdir chipseq_out
+cd chipseq_out
 ../../src/minimax.exe	../chipseq/tabp	../chipseq/tabn	../chipseq/mnames	../chipseq/classes	4	3.3	prc_chipseq_stat6	ext_chipseq_stat6	int_chipseq_stat6	out_chipseq_stat6	log_chipseq_stat6
 cd ..
 cd ..
