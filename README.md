@@ -32,9 +32,9 @@ table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEG
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
 5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for  _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ 19795/19991 (hg38/mm10), 27202 (TAIR10) and 13773 (dm6) genes are considered.
 6. integer value - the column number of gene IDs in the table for whole genome (argument #5).
-7. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on up-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) > 1.
-8. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
-9. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
+7. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) > 1.
+8. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
+9. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
 
 ## Second step 
 select_lines01.cpp selects the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
