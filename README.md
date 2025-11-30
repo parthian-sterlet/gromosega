@@ -29,6 +29,7 @@ cd minimax/run
 chmod a+x build.sh
 
 ./build.sh
+./unpack.sh
 ```
 * In Windows system:
 
