@@ -7,21 +7,21 @@ Basic computation principle of the MiniMax tool comes from the [MetArea tool](ht
 # Algorithm, input and output data
 MiniMax algorithm considers a pair of positive/negative sequence sets derived either from from RNA-seq or ChIP-seq data. peaks. For RNA-seq data the positive and negative sequences are promoters of DEGs and not-DEGs, that are defined by the criteria {adjusted p-value < 0.05 & log2(FoldChange) > 1 / log2(FoldChange) < -1  for up-/down-regulated DEGs} and {adjusted p-value > 0.05 & 0.8 < FoldChange) < 1.25}, correspondingly. For ChIP-seq data the positive/negative sequences are ChIP-seq peaksor randomly selected genomic loci, correspondingly. In the case if RNA-seq data, the , respectively. For ChIP-seq/ATAC-seq data the negative set contains [randomly selected genomic loci, adopted by G/C-content selected by the AntiNoise tool](https://github.com/parthian-sterlet/antinoise/). 
 
-GA input data:
+## GA input data:
 - a pair of positive/negative sets, containg Npos/Nneg sequences;
 - a library of Mtot TFBS motifs derived from public databases like [Hocomoco](https://hocomoco14.autosome.org/) ([Vorontsov et al., 2024](https://doi.org/10.1093/nar/gkad1077)) or [Jaspar](https://jaspar.elixir.no/) ([Rauluseviciute et al., 2024](https://doi.org/10.1093/nar/gkad1059)), this library can be complemented by motifs derived by _de novo_ motif search for an apropriate dataset, for each motif it is required its name (e.g. TF name and motif designation) and short description of its TF class/family according to the hierarchical classification of mammalian ([Wingender et al., 2018](https://doi.org/10.1093/nar/gkx987)) and plant ([Blanc-Mathieu et al., 2024](https://doi.org/10.1016/j.tplants.2023.06.023)) TFs by DNA-binding domain (DBD) structure;
 - two matrices of the sizes Mtot x Npos and Mtot x Nbeg. The rows of these matrices represent sequences (1 ≤ n ≤ Npos, 1 ≤ n ≤ Nneg). The m-th column (1 ≤ m ≤ Mtot) of these matrices contain -Log<sub>10</sub>(ERR) values (Expected Recognition Rate, ERR) for best predicted hits of m-th motif in the respective sequence set ([Tsukanov et al., 2022](https://doi.org/10.3389/fpls.2022.938545)). 
 
 GA obtains for these input data the list of motif groups ranked by pAUPRC accuracy, each group includes exactly M motifs, M < Mtot.
 
-GA output data:
+## GA output data:
 - a list of elite (top-scored) ME motif groups ranked in the descending order of their pAUPRC recognition accuracy. For the group of one motifs (single motifs), the elite includes all motifs of the input library, otherwise, the default size of the elite is 100 motifs.
 - a list of PR curves for ME motif groups, the list is also ranked in the descending order of the pAUPRC values;
 - internal structure of motif groups, a list of triangle matrices for ME motif groups, computed separately for positive and negative sequence sets, each matrix contains M × (M - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing separate motifs of the same group, the list of matrices is ranked in the descending order of the pAUPRC values;
 - external structure of motif groups, two triangle matrices for all elite motifs computed separately for positive and negative sequence sets, each matrix contains ME × (ME - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing the elite groups. 
 
 # Source code and command line arguments
--Zero step, preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
+## Zero step, preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
 
 - First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
@@ -34,12 +34,12 @@ GA output data:
 8. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
 9. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
 
-- Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+## Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - any table of X rows (input table).
 2. input file - file with X rows, in each row only one symbol 0 or 1 (input list).
 3. output file - filtered input table containing only rows respecting 1 values in the input list (argument #2).
 
-- Main analysis, minimax.cpp implements the GA search of motif groups.
+## Main analysis, minimax.cpp implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs.
 3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs), this list includes Mtot motifs, Mtot is total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 ([Hocomoco v14](https://hocomoco14.autosome.org/), TBP)}..
