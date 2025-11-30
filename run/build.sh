@@ -1,7 +1,7 @@
 #!/bin/sh
 
-chmod a+x command_line_chipseq
-chmod a+x command_line_rnaseq
+chmod a+x chipseq_com_line
+chmod a+x rnaseq_com_line
 
 cd src
 
