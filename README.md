@@ -21,5 +21,23 @@ GA output data:
 - external structure of motif groups, two triangle matrices for all elite motifs computed separately for positive and negative sequence sets, each matrix contains ME × (ME - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing the elite groups. 
 
 # Source code and command line arguments
+Preliminary data are the results of TFBS motif recognition, they represent a table of WG (rows) × Mtot (columns) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
+
+First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+1 input file - the table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
+2 integer value - the column number of gene IDs in the RNA-seq table (argument #1). Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
+3 integer value - the column number of log2Fold values in the RNA-seq table (argument #1).
+4 integer value - the column number of padj values in the RNA-seq table (argument #1).
+5 file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for H. sapiens / M.musculus, A. thaliana and D. melanogaster 19795/19991 (hg38/mm10), 27202 (TAIR10) and 13773 (dm6) genes are considered.
+6 integer value - the column number of gene IDs in the table for whole genome (argument #5).
+7 output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on up-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) > 1.
+8 output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
+8 output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
+
+Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+1 input file - any table of X rows (input table)
+2 input file - file with X rows, in each row only one symbol 0 or 1 (input list)
+3 output file - filtered input table containing only rows respecting 1 values in the input list (argument #2).
+
 
 # Command line examples
