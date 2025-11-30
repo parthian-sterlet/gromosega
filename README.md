@@ -27,10 +27,10 @@ Preliminary computed data are the results of TFBS motif recognition for promoter
 ## First step
 table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
-2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
+2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
-5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for H. sapiens / M.musculus, A. thaliana and D. melanogaster 19795/19991 (hg38/mm10), 27202 (TAIR10) and 13773 (dm6) genes are considered.
+5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for  _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ 19795/19991 (hg38/mm10), 27202 (TAIR10) and 13773 (dm6) genes are considered.
 6. integer value - the column number of gene IDs in the table for whole genome (argument #5).
 7. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on up-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) > 1.
 8. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
@@ -46,8 +46,8 @@ select_lines01.cpp selects the lines of pre-computed TFBS motif recognition data
 minimax.cpp implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs.
-3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs), this list includes Mtot motifs, Mtot is total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 ([Hocomoco v14](https://hocomoco14.autosome.org/), TBP)}..
-4. input file - list of motif class or family name (one unique short description is required, see examples for H. sapiens, A. thaliana and D. melanogaster), this list includes Mtot motifs.
+3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs), this list includes Mtot motifs, Mtot is total number of motifs in the input library. Currently, for  _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 ([Hocomoco v14](https://hocomoco14.autosome.org/), TBP)}..
+4. input file - list of motif class or family name (one unique short description is required, see examples for _H. sapiens, A. thaliana and D. melanogaster_), this list includes Mtot motifs.
 5. integer value - M value, number of motifs in each group.
 6. double value - -Log<sub>10</sub>(ERR<sub>MAX</sub>) threshold, ot is required to filter out a left tail of the PR curve where the potential sites of the lowest affinity are expected, typically this value should be in the range from the more stringent maximal -Log<sub>10</sub>(ERR<sub>MAX</sub>) = 3.3 (ERR<sub>MAX</sub> = 5E-4, ~ 1 site is recognized per 2kb) to the more mild minimal -Log<sub>10</sub>(ERR<sub>MAX</sub>) = 2.69 (ERR<sub>MAX</sub> = 2E-3, 1 site per 500 bp).
 7. mask for output PR curve file - PR curves for found groups of motifs, output file name is "mask"_M.
