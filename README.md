@@ -24,7 +24,8 @@ GA obtains for these input data the list of motif groups ranked by pAUPRC accura
 ## Zero step
 Preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
 
-- First step, table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+## First step
+table_rnaseq_filter.cpp selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
