@@ -21,9 +21,9 @@ GA output data:
 - external structure of motif groups, two triangle matrices for all elite motifs computed separately for positive and negative sequence sets, each matrix contains ME × (ME - 1) / 2 Pearson's correlation coefficients for various pairs of -Log<sub>10</sub>(ERR) vectors representing the elite groups. 
 
 # Source code and command line arguments
-Preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
+-Zero step, preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × Mtot (columns, number of all motif in the input library) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. The next preliminary analysis performs two steps. 
 
-First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+- First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
@@ -34,20 +34,22 @@ First step, table_rnaseq_filter.cpp select the lists of up-/down-regulated DEGs 
 8. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
 9. output file -list of all WG integer values (0 or 1) marking gene satisfying the criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
 
-Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+- Second step, select_lines01.cpp select the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - any table of X rows (input table).
 2. input file - file with X rows, in each row only one symbol 0 or 1 (input list).
 3. output file - filtered input table containing only rows respecting 1 values in the input list (argument #2).
 
+- Main analysis, minimax.cpp implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs.
 3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs), this list includes Mtot motifs, Mtot is total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 ([Hocomoco v14](https://hocomoco14.autosome.org/), TBP)}..
 4. input file - list of motif class or family name (one unique short description is required, see examples for H. sapiens, A. thaliana and D. melanogaster), this list includes Mtot motifs.
 5. integer value - M value, number of motifs in each group.
 6. double value- ERR threshold, ot is required to filter out a left tail of the PR curve where the potential sites of the lowest affinity are expected, typically this value should be in the range from the more stringent maximal 3.3 (ERR = 5E-4, ~ 1 site is recognized per 2kb) to the more mild minimal 2.69 (ERR = 2E-3, 1 site per 500 bp).
-7. output file mask - PR curves for found groups of motifs, output file name is "output file mask"_M.
-8. output file mask - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs, output file name is "output file mask"_M.
-9. output file mask - correlations of -Log<sub>10</sub>(ERR) scores between motifs for found groups, output file name is "output file mask"_M.
-10. output file mask - main results, the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC (fitness function from GA), motif names and class/family names for all M motifs, output file name is "output file mask"_M.
-11. output file  mask  - log of GA evolution showing numbers of mutations and recombinations in iterations of GA, output file name is "output file mask"_M. 
+7. mask for output PR curve file - PR curves for found groups of motifs, output file name is "mask"_M.
+8. mask for output internal correlation file - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs, output file name is "mask"_M.
+9. mask for output external correlation file - correlations of -Log<sub>10</sub>(ERR) scores between motifs for found groups, output file name is "mask"_M.
+10. mask for main output file - the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC (fitness function from GA), motif names and class/family names for all M motifs, output file name is "mask"_M.
+11. mask for output file - log of GA evolution showing numbers of mutations and recombinations in iterations of GA, output file name is "mask"_M.
+    
 # Command line examples
