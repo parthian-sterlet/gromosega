@@ -3,6 +3,7 @@
 chmod a+x chipseq_com_line
 chmod a+x rnaseq_com_line
 
+cd ..
 cd src
 
 g++ -o minimax.exe minimax.cpp
