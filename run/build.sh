@@ -1,9 +1,9 @@
 #!/bin/sh
 
-cd src
-
 chmod a+x command_line_chipseq
 chmod a+x command_line_rnaseq
+
+cd src
 
 g++ -o minimax.exe minimax.cpp
 g++ -o table_rnaseq_filter.exe table_rnaseq_filter.cpp
