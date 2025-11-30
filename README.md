@@ -95,3 +95,5 @@ Now everithing is ready for the search of motif groups.
 12. mask for output file - log of GA evolution showing numbers of mutations and recombinations in iterations of GA, output file name is "mask"_M.
     
 # Command line examples
+- Command line example for ChIP-seq data for mouse STAT6 TF, [GSM2845664](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2845664) (BMDM cells, 1h IL4 treatment), [chipseq_com_line](https://github.com/parthian-sterlet/minimax/blob/main/run/chipseq_com_line)
+- Command line example for RNA-seq data on stress and neuronal activity for drosophila [E-MTAB-9805](https://www.ebi.ac.uk/gxa/experiments/E-MTAB-9805/Results), , [rnaseq_com_line](https://github.com/parthian-sterlet/minimax/blob/main/run/rnaseq_com_line)
