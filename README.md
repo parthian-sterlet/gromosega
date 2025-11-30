@@ -44,7 +44,7 @@ Second step, select_lines01.cpp select the lines of pre-computed TFBS motif reco
 3. input file - list of motif names (for Jaspar these are TF names, for Hocomoco - motif IDs).
 4. input file - list of motif class or family name (one unique short description is required, see examples for H. sapiens, A. thaliana and D. melanogaster).
 5. integer value - total number of motifs in the input library. Currently, for H. sapiens / M.musculus, A. thaliana and D. melanogaster these numbers are 1595/1245 ([Hocomoco v14](https://hocomoco14.autosome.org/)), 740 ([Jaspar Plants](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) and 239 {238 ([Jaspar Insects](https://jaspar.elixir.no/), filtered for -Log<sub>10</sub>(ERR) > 3.6) + 1 (Hocomoco v14, TBP)}.
-6. double value- ERR threshold, ot is required to filter out a left tail of the PR curve where the potential sites of the lowest affinity are expected, typically this value should be in the range from 3.3 (ERR = 5E-4, ~ 1 site is recognized per 2kb) to the minimal 2.69 (ERR = 2E-3, 1 site per 500 bpp).
+6. double value- ERR threshold, ot is required to filter out a left tail of the PR curve where the potential sites of the lowest affinity are expected, typically this value should be in the range from the more stringent maximal 3.3 (ERR = 5E-4, ~ 1 site is recognized per 2kb) to the more mild minimal 2.69 (ERR = 2E-3, 1 site per 500 bp).
 7. output file - PR curves for found groups of motifs.
 8. output file - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs.
 9. output file - correlations of -Log<sub>10</sub>(ERR) scores between motifs for found groups.
