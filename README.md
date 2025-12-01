@@ -61,10 +61,11 @@ Preliminary computed data are the results of TFBS motif recognition for promoter
 ## First step
 [table_rnaseq_filter.cpp](https://github.com/parthian-sterlet/GroMoSeGA/blob/main/cpp/table_rnaseq_filter.cpp) selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
-2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gen ID, TAIR AGI codes and FyBase gene ID are sipported, e.g. ENSG00000160072, AT1G01200 and FBgn0000008
+2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M.musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene ID are supported, e.g. ENSG00000160072/ENSMUSG00000033813,
+AT1G01200 and FBgn0000008.
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
-5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for  _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ 19795/19991 (hg38/mm10), 27202 (TAIR10) and 13773 (dm6) genes are considered.
+5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm39, TAIR10 and dm6 are considered.
 6. integer value - the column number of gene IDs in the table for whole genome (argument #5).
 7. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) > 1.
 8. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
