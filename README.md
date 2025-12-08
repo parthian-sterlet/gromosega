@@ -39,7 +39,7 @@ separate compilation of all source files in VC++
 GroMoSeGA algorithm considers a pair of positive/negative sequence sets derived either from RNA-seq or ChIP-seq data. peaks. For RNA-seq data the positive and negative sequences are promoters of DEGs and not-DEGs, that are defined by the default criteria: 
 - {adjusted p-value < 0.05 & log2(FoldChange) > 1 / log2(FoldChange) < -1  for up-/down-regulated DEGs}, and 
 - {adjusted p-value > 0.05 & 0.8 < FoldChange) < 1.25} for nor-DEGs.
-- 
+
 For ChIP-seq data the positive / negative sequences are ChIP-seq peaks / randomly selected genomic loci, correspondingly. In the case if RNA-seq data, the , respectively. For ChIP-seq/ATAC-seq data the negative set contains [randomly selected genomic loci, adopted by G/C-content selected by the AntiNoise tool](https://github.com/parthian-sterlet/antinoise/). 
 
 ## GA input data:
