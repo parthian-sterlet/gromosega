@@ -5,7 +5,7 @@ cd rnaseq_out
 ../../src/select_lines01.exe	../../genomes/m1kb_p1_dm6_err238tbp.tab	up_orco1	up_orco1.tab
 ../../src/select_lines01.exe	../../genomes/m1kb_p1_dm6_err238tbp.tab	do_orco1	do_orco1.tab
 ../../src/select_lines01.exe	../../genomes/m1kb_p1_dm6_err238tbp.tab	no_orco1	no_orco1.tab
-../../src/minimax.exe	up_orco1.tab no_orco1.tab ../rnaseq/name_jaspar238_tbp ../rnaseq/name_class238_tbp 7 3.3 prc_up_orco1 ext_up_orco1 int_up_orco1	out_up_orco1 log_up_orco1
-../../src/minimax.exe	do_orco1.tab no_orco1.tab ../rnaseq/name_jaspar238_tbp ../rnaseq/name_class238_tbp 7 3.3 prc_do_orco1 ext_do_orco1 int_do_orco1	out_do_orco1 log_do_orco1
+../../src/minimax.exe	up_orco1.tab no_orco1.tab ../rnaseq/name_jaspar_insect_tf238_tbp ../rnaseq/name_jaspar_insects_class238_tbp 7 3.3 prc_up_orco1 ext_up_orco1 int_up_orco1	out_up_orco1 log_up_orco1
+../../src/minimax.exe	do_orco1.tab no_orco1.tab ../rnaseq/name_jaspar_insect_tf238_tbp ../rnaseq/name_jaspar_insects_class238_tbp 7 3.3 prc_do_orco1 ext_do_orco1 int_do_orco1	out_do_orco1 log_do_orco1
 cd ..
 cd ..
