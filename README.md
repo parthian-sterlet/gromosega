@@ -11,7 +11,7 @@ The source code is written in C++ language. To compile execubables from the sour
 * In Windows system any VC++ package, e.g. [Microsoft Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
 
 # Repository structure
-Folder [**src**](https://github.com/parthian-sterlet/GroMoSeGA/tree/main/src) contains the [major](https://github.com/parthian-sterlet/GroMoSeGA/blob/main/src/GroMoSeGA.cpp) and some supporting C++ source code files.  
+Folder [**src**](https://github.com/parthian-sterlet/GroMoSeGA/tree/main/src) contains the [major](https://github.com/parthian-sterlet/GroMoSeGA/blob/main/src/minimax.cpp) and some supporting C++ source code files.  
 
 Folder [**run**](https://github.com/parthian-sterlet/antinoise/tree/main/run) contains two command lines, implementing the tool pipeline for example RNA-seq and ChIP-seq data.
 
