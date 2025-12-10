@@ -1,239 +1,287 @@
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bZIP
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-bHLH
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-NR
-Other C4 ZF
-Other C4 ZF
-Other C4 ZF
-Other C4 ZF
-Other C4 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-C2H2 ZF
-DMRT
-DMRT
-Homeo domain factors
-HD-CUT
-HD-LIM
-HD-LIM
-HD-SINE
-HD-SINE
-Homeo
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-HOX
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-NK
-Paired HD
-Paired HD
-Paired HD
-Paired HD
-Paired HD
-Paired HD
-Paired HD
-Paired HD
-POU
-POU
-POU
-TALE-type HD
-TALE-type HD
-TALE-type HD
-TALE-type HD
-TALE-type HD
-Paired box
-Paired box
-Paired box
-Paired box
-Paired box
-FOX
-FOX
-FOX
-FOX
-FOX
-FOX
-FOX
-FOX
-FOX
-FOX
-FOX
-RFX
-HSF
-Ets-related
-Ets-related
-Ets-related
-Ets-related
-Ets-related
-Ets-related
-Ets-related
-Ets-related
-TEA
-HMG
-SOX
-SOX
-SOX
-SOX
-SOX
-SOX
-SOX
-SOX
-MADS box
-RHR
-RHR
-RHR
-RHR
-RHR
-STAT
-Runt
-Runt
-Runt
-T-Box
-T-Box
-T-Box
-T-Box
-Grainyhead
-SMAD/NF-1
-GCM
-GCM
-TATA-binding
-Unknown
-Unknown
-Unknown
-Unknown
-Unknown
-Unknown
-Unknown
-TATA-binding
+ATF-4 {1.1}
+CEBP {1.1}
+CEBP {1.1}
+CEBP {1.1}
+CEBP {1.1}
+CREB {1.1}
+CREB {1.1}
+Fos {1.1}
+Fos {1.1}
+Jun {1.1}
+Jun {1.1}
+Jun {1.1}
+Jun {1.1}
+Jun, Maf {1.1}
+Maf {1.1}
+XBP-1 {1.1}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+bHLH-ZIP {1.2}
+E2A {1.2}
+Hairy {1.2}
+Hairy {1.2}
+Hairy {1.2}
+Hairy {1.2}
+Hairy {1.2}
+Hairy {1.2}
+Hairy {1.2}
+HLH {1.2}
+MyoD/ASC {1.2}
+MyoD/ASC {1.2}
+MyoD/ASC {1.2}
+PAS {1.2}
+PAS {1.2}
+PAS {1.2}
+Tal {1.2}
+Tal {1.2}
+Tal {1.2}
+Tal {1.2}
+Tal {1.2}
+Tal {1.2}
+Tal {1.2}
+Tal {1.2}
+AP-2 {1.3}
+FTZF1 (NR5A) {2.1}
+GCNF (NR6) {2.1}
+NGFI-B (NR4) {2.1}
+RXR (NR2) {2.1}
+RXR (NR2) {2.1}
+RXR (NR2) {2.1}
+RXR (NR2) {2.1}
+RXR (NR2) {2.1}
+RXR (NR2) {2.1}
+Steroid HR (NR3) {2.1}
+Thyroid HR (NR1) {2.1}
+Thyroid HR (NR1) {2.1}
+Thyroid HR (NR1) {2.1}
+Thyroid HR (NR1) {2.1}
+Thyroid HR (NR1) {2.1}
+Thyroid HR, RXR (NR1, NR2) {2.1}
+C4-GATA {2.2}
+C4-GATA {2.2}
+C4-GATA {2.2}
+C4-GATA {2.2}
+C4-GATA {2.2}
+BED ZF {2.3}
+Multiple dispersed ZFs {2.3}
+Multiple dispersed ZFs {2.3}
+Multiple dispersed ZFs {2.3}
+Multiple dispersed ZFs {2.3}
+Multiple dispersed ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+More than 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+Other with up to 3 adj ZFs {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+3-ZF Kruppel {2.3}
+BED ZF {2.3}
+DMRT {2.5}
+DMRT {2.5}
+HD- {3.1}
+HD-CUT {3.1}
+HD-CUT {3.1}
+HD-CUT {3.1}
+HD-LIM {3.1}
+HD-LIM {3.1}
+HD-LIM {3.1}
+HD-LIM {3.1}
+HD-LIM {3.1}
+HD-LIM {3.1}
+HD-LIM {3.1}
+HD-SINE {3.1}
+HD-SINE {3.1}
+HD-SINE {3.1}
+Homeo {3.1}
+Homeo {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+HOX {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+NK {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+Paired HD factors {3.1}
+POU {3.1}
+POU {3.1}
+POU {3.1}
+POU {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+TALE-type HD {3.1}
+Paired box {3.2}
+Paired D only {3.2}
+Paired D only {3.2}
+Paired + HD {3.2}
+Paired + HD {3.2}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+FOX {3.3}
+RFX {3.3}
+HS {3.4}
+Ets {3.5}
+Ets {3.5}
+Ets {3.5}
+Ets {3.5}
+Ets {3.5}
+Ets {3.5}
+Ets {3.5}
+Ets {3.5}
+TEF-1 {3.6}
+ARID {3.7}
+HMG {4.1}
+SOX {4.1}
+SOX {4.1}
+SOX {4.1}
+SOX {4.1}
+SOX {4.1}
+SOX {4.1}
+SOX {4.1}
+SOX {4.1}
+SRF/RLM1 {5.1}
+DEAF {5.3}
+RHR- {6.1}
+EBF {6.1}
+NF-kappaB {6.1}
+NF-kappaB {6.1}
+RHD {6.1}
+STAT {6.2}
+Runt {6.4}
+Runt {6.4}
+Runt; Runt {6.4}
+Brachyury {6.5}
+TBX1 {6.5}
+TBX1 {6.5}
+TBX6 {6.5}
+Grainyhead {6.7}
+SMAD {7.1}
+GCM {7.2}
+GCM {7.2}
+HMGA {8.2}
+Unknown {0.*}
+Unknown {0.*}
+Unknown {0.*}
+Unknown {0.*}
+Unknown {0.*}
+Unknown {0.*}
+Unknown {0.*}
+TBP {8.1}
