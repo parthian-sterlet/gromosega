@@ -23,7 +23,6 @@ bHLH-ZIP {1.2}
 bHLH-ZIP {1.2}
 bHLH-ZIP {1.2}
 bHLH-ZIP {1.2}
-E2A {1.2}
 Hairy {1.2}
 Hairy {1.2}
 Hairy {1.2}
@@ -34,11 +33,9 @@ Hairy {1.2}
 HLH {1.2}
 MyoD/ASC {1.2}
 MyoD/ASC {1.2}
-MyoD/ASC {1.2}
 PAS {1.2}
 PAS {1.2}
 PAS {1.2}
-Tal {1.2}
 Tal {1.2}
 Tal {1.2}
 Tal {1.2}
@@ -110,8 +107,6 @@ More than 3 adj ZFs {2.3}
 More than 3 adj ZFs {2.3}
 More than 3 adj ZFs {2.3}
 More than 3 adj ZFs {2.3}
-More than 3 adj ZFs {2.3}
-Other with up to 3 adj ZFs {2.3}
 Other with up to 3 adj ZFs {2.3}
 Other with up to 3 adj ZFs {2.3}
 Other with up to 3 adj ZFs {2.3}
@@ -132,19 +127,10 @@ DMRT {2.5}
 DMRT {2.5}
 HD- {3.1}
 HD-CUT {3.1}
-HD-CUT {3.1}
-HD-CUT {3.1}
-HD-LIM {3.1}
-HD-LIM {3.1}
-HD-LIM {3.1}
-HD-LIM {3.1}
-HD-LIM {3.1}
 HD-LIM {3.1}
 HD-LIM {3.1}
 HD-SINE {3.1}
 HD-SINE {3.1}
-HD-SINE {3.1}
-Homeo {3.1}
 Homeo {3.1}
 HOX {3.1}
 HOX {3.1}
@@ -159,13 +145,6 @@ HOX {3.1}
 HOX {3.1}
 HOX {3.1}
 HOX {3.1}
-HOX {3.1}
-HOX {3.1}
-HOX {3.1}
-HOX {3.1}
-HOX {3.1}
-HOX {3.1}
-HOX {3.1}
 NK {3.1}
 NK {3.1}
 NK {3.1}
@@ -179,26 +158,6 @@ NK {3.1}
 NK {3.1}
 NK {3.1}
 NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-NK {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
-Paired HD factors {3.1}
 Paired HD factors {3.1}
 Paired HD factors {3.1}
 Paired HD factors {3.1}
@@ -210,11 +169,6 @@ Paired HD factors {3.1}
 POU {3.1}
 POU {3.1}
 POU {3.1}
-POU {3.1}
-TALE-type HD {3.1}
-TALE-type HD {3.1}
-TALE-type HD {3.1}
-TALE-type HD {3.1}
 TALE-type HD {3.1}
 TALE-type HD {3.1}
 TALE-type HD {3.1}
@@ -247,7 +201,6 @@ Ets {3.5}
 Ets {3.5}
 Ets {3.5}
 TEF-1 {3.6}
-ARID {3.7}
 HMG {4.1}
 SOX {4.1}
 SOX {4.1}
@@ -258,7 +211,6 @@ SOX {4.1}
 SOX {4.1}
 SOX {4.1}
 SRF/RLM1 {5.1}
-DEAF {5.3}
 RHR- {6.1}
 EBF {6.1}
 NF-kappaB {6.1}
