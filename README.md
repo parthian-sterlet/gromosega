@@ -22,8 +22,8 @@ Folder [**genomes**](https://github.com/parthian-sterlet/antinoise/tree/main/gen
 # How to compile
 * In Linux system: 
 ```
-git clone https://github.com/parthian-sterlet/GroMoSeGA
-cd GroMoSeGA/run
+git clone https://github.com/parthian-sterlet/gromosega
+cd gromosega/run
 chmod a+x build.sh
 ./build.sh
 cd ../genomes
