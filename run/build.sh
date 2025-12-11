@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd run
+
 chmod a+x chipseq_com_line
 chmod a+x rnaseq_com_line
 chmod a+x gmsga_rnaseq
