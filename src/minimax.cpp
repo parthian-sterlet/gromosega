@@ -131,9 +131,9 @@ void combi::fprint_all(int mtot, FILE* out)
 void combi::fprint_nam(int mtot, char** nam_mot, char** nam_class, FILE* out)
 {
 	int i;
-	fprintf(out,"Fit %f\tMotifs\t", fit);
+	fprintf(out,"%f\tMotifs\t", fit);
 	for (i = 0; i < mtot; i++)if (mot[i] == 1)fprintf(out,"%s\t", nam_mot[i]);
-	fprintf(out, "ClassesFamilies\t ");
+	fprintf(out, "ClassesFamilies\t");
 	for (i = 0; i < mtot; i++)if (mot[i] == 1)fprintf(out, "%s\t", nam_class[i]);
 	for (i = 0; i < 20; i++)fprintf(out,"\t%.3f", prec[i]);
 	fprintf(out,"\n");
