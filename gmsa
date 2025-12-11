@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cd ../examples
+mkdir $1
+cd $1
+../../src/table_rnaseq_filter.exe ../rnaseq/E-MTAB-9805.txt 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 up_$1 do_$1 no_$1
+../../src/select_lines01.exe	../../genomes/m1kb_p1_dm6_err238tbp.tab	up_$1	up_$1.tab
+../../src/select_lines01.exe	../../genomes/m1kb_p1_dm6_err238tbp.tab	do_$1	do_$1.tab
+../../src/select_lines01.exe	../../genomes/m1kb_p1_dm6_err238tbp.tab	no_$1	no_$1.tab
+
+for (( i=1; i <= $4; i++ )) {
+
+../../src/minimax.exe	up_$1.tab no_$1.tab ../rnaseq/name_jaspar_insect_tf238_tbp ../rnaseq/name_jaspar_insects_class238_tbp 7 3.3 prc_up_$1 ext_up_$1 int_up_$1	out_up_$1 log_up_$1
+../../src/minimax.exe	do_$1.tab no_$1.tab ../rnaseq/name_jaspar_insect_tf238_tbp ../rnaseq/name_jaspar_insects_class238_tbp 7 3.3 prc_do_$1 ext_do_$1 int_do_$1	out_do_$1 log_do_$1
+
+}
+
+cd ..
+cd ..
