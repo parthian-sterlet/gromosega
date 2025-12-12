@@ -65,7 +65,7 @@ Preliminary computed data are the results of TFBS motif recognition for promoter
 ## First step
 [table_rnaseq_filter.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_filter.cpp) selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
-2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene ID are supported, e.g. ENSG00000160072/ENSMUSG00000033813,
+2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
 AT1G01200 and FBgn0000008.
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
