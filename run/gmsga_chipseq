@@ -6,7 +6,7 @@ cd $1
 
 for (( i=1; i <= $2; i++ )) {
 
-../../src/minimax.exe	../chipseq/tabp	../chipseq/tabn	../chipseq/mnames	../chipseq/classes	../chipseq/class_index $i $2 3.3 prc_chipseq_stat6 bin_chipseq_stat6 cex_chipseq_stat6	cin_chipseq_stat6	out_chipseq_stat6	per_chipseq_stat6 fam_chipseq_stat6 log_chipseq_stat6
+../../src/minimax.exe	../chipseq/tabp	../chipseq/tabn	../chipseq/mnames	../chipseq/classes ../chipseq/class_index $i $2 3.3 prc_chipseq_stat6 bin_chipseq_stat6 cex_chipseq_stat6	cin_chipseq_stat6	out_chipseq_stat6	per_chipseq_stat6 fam_chipseq_stat6 log_chipseq_stat6
 
 }
 
