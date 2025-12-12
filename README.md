@@ -95,14 +95,14 @@ Now everything is ready for the search of the motif groups.
 6. integer value - M<sub>SEL</sub> value, number of motifs in each group (group size), values from 1 to several tens are recommended.
 7. integer value - M<sub>SELMAX</sub> value, number of motifs in each group, the maximum value for a series of independent runs, e.g. if these runs imply the group sizes M<sub>SEL</sub> = {1, 2, 3}, then M<sub>SELMAX</sub> = 3.
 8. double value - -Log<sub>10</sub>(ERR<sub>MAX</sub>) threshold, ot is required to filter out a left tail of the PR curve where the potential sites of the lowest affinity are expected, typically this value should be in the range from the more stringent maximal -Log<sub>10</sub>(ERR<sub>MAX</sub>) = 3.3 (ERR<sub>MAX</sub> = 5E-4, ~ 1 site is recognized per 2kb) to the more mild minimal -Log<sub>10</sub>(ERR<sub>MAX</sub>) = 2.69 (ERR<sub>MAX</sub> = 2E-3, 1 site per 500 bp).
-9. mask for output PR curve file - PR curves for found groups of motifs, output file name is "mask"_M.
+9. output PR curve file - PR curves for found groups of motifs
 10. output file - PR curve for the motif group with the first rank is written in one line: Precision values are marked for Recall values of 0.05, 0.1, 0.15, etc. up to 1. This output file will be concatanated with corresponding files from other runs with other values of the group size M<sub>SEL</sub>. The final output file shows dynamics of the PR curve for the motif group with the first rank as a function of the number of motifs (group size).
-11. mask for output internal correlation file - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs, output file name is "mask"_M<sub>SEL</sub>.
-12. mask for output external correlation file - correlations of -Log<sub>10</sub>(ERR) scores between motifs for found groups, output file name is "mask"_M<sub>SEL</sub>.
-13. mask for main output file - the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC, motif names and class/family names for all participant motifs, output file name is "mask"_M<sub>SEL</sub>.
-14. main output file - the group of motifs with the first rank, for this group are marked the recognition accuracy pAUPRC, motif names and class/family names for all participant motifs.
+11. output external correlation file - correlations of -Log<sub>10</sub>(ERR) scores between found groups of motifs. Two separate correleation matrices are computed: for the positive and negative DNA sequence sets.
+12. output internal correlation file - correlations of -Log<sub>10</sub>(ERR) scores between motifs within found groups. For each motif group two separate correleation matrices are computed: for the positive and negative DNA sequence sets.
+13. output motif class/family file (all groups) - the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC, motif names and class/family names for all participant motifs.
+14. output motif class/family file (1st group) - the group of motifs with the first rank, for this group are marked the recognition accuracy pAUPRC, motif names and class/family names for all participant motifs.
 15. output file - distribution of motifs from the group with the first rank by classes/families. This output file will be concatanated with corresponding files from other runs with other values of the group size M<sub>SEL</sub>. The final output file shows dynamics of the family/class content for the motif group with the first rank as a function of the number of motifs (group size).
-16. mask for log file - log of GA evolution showing numbers of mutations and recombinations in iterations of GA, output file name is "mask"_M<sub>SEL</sub>.
+16. output log file - GA evolution showing numbers of mutations and recombinations in each iteration of GA.
     
 # Command line examples
 ## ChIP-seq data 
