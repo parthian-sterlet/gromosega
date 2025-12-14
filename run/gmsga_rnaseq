@@ -10,8 +10,30 @@ cd $4
 
 for (( i=1; i <= $5; i++ )) {
 
-../../src/minimax.exe	up_$4.tab no_$4.tab ../rnaseq/name_jaspar_insect_tf238_tbp ../rnaseq/name_jaspar_insects_class238_tbp ../rnaseq/index_jaspar_insects_class238_tbp $i $5 3.3 prc_up_$4 prb_up_$4 cex_up_$4 cin_up_$4	out_up_$4 per_up_$4 dbd_up_$4 log_up_$4
-../../src/minimax.exe	do_$4.tab no_$4.tab ../rnaseq/name_jaspar_insect_tf238_tbp ../rnaseq/name_jaspar_insects_class238_tbp ../rnaseq/index_jaspar_insects_class238_tbp $i $5 3.3 prc_do_$4 prb_do_$4 cex_do_$4 cin_do_$4	out_do_$4 per_do_$4 dbd_do_$4 log_do_$4
+../../src/minimax.exe	up_$4.tab no_$4.tab ../rnaseq/jaspar_tfclass_insects238tbp $i $5 3.3 prc_up_$4 prb_up_$4 cex_up_$4 cin_up_$4 out_up_$4 per_up_$4 dbd_up_$4 log_up_$4
+../../src/minimax.exe	do_$4.tab no_$4.tab ../rnaseq/jaspar_tfclass_insects238tbp $i $5 3.3 prc_do_$4 prb_do_$4 cex_do_$4 cin_do_$4 out_do_$4 per_do_$4 dbd_do_$4 log_do_$4
+
+}
+
+cp dbd_up_$4_1 dbd_up_$4
+cp dbd_do_$4_1 dbd_do_$4
+
+cp prb_up_$4_1 prb_up_$4
+cp prb_do_$4_1 prb_do_$4
+
+cp per_up_$4_1 per_up_$4
+cp per_do_$4_1 per_do_$4
+
+for (( i=2; i <= 20; i++ )) {
+
+cat dbd_up_$4_$i >> dbd_up_$4
+cat dbd_do_$4_$i >> dbd_do_$4
+
+cat prb_up_$4_$i >> prb_up_$4
+cat prb_do_$4_$i >> prb_do_$4
+
+cat per_up_$4_$i >> per_up_$4
+cat per_do_$4_$i >> per_do_$4
 
 }
 
