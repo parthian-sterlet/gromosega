@@ -1,0 +1,15 @@
+#rank & TF name	ClassFamilies	Index	Unique
+1_SPI1	Ets {3.5.2}	1	1
+2_STAT6	STAT {6.2.1}	2	1
+3_SPI1	Ets {3.5.2}	1	0
+4_STAT6	STAT {6.2.1}	2	1
+5_IRF8	IRF {3.5.3}	3	0
+6_SPI1	Ets {3.5.2}	1	1
+7_JUNB	Jun {1.1.1}	4	1
+8_CEBPA	C/EBP {1.1.8}	5	0
+9_SPI1	Ets {3.5.2}	1	1
+10_RUNX1	Runt {6.4.1}	6	1
+11_MEF2A	Regulators of differentiation {5.1.1}	7	0
+12_STAT6	STAT {6.2.1}	2	0
+13_SPI1	Ets {3.5.2}	1	0
+14_JUNB	Jun {1.1.1}	4	0
