@@ -10,5 +10,17 @@ for (( i=1; i <= $2; i++ )) {
 
 }
 
+cp dbd_stat6_1 dbd_stat6
+cp prb_stat6_1 prb_stat6
+cp per_stat6_1 per_stat6
+
+for (( i=2; i <= $2; i++ )) {
+
+cat dbd_stat6_$i >> dbd_stat6
+cat prb_stat6_$i >> prb_stat6
+cat per_stat6_$i >> per_stat6
+
+}
+
 cd ..
 cd ..
