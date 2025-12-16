@@ -27,7 +27,7 @@ cd gromosega/run
 chmod a+x build.sh
 ./build.sh
 cd ../genomes
-tar -xvzf protcod_dm6_m1kb_p100_tss_238tbp.tab.tar.gz
+tar -xvzf protcod_dm6_m1kb_p100_tss_247tbp.tab.tar.gz
 cd ..
 
 ```
