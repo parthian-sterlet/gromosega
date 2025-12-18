@@ -745,7 +745,7 @@ int main(int argc, char* argv[])
 			class_names[i] = new char[lens];
 			if (class_names[i] == NULL) { puts("Out of memory..."); exit(1); }
 		}
-		size_t sizemot = lens * sizeof(motnames[i][0]);
+		size_t sizemot = lens * sizeof(motnames[0][0]);
 		for (i = 0; i < mtot; i++)
 		{
 			memset(motnames[i], '\0', sizeof(sizemot));
