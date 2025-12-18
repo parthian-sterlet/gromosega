@@ -69,11 +69,14 @@ Preliminary computed data are the results of TFBS motif recognition for promoter
 AT1G01200 and FBgn0000008.
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
-5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm39, TAIR10 and dm6 are considered.
-6. integer value - the column number of gene IDs in the table for whole genome (argument #5).
-7. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) > 1.
-8. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, {adjusted p-value < 0.05 & log2(FoldChange) < -1.
-9. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, {adjusted p-value > 0.05 &  0.8 < FoldChange) < 1.25.
+5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
+6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
+7. double threshold for up-/down-regulated DEGs, default value 2, log2Fold(2) = 1, log2Fold(1/2) = -1.
+8. double threshold for not DEGs, default value 1.25 = 1/0.8, log2Fold(1.25) = -log2Fold(0.8) = 0.321928094887362.
+9. double threshold for adjusted p-value (p-adj), default value for up-/down-regulated DEGs and not DEGs is 0.05.
+10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: adjusted p-value < 0.05 & log2(FoldChange) > 1. 
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: adjusted p-value < 0.05 & log2(FoldChange) < -1.
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, e.g. default: adjusted p-value > 0.05 &  0.8 < FoldChange < 1.25.
 
 This first step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and not-DEGs.
 
