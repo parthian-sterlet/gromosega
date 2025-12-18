@@ -85,10 +85,11 @@ int main(int argc, char* argv[])
 	//	double *val;
 	FILE * in_genelist, * in_rnaseq, * out_sta, *out_up, * out_do, * out_no;
 
-	if (argc != 12)
+	if (argc != 13)
 	{
-		puts("Sintax: 1file rnaseq table, 2,3,4int columns gene_id,log2Fold,padj 5file all_gene's_ID_list 6int columns gene_id 7file_out_upDEG(0,1) 8file_out_downDEG(0,1) 9file_out_noDEG(0,1) ");
-		puts("10double thresh log2Fold_DEG (=2) 11double thresh log2Fold_neDEG (=1.25)");
+		puts("Sintax: 1file rnaseq table, 2,3,4int columns gene_id,log2Fold,padj 5file all_gene's_ID_list 6int columns gene_id ");
+		puts("7double threshold log2Fold up-/downDEG (default 2) 8double threshold log2Fold notDEG (default 1.25) 9double threshold padj (default 0.05)");
+		puts("10file_out_upDEG(0,1) 11file_out_downDEG(0,1) 12file_out_noDEG(0,1)");
 		return -1;
 	}
 	strcpy(filei_rnaseq, argv[1]);//out_file
@@ -97,15 +98,17 @@ int main(int argc, char* argv[])
 	int col_padj = atoi(argv[4]);
 	strcpy(filei_genelist, argv[5]);//in_file	
 	int col_genome = atoi(argv[6]);
-	strcpy(fileo_up, argv[7]);//out_file
-	strcpy(fileo_do, argv[8]);//out_file
-	strcpy(fileo_no, argv[9]);//out_file
+	double threh_deg = atof(argv[7]);// 2 -> log2(2) means 1
+	double threh_nedeg = atof(argv[8]);//1.25 -> log2(1.25) = 0.32...
+	double padj_thr = atof(argv[9]); //0.05;
+	strcpy(fileo_up, argv[10]);//out_file
+	strcpy(fileo_do, argv[11]);//out_file
+	strcpy(fileo_no, argv[12]);//out_file
 	col_gene--;
 	col_log2fold--;
 	col_padj--;
 	col_genome--;
-	double threh_deg = atof(argv[10]);// 2 -> log2(2) means 1
-	double threh_nedeg = atof(argv[11]);//1.25 -> log2(1.25) = 0.32...
+
 	threh_deg = log2(threh_deg);
 	//threh_deg = threh_nedeg = 0.074;
 	threh_nedeg = log2(threh_nedeg);
@@ -207,8 +210,7 @@ int main(int argc, char* argv[])
 	if (ino == NULL) { printf("Out of memory..."); return -1; };
 	for (i = 0; i < n_genes; i++)iup[i] = ido[i] = ino[i] = 0;
 
-	int n_str = 0, total_up =0, total_do = 0, total_no = 0;	
-	double padj_thr = 0.05;
+	int n_str = 0, total_up =0, total_do = 0, total_no = 0;		
 //	double log2fold_thr2 = 0.321928094887362, log2fold_thr1 = -log2fold_thr2;//log2(1.25) = -log2(0.8)
 	fgets(d, sizeof(d), in_rnaseq);// header
 	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
