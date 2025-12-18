@@ -4,7 +4,7 @@ cd ../examples
 mkdir $4
 cd $4
 
-../../src/table_rnaseq_filter.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 up_$4 do_$4 no_$4
+../../src/table_rnaseq_filter.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 2 1.25 0.05 up_$4 do_$4 no_$4
 ../../src/select_lines01.exe ../../genomes/m1kb_p100_dm6_err238tbp.tab up_$4 up_$4.tab
 ../../src/select_lines01.exe ../../genomes/m1kb_p100_dm6_err238tbp.tab do_$4 do_$4.tab
 ../../src/select_lines01.exe ../../genomes/m1kb_p100_dm6_err238tbp.tab no_$4 no_$4.tab
