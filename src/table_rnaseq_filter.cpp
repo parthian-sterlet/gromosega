@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
+#include <cmath>
 
 #define Min(a,b) ((a)>(b))? (b):(a);
 #define Max(a,b) ((a)>(b))? (a):(b);
@@ -80,13 +81,14 @@ void DelChar(char* str, char c)
 int main(int argc, char* argv[])
 {
 	int i;
-	char d[100], filei_genelist[300], filei_rnaseq[300], fileo_up[300], fileo_do[300], fileo_no[300], fileo_sta[80];
+	char d[200], filei_genelist[300], filei_rnaseq[300], fileo_up[300], fileo_do[300], fileo_no[300], fileo_sta[80];
 	//	double *val;
 	FILE * in_genelist, * in_rnaseq, * out_sta, *out_up, * out_do, * out_no;
 
-	if (argc != 10)
+	if (argc != 12)
 	{
-		puts("Sintax: 1file rnaseq table, 2,3,4int columns gene_id,log2Fold,padj 5file all_gene's_ID_list 6int columns gene_id 7file_out_upDEG(0,1) 8file_out_downDEG(0,1) 9file_out_noDEG(0,1)");
+		puts("Sintax: 1file rnaseq table, 2,3,4int columns gene_id,log2Fold,padj 5file all_gene's_ID_list 6int columns gene_id 7file_out_upDEG(0,1) 8file_out_downDEG(0,1) 9file_out_noDEG(0,1) ");
+		puts("10double thresh log2Fold_DEG (=2) 11double thresh log2Fold_neDEG (=1.25)");
 		return -1;
 	}
 	strcpy(filei_rnaseq, argv[1]);//out_file
@@ -102,6 +104,12 @@ int main(int argc, char* argv[])
 	col_log2fold--;
 	col_padj--;
 	col_genome--;
+	double threh_deg = atof(argv[10]);// 2 -> log2(2) means 1
+	double threh_nedeg = atof(argv[11]);//1.25 -> log2(1.25) = 0.32...
+	threh_deg = log2(threh_deg);
+	//threh_deg = threh_nedeg = 0.074;
+	threh_nedeg = log2(threh_nedeg);
+//	printf("Thresholds: %f %f\n", threh_deg, threh_nedeg);
 
 	if ((in_rnaseq = fopen(filei_rnaseq, "rt")) == NULL)
 	{
@@ -136,6 +144,7 @@ int main(int argc, char* argv[])
 	}
 	char tab = '\t';
 	int n_genes = 0;
+	fgets(d, sizeof(d), in_genelist);//header
 	while (fgets(d, sizeof(d), in_genelist) != NULL)
 	{	
 		DelChar(d, '\n');
@@ -156,6 +165,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	rewind(in_genelist);
+	fgets(d, sizeof(d), in_genelist);//header
 	char** genes;
 	{
 		const size_t lens = 50;
@@ -166,7 +176,8 @@ int main(int argc, char* argv[])
 			genes[i] = new char[lens];
 			if (genes[i] == NULL) { puts("Out of memory..."); exit(1); }
 		}
-		size_t sizemot = lens * sizeof(genes[i][0]);
+		size_t sizemot = lens * sizeof(genes[0][0]);
+		for (i = 0; i < n_genes; i++)memset(genes[i], '\0', sizeof(sizemot));
 		i = 0;
 		while (fgets(d, sizeof(d), in_genelist) != NULL)
 		{
@@ -176,8 +187,7 @@ int main(int argc, char* argv[])
 			if (UnderStolStr(d, gene_id, sizeof(gene_id), col_genome, tab) == NULL)break;
 			int cd = (int)gene_id[0];
 			if (cd >= 65 && cd <= 90) // ASCD..XYZ
-			{
-				memset(genes[i], '\0', sizeof(sizemot)); 
+			{				
 				int dlen = (int)strlen(gene_id);
 				strncpy(genes[i], gene_id, dlen);
 				genes[i][dlen] = '\0';
@@ -199,7 +209,7 @@ int main(int argc, char* argv[])
 
 	int n_str = 0, total_up =0, total_do = 0, total_no = 0;	
 	double padj_thr = 0.05;
-	double log2fold_thr2 = 0.321928094887362, log2fold_thr1 = -log2fold_thr2;//log2(1.25) = -lo2(0.8)
+//	double log2fold_thr2 = 0.321928094887362, log2fold_thr1 = -log2fold_thr2;//log2(1.25) = -log2(0.8)
 	fgets(d, sizeof(d), in_rnaseq);// header
 	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
 	{
@@ -230,22 +240,25 @@ int main(int argc, char* argv[])
 			double log2fold = test1, padj = test2;
 			if (padj >= padj_thr)
 			{
-				if (log2fold > log2fold_thr1 && log2fold < log2fold_thr2)
+				if (log2fold > -threh_nedeg && log2fold < threh_nedeg)
 				{
 					ino[inx] = 1;
+				//	printf("%s\t%d\tneDEG\tpadj\t%f\tlog2fold\t%f\n", gene_id, inx, padj, log2fold);
 					total_no++;
 				}
 			}
 			if (padj < padj_thr)
 			{
-				if (log2fold > 1)
+				if (log2fold > threh_deg)
 				{
 					iup[inx] = 1;
+			//		printf("%s\t%d\tupDEG\tpadj\t%f\tlog2fold\t%f\n", gene_id, inx, padj, log2fold);
 					total_up++;
 				}
-				if (log2fold < -1)
+				if (log2fold < -threh_deg)
 				{
 					ido[inx] = 1;
+				//	printf("%s\t%d\tdoDEG\tpadj\t%f\tlog2fold\t%f\n", gene_id, inx, padj, log2fold);
 					total_do++;
 				}
 			}
