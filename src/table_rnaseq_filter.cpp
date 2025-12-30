@@ -215,6 +215,8 @@ int main(int argc, char* argv[])
 	fgets(d, sizeof(d), in_rnaseq);// header
 	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
 	{
+		DelChar(d, '\n');
+		DelChar(d, ' ');
 		n_str++;
 		int take_up = 0, take_do =0, take_no =0;		
 		char gene_id[50];
@@ -239,7 +241,7 @@ int main(int argc, char* argv[])
 			double test1 = UnderStol(d, col_log2fold, buf, sizeof(buf), tab);
 			double test2 = UnderStol(d, col_padj, buf, sizeof(buf), tab);
 			if (test1 == -10000 || test2 == -10000)continue;
-			double log2fold = test1, padj = test2;
+			double log2fold = log2(test1), padj = test2;
 			if (padj >= padj_thr)
 			{
 				if (log2fold > -threh_nedeg && log2fold < threh_nedeg)
@@ -276,7 +278,7 @@ int main(int argc, char* argv[])
 	fclose(out_up);
 	fclose(out_no);
 	fclose(out_do);
-	fprintf(out_sta, "%s\t%s\tTotal genes %d\tupDEGs %d\tdownDEGs %d\tnotDEGs %d\n", filei_rnaseq,filei_genelist,n_genes, total_up, total_do, total_no);
+	fprintf(out_sta, "%s\t%s\t%s\t%s\t%s\tTotal genes %d\tupDEGs\t%d\tdownDEGs\t%d\tnotDEGs\t%d\n", filei_rnaseq,filei_genelist, argv[7], argv[8], argv[9],n_genes, total_up, total_do, total_no);
 	fclose(out_sta);
 	for (i = 0; i < n_genes; i++)
 	{
