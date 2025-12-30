@@ -6,7 +6,7 @@ cd $1
 
 for (( i=1; i <= $2; i++ )) {
 
-../../src/minimax.exe	../chipseq/tabp	../chipseq/tabn	../chipseq/hocomoco14_tfclass_GSM2845664_denovo14 $i $2 3.3 prc_stat6_$i prb_stat6_$i cex_stat6_$i cin_stat6_$i out_stat6_$i per_stat6_$i dbd_stat6_$i log_stat6_$i
+../../src/minimax.exe	../chipseq/tabp	../chipseq/tabn	../chipseq/hocomoco14_tfclass_GSM2845664_denovo14 $i $2 4 prc_stat6_$i prb_stat6_$i cex_stat6_$i cin_stat6_$i out_stat6_$i per_stat6_$i dbd_stat6_$i log_stat6_$i
 
 }
 
