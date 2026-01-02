@@ -25,7 +25,7 @@ cp prb_do_$4_1 prb_do_$4
 cp per_up_$4_1 per_up_$4
 cp per_do_$4_1 per_do_$4
 
-for (( i=2; i <= $5; i++ )) {
+for (( i=1 + $6; i <= $5; i+= $6 )) {
 
 cat dbd_up_$4_$i >> dbd_up_$4
 cat dbd_do_$4_$i >> dbd_do_$4
