@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./gmsga_rnaseq E-MTAB-9805.txt 3 4 orco1 40 5
-./gmsga_rnaseq E-MTAB-9805.txt 5 6 orco4 40 5
-./gmsga_rnaseq E-MTAB-9805.txt 7 8 peb1 40 5
-./gmsga_rnaseq E-MTAB-9805.txt 9 10 peb4 40 5
+./gmsga_rnaseq E-MTAB-9805.txt 3 4 orco1 50 1
+./gmsga_rnaseq E-MTAB-9805.txt 5 6 orco4 50 1
+./gmsga_rnaseq E-MTAB-9805.txt 7 8 peb1 50 1
+./gmsga_rnaseq E-MTAB-9805.txt 9 10 peb4 50 1
