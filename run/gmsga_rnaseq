@@ -38,8 +38,8 @@ cat per_do_$4_$i >> per_do_$4
 
 }
 
-../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	$5	1	$6	1	rank_evo_up_$4	fold_evo_up_$4	rank_best	fold_best	dynamics
-../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	$5	1	$6	1	rank_evo_do_$4	fold_evo_do_$4	rank_best	fold_best	dynamics
+../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	$5	1	$6	1	rank_evo_up_$4	fold_evo_up_$4	rank_best_$4	fold_best_$4	dynamics_$4
+../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	$5	1	$6	0	rank_evo_do_$4	fold_evo_do_$4	rank_best_$4	fold_best_$4	dynamics_$4
 
 
 cd ..
