@@ -59,10 +59,10 @@ GA obtains for these input data the list of motif groups ranked by pAUPRC accura
 
 The analysis of ChIP-seq data is more simple, the positive and negative DNA sequence sets are almost ready. Below a pipeline for the more complicate case of RNA-seq data analysis is described.
 
-## Zero step
+## TFBS motif recognition for all genes
 Preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × M<sub>TOT</sub> (columns, number of all motif in the input collection) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. This step prepare recognition result for whole genome, this results fits any possible RNA-seq data containing gene lists, only one option may be here 5' and 3' ends of promoters relative to the transcription start sites, recognition for different borders of promoter gene regions can resolve this issues. The next preliminary analysis performs two steps. 
 
-## First step
+## Preparation of the lists of DEGs and not-DEGs according to rhe results of RNA-seq
 [table_rnaseq_filter.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_filter.cpp) selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
@@ -78,9 +78,9 @@ AT1G01200 and FBgn0000008.
 11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FoldChange) < -1.
 12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, e.g. default: padj > 0.05 &  0.8 < FoldChange < 1.25.
 
-This first step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and not-DEGs.
+This step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and not-DEGs.
 
-## Second step 
+## Extraction TFBS recognition data for DEGs and not-DEGs
 [select_lines01.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/select_lines01.cpp) selects the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - a table of WG rows (input table).
 2. input file - file with WG rows, in each row only one symbol 0 or 1 (input list), so that only N<sub>POS</sub>/Neg rows for up- or down-regulated DEGs / not-DEG contain values of 1.
@@ -88,7 +88,7 @@ This first step forms three files marking for the whole genome list of WG genes 
 
 Now everything is ready for the search of the motif groups.
 
-## Main analysis step
+## GA
 [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp) implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs), the table has sizes N<sub>POS</sub> (rows, number of up- or down-regulated DEGs) × M<sub>TOT</sub> (columns, number of all motif in the input collection).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs, the table has sizes N<sub>NEG</sub> (rows, number of not-DEGs) × M<sub>TOT</sub> (columns, number of all motif in the input collection).
@@ -105,7 +105,7 @@ Now everything is ready for the search of the motif groups.
 13. output file - distribution of motifs from the group with the first rank by classes/families. This output file will be concatanated with corresponding files from other runs with other values of the group size M<sub>SEL</sub>. The final output file shows dynamics of the family/class content for the motif group with the first rank as a function of the number of motifs (group size).
 14. output log file - GA evolution showing numbers of mutations and recombinations in each iteration of GA.
 
-## Summary tables and heat maps
+## Summary table of recognition performance and heat maps showing emergence ranks and fold enrichments for TFBS motifs for TFs from different families 
 [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp) creates a summary table of recognition accuracy and heat maps of emergence ranks and fold enrichments for TFBS motifs respecting distinct TF families.
 1. input PR curve file - output data from the GA search, this file respects argument #8 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
 2. input motif class/family file - output data from the GA search, this file respects argument #13 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
