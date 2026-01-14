@@ -106,7 +106,7 @@ Now everything is ready for the search of the motif groups.
 14. output log file - GA evolution showing numbers of mutations and recombinations in each iteration of GA.
 
 ## Summary table of recognition performance and heat maps showing emergence ranks and fold enrichments for TFBS motifs for TFs from different families 
-[minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp) creates a summary table of recognition accuracy and heat maps of emergence ranks and fold enrichments for TFBS motifs respecting distinct TF families.
+[minimax_pars.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax_pars.cpp) creates a summary table of recognition accuracy of groups of motifs and heat maps of emergence ranks and fold enrichments for TFBS motifs respecting distinct TF families.
 1. input PR curve file - output data from the GA search, this file respects argument #8 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
 2. input motif class/family file - output data from the GA search, this file respects argument #13 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
 3. integer value - number of paralel runs of GA with different group size, default value 50
