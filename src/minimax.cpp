@@ -141,7 +141,7 @@ void combi::get_copy(combi* a, int mtot)
 void combi::fprint_all(int mtot, FILE* out)
 {
 	int i;
-	fprintf(out,"Fit %f Motifs#: ", fit);
+	fprintf(out,"Fit %.12f Motifs#: ", fit);
 	for (i = 0; i < mtot; i++)fprintf(out,"%2d", mot[i]);	
 	fprintf(out,"\n");
 }
@@ -314,7 +314,7 @@ int EvalFit(combi* a, int msel, int mtot, double** errp, double** errn, int nseq
 	return 1;
 }
 int Precision(combi* a, int msel, int mtot, double** errp, double** errn, int nseqp, int nseqn, int nseqtot, double nseqrat, double prec_exp, double fp2, qbs* seqtot, 
-	FILE *outh, char **motnames, int rank)
+	FILE *outh, char **tf_names, int rank)
 {
 	int i, j, k;
 	int mh[MMAX];
@@ -352,7 +352,7 @@ int Precision(combi* a, int msel, int mtot, double** errp, double** errn, int ns
 	fprintf(outh, "%d", rank);
 	for (i = 0; i < msel; i++)
 	{
-		fprintf(outh, "\t%s", motnames[mh[i]]);		
+		fprintf(outh, "\t%s", tf_names[mh[i]]);		
 	}
 	fprintf(outh, "\nRecall\n\tPrecision\tAUC\tmLog10(ERR)\n");//\tTP\tFP\tTPC\tFPC
 	double tpr20[20];
@@ -390,7 +390,7 @@ int Precision(combi* a, int msel, int mtot, double** errp, double** errn, int ns
 			auc_pr += dauc;
 			tp += dtp;
 			fp += dfp;
-			fprintf(outh, "%f\t%f\t%f\t%.18f\n", tpr, prec_av, auc_pr, seqtot[i].err);// ,tp,fp,tpc,fpc
+			fprintf(outh, "%f\t%f\t%.12f\t%.12f\n", tpr, prec_av, auc_pr, seqtot[i].err);// ,tp,fp,tpc,fpc
 			/*if (count % 50 == 0)
 			{
 				int yy = 0;
@@ -726,17 +726,25 @@ int main(int argc, char* argv[])
 	int* class_mot_unq;
 	class_mot_unq = new int[mtot];
 	if (class_mot_unq == NULL) { printf("Out of memory..."); return -1; };
-	char** motnames;
+	char** tf_names;
 	char** class_names;
+	char** motif_names;
 	{
 		const size_t lens = 50;
 		char sep = '\t';
-		motnames = new char* [mtot];
-		if (motnames == NULL) { printf("Out of memory..."); return -1; };
+		tf_names = new char* [mtot];
+		if (tf_names == NULL) { printf("Out of memory..."); return -1; };
 		for (i = 0; i < mtot; i++)
 		{
-			motnames[i] = new char[lens];
-			if (motnames[i] == NULL) { puts("Out of memory..."); exit(1); }
+			tf_names[i] = new char[lens];
+			if (tf_names[i] == NULL) { puts("Out of memory..."); exit(1); }
+		}
+		motif_names = new char* [mtot];
+		if (motif_names == NULL) { printf("Out of memory..."); return -1; };
+		for (i = 0; i < mtot; i++)
+		{
+			motif_names[i] = new char[lens];
+			if (motif_names[i] == NULL) { puts("Out of memory..."); exit(1); }
 		}
 		class_names = new char* [mtot];
 		if (class_names == NULL) { printf("Out of memory..."); return -1; };
@@ -745,13 +753,14 @@ int main(int argc, char* argv[])
 			class_names[i] = new char[lens];
 			if (class_names[i] == NULL) { puts("Out of memory..."); exit(1); }
 		}
-		size_t sizemot = lens * sizeof(motnames[0][0]);
+		size_t sizemot = lens * sizeof(tf_names[0][0]);
 		for (i = 0; i < mtot; i++)
-		{
-			memset(motnames[i], '\0', sizeof(sizemot));
+		{			
+			memset(tf_names[i], '\0', sizeof(sizemot));
 			memset(class_names[i], '\0', sizeof(sizemot));
 			fgets(d, sizeof(d), in_motif_tfcass);
-			if (UnderStolStr(d, motnames[i], sizemot, 0, sep) == NULL) { printf("Wrong format %s\n", filei_motifs_tfclass); return(-1); }
+			DelChar(d, '\n');
+			if (UnderStolStr(d, tf_names[i], sizemot, 0, sep) == NULL) { printf("Wrong format %s\n", filei_motifs_tfclass); return(-1); }
 			if (UnderStolStr(d, class_names[i], sizemot, 1, sep) == NULL) { printf("Wrong format %s\n", filei_motifs_tfclass); return(-1); }
 			char val[50];
 			memset(val, '\0', sizeof(val));
@@ -760,6 +769,7 @@ int main(int argc, char* argv[])
 			memset(val, '\0', sizeof(val));
 			if (UnderStolStr(d, val, sizeof(val), 3, sep) == NULL) { printf("Wrong format %s\n", filei_motifs_tfclass); return(-1); }
 			class_mot_unq[i] = atoi(val);
+			if (UnderStolStr(d, motif_names[i], sizemot, 4, sep) == NULL) { printf("Wrong format %s\n", filei_motifs_tfclass); return(-1); }
 		}				
 	}	
 	fclose(in_motif_tfcass);
@@ -818,7 +828,7 @@ int main(int argc, char* argv[])
 			}
 		}
 		fclose(inn);
-	}
+	}	
 	int pool_act, elit_act;
 	if (msel == 1)
 	{
@@ -834,19 +844,17 @@ int main(int argc, char* argv[])
 			int mpa = mtot * (mtot - 1) / 2;
 			if (mpa < pool_act)
 			{
-				pool_act = elit_act = 3*mpa / 4;
+				pool_act = elit_act = 3 * mpa / 4;
 			}
 		}
 	}
-	pop = new combi[pool_act];
-	if (pop == NULL) { fprintf(stderr, "Error: Out of memory..."); return -1; }
-	int point_test;
-	if (msel <= 5) point_test = elit_act - 1;
-	else
+	int point_test = ELIT / 3;
 	{
-		int limit = pool_act / msel;
-		point_test = (5* (elit_act - 1) + limit * (msel - 5)) / msel;
+		int test_val = (int)((double)pool_act * 5 / (msel + 25));
+		point_test = Min(test_val, point_test);
 	}
+	pop = new combi[pool_act];
+	if (pop == NULL) { fprintf(stderr, "Error: Out of memory..."); return -1; }	
 	if ((outlog = fopen(file_log, "wt")) == NULL)
 	{
 		printf("Input file %s can't be opened!\n", file_log);
@@ -1005,8 +1013,8 @@ int main(int argc, char* argv[])
 				//printf("Mutation %d\tSuccess %d\n", i + 1, total_m_success);
 			}
 			if(total_m_success>0)qsort((void*)pop, pool_act, sizeof(pop[0]), compare_pop);
-			fprintf(outlog,"Mut Iteration %d\t%d\tRat1st %f\tRatPointTest %f\tAt rank %d\n", iter, total_m_success, pop[0].fit / fit_prev, pop[point_test].fit / fit_med, point_test);
-			printf("Mut Iteration %d\t%d\tRat1st %f\tRatPointTest %f\tAt rank %d\n", iter, total_m_success, pop[0].fit/fit_prev,pop[point_test].fit/fit_med,point_test);			
+			fprintf(outlog,"Mut Iteration %d\t%d\tRat1st %.12f\tRatPointTest %.12f\tAt rank %d\n", iter, total_m_success, pop[0].fit / fit_prev, pop[point_test].fit / fit_med, point_test);
+			printf("Mut Iteration %d\t%d\tRat1st %.12f\tRatPointTest %.12f\tAt rank %d\n", iter, total_m_success, pop[0].fit/fit_prev,pop[point_test].fit/fit_med,point_test);			
 			//for (i = 0; i < elit_act; i++)pop[i].fprint_all(mtot, outlog);
 			//fprintf(outlog, "First\t"); pop[0].fprint_all(mtot, outlog);
 			//fprintf(outlog, "PointTest %d\t", point_test); pop[point_test].fprint_all(mtot, outlog);
@@ -1111,7 +1119,7 @@ int main(int argc, char* argv[])
 	}
 	for (i = 0; i < elit_act; i++)
 	{
-		Precision(&pop[i], msel, mtot, errp, errn, nseqp, nseqn, nseqtot, nseqrat, prec_exp, fp2, seqtot,outh, motnames,i+1);
+		Precision(&pop[i], msel, mtot, errp, errn, nseqp, nseqn, nseqtot, nseqrat, prec_exp, fp2, seqtot,outh, tf_names,i+1);
 	}
 	fclose(outh);
 	if ((out_prc_bin_1st = fopen(fileo_prc_bin_1st, "wt")) == NULL)
@@ -1124,18 +1132,22 @@ int main(int argc, char* argv[])
 		for (k = 0; k < elit_act; k++)
 		{
 			fprintf(out, "Rank %d\t", k + 1);
-			fprintf(out, "%f\tMotifs\t", pop[k].fit);
-			for (i = 0; i < mtot; i++)if (pop[k].mot[i] == 1)fprintf(out, "%s\t", motnames[i]);
-			fprintf(out, "ClassesFamilies\t");
+			fprintf(out, "%f\tTFs\t", pop[k].fit);
+			for (i = 0; i < mtot; i++)if (pop[k].mot[i] == 1)fprintf(out, "%s\t", tf_names[i]);
+			fprintf(out, "Motif IDs\t");
+			for (i = 0; i < mtot; i++)if (pop[k].mot[i] == 1)fprintf(out, "%s\t", motif_names[i]);
+			fprintf(out, "Families\t");
 			for (i = 0; i < mtot; i++)if (pop[k].mot[i] == 1)fprintf(out, "%s\t", class_names[i]);
 			for (i = 0; i < 20; i++)fprintf(out, "\t%.3f", pop[k].prec[i]);
 			fprintf(out, "\n");
 		}		
 		if (msel == 1)
 		{
-			fprintf(out_1st, "Data\tpAUCPR\t#Motif count in groups\tMotif group");
+			fprintf(out_1st, "Data\tpAUCPR\t#Motif count in groups\tTFs");
 			for (i = 0; i < msel_max; i++)fprintf(out_1st, "\t");
-			fprintf(out_1st, "DBDs of motifs in group\n");
+			fprintf(out_1st, "Motif IDs");
+			for (i = 0; i < msel_max; i++)fprintf(out_1st, "\t");
+			fprintf(out_1st, "Families\n");
 			fprintf(out_prc_bin_1st, "Data\tpAUCPR\tMotif group\t");
 			for (i = 0; i < msel_max; i++)fprintf(out_prc_bin_1st, "\t");
 			fprintf(out_prc_bin_1st, "Recall\t");
@@ -1148,15 +1160,17 @@ int main(int argc, char* argv[])
 			fprintf(out_prc_bin_1st, "\n");
 		}
 		fprintf(out_1st, "%s vs. %s\t", filei_tabp, filei_tabn);
-		fprintf(out_1st, "%f\t", pop[0].fit);
+		fprintf(out_1st, "%.12f\t", pop[0].fit);
 		fprintf(out_1st, "%d\t", msel); 
-		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_1st, "%s\t", motnames[i]);
+		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_1st, "%s\t", tf_names[i]);
 		for (i = 0; i < mhole; i++)fprintf(out_1st, "\t");
-		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_1st, "%s\t", class_names[i]);			
+		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_1st, "%s\t", motif_names[i]);			
+		for (i = 0; i < mhole; i++)fprintf(out_1st, "\t");
+		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_1st, "%s\t", class_names[i]);
 		fprintf(out_1st, "\n");			
 		fprintf(out_prc_bin_1st, "%s vs. %s\t", filei_tabp, filei_tabn);
-		fprintf(out_prc_bin_1st, "%f\t", pop[0].fit);			
-		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_prc_bin_1st, "%s\t", motnames[i]);
+		fprintf(out_prc_bin_1st, "%.12f\t", pop[0].fit);			
+		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_prc_bin_1st, "%s\t", tf_names[i]);
 		for (i = 0; i < mhole; i++)fprintf(out_prc_bin_1st, "\t");
 		fprintf(out_prc_bin_1st, "\tPrecision\t");	
 		fprintf(out_prc_bin_1st, "%d", msel);
@@ -1196,7 +1210,7 @@ int main(int argc, char* argv[])
 			fprintf(out_corr_int, "Rank %d\tPositive\t", i + 1);
 			for (j = 0; j < msel; j++)fprintf(out_corr_int, "\t");
 			fprintf(out_corr_int, "Rank %d\tNegative\n", i + 1);
-			PearsonInternal(&pop[i], msel, mtot, errp, errn, nseqp, nseqn, motnames, out_corr_int);
+			PearsonInternal(&pop[i], msel, mtot, errp, errn, nseqp, nseqn, tf_names, out_corr_int);
 		}
 		fclose(out_corr_int);
 	}
@@ -1270,14 +1284,18 @@ int main(int argc, char* argv[])
 	{
 		delete[] errp[k];
 		delete[] errn[k];
-		delete[] motnames[k];
+		delete[] tf_names[k];
+		delete[] class_names[k];
+		delete[] motif_names[k];
 	}
 	delete[] pop;
 	delete[] abp;
 	delete[] abn;
 	delete[] errp;
 	delete[] errn;
-	delete[] motnames;
+	delete[] tf_names;
+	delete[] class_names;
+	delete[] motif_names;
 	delete[] seqtot;
 	delete[] fit_prev_iter;
 	delete[] class_inx;
