@@ -88,7 +88,7 @@ This step forms three files marking for the whole genome list of WG genes up-/do
 
 Now everything is ready for the search of the motif groups.
 
-## GA
+## Search of TFBS motif groups by Genetic Algorithm
 [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp) implements the GA search of motif groups.
 1. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for up- or down-regulated DEGs (they are required two separate runs), the table has sizes N<sub>POS</sub> (rows, number of up- or down-regulated DEGs) × M<sub>TOT</sub> (columns, number of all motif in the input collection).
 2. input file - motif recognition table of -Log<sub>10</sub>(ERR) values for not-DEGs, the table has sizes N<sub>NEG</sub> (rows, number of not-DEGs) × M<sub>TOT</sub> (columns, number of all motif in the input collection).
