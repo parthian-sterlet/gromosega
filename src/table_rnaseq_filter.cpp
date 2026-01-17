@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
 	}
 	char tab = '\t';
 	int n_genes = 0;
-	fgets(d, sizeof(d), in_genelist);//header
+	//fgets(d, sizeof(d), in_genelist);//header
 	while (fgets(d, sizeof(d), in_genelist) != NULL)
 	{	
 		DelChar(d, '\n');
@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	rewind(in_genelist);
-	fgets(d, sizeof(d), in_genelist);//header
+	//fgets(d, sizeof(d), in_genelist);//header
 	char** genes;
 	{
 		const size_t lens = 50;
@@ -241,7 +241,8 @@ int main(int argc, char* argv[])
 			double test1 = UnderStol(d, col_log2fold, buf, sizeof(buf), tab);
 			double test2 = UnderStol(d, col_padj, buf, sizeof(buf), tab);
 			if (test1 == -10000 || test2 == -10000)continue;
-			double log2fold = log2(test1), padj = test2;
+		//	double log2fold = log2(test1), padj = test2;
+			double log2fold = test1, padj = test2; //v tablice uje logarifmy!
 			if (padj >= padj_thr)
 			{
 				if (log2fold > -threh_nedeg && log2fold < threh_nedeg)
