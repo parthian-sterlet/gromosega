@@ -81,7 +81,7 @@ void DelChar(char* str, char c)
 int main(int argc, char* argv[])
 {
 	int i;
-	char d[200], filei_genelist[300], filei_rnaseq[300], fileo_up[300], fileo_do[300], fileo_no[300], fileo_sta[80];
+	char d[5000], filei_genelist[300], filei_rnaseq[300], fileo_up[300], fileo_do[300], fileo_no[300], fileo_sta[80];
 	//	double *val;
 	FILE * in_genelist, * in_rnaseq, * out_sta, *out_up, * out_do, * out_no;
 
@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
 	while (fgets(d, sizeof(d), in_genelist) != NULL)
 	{	
 		DelChar(d, '\n');
-		char gene_id[50];
+		char gene_id[100];
 		memset(gene_id, 0, sizeof(gene_id));
 		if (UnderStolStr(d, gene_id, sizeof(gene_id), col_genome, tab) == NULL)break;
 		int cd = (int)gene_id[0];
@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
 	//fgets(d, sizeof(d), in_genelist);//header
 	char** genes;
 	{
-		const size_t lens = 50;
+		const size_t lens = 100;
 		genes = new char* [n_genes];
 		if (genes == NULL) { printf("Out of memory..."); return -1; };
 		for (i = 0; i < n_genes; i++)
@@ -185,7 +185,7 @@ int main(int argc, char* argv[])
 		while (fgets(d, sizeof(d), in_genelist) != NULL)
 		{
 			DelChar(d, '\n');
-			char gene_id[50];
+			char gene_id[100];
 			memset(gene_id, 0, sizeof(gene_id));
 			if (UnderStolStr(d, gene_id, sizeof(gene_id), col_genome, tab) == NULL)break;
 			int cd = (int)gene_id[0];
@@ -237,7 +237,7 @@ int main(int argc, char* argv[])
 		}
 		if (inx >= 0)
 		{
-			char buf[50];
+			char buf[100];
 			double test1 = UnderStol(d, col_log2fold, buf, sizeof(buf), tab);
 			double test2 = UnderStol(d, col_padj, buf, sizeof(buf), tab);
 			if (test1 == -10000 || test2 == -10000)continue;
