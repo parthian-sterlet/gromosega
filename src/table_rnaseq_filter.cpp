@@ -211,8 +211,13 @@ int main(int argc, char* argv[])
 	for (i = 0; i < n_genes; i++)iup[i] = ido[i] = ino[i] = 0;
 
 	int n_str = 0, total_up =0, total_do = 0, total_no = 0;		
+	char resh = '#';
 //	double log2fold_thr2 = 0.321928094887362, log2fold_thr1 = -log2fold_thr2;//log2(1.25) = -log2(0.8)
-	fgets(d, sizeof(d), in_rnaseq);// header
+	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
+	{
+		if (*d != resh)break;
+	}
+	//fgets(d, sizeof(d), in_rnaseq);// header
 	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
 	{
 		DelChar(d, '\n');
@@ -279,7 +284,7 @@ int main(int argc, char* argv[])
 	fclose(out_up);
 	fclose(out_no);
 	fclose(out_do);
-	fprintf(out_sta, "%s\t%s\t%s\t%s\t%s\tTotal genes %d\tupDEGs\t%d\tdownDEGs\t%d\tnotDEGs\t%d\n", filei_rnaseq,filei_genelist, argv[7], argv[8], argv[9],n_genes, total_up, total_do, total_no);
+	fprintf(out_sta, "%s\t%s\t%s\t%s\t%s\tTotal genes %d\t%s\t%d\t%s\t%d\t%s\t%d\n", filei_rnaseq,filei_genelist, argv[7], argv[8], argv[9],n_genes, argv[10],total_up, argv[11], total_do, argv[12],total_no);
 	fclose(out_sta);
 	for (i = 0; i < n_genes; i++)
 	{
