@@ -1,4 +1,4 @@
-TF	Family	Index	Unique	Motif_ID
+TF	Hocomoco short family	Index	Unique	ID
 Atf-2	Jun {1.1.1}	1	1	MA2192.1
 ewg	Jun {1.1.1}	1	0	MA2309.1
 Jra	Jun {1.1.1}	1	0	MA2246.1
@@ -11,14 +11,16 @@ Xbp1	XBP1 {1.1.5}	5	1	MA2293.1
 crc	ATF4 {1.1.6}	6	1	MA2208.1
 CrebA	CREB {1.1.7}	7	1	MA2209.1
 CrebB	CREB {1.1.7}	7	0	MA2210.1
-Pdp1	C/EBP {1.1.8}	8	1	MA1702.2
+gt	C/EBP {1.1.8}	8	1	MA0447.1
+Pdp1	C/EBP {1.1.8}	8	0	MA1702.2
 slbo	C/EBP {1.1.8}	8	0	MA0244.1
 vri	C/EBP {1.1.8}	8	0	MA2291.1
 da	E2A {1.2.1}	9	1	MA2308.1
 ac	MyoD-ASC {1.2.2}	10	1	MA2295.1
 nau	MyoD-ASC {1.2.2}	10	0	MA2317.1
 sc	MyoD-ASC {1.2.2}	10	0	MA2269.1
-ato	Tal {1.2.3}	11	1	MA2195.1
+amos	Tal {1.2.3}	11	1	MA2191.1
+ato	Tal {1.2.3}	11	0	MA2195.1
 dimm	Tal {1.2.3}	11	0	MA2214.1
 Fer1	Tal {1.2.3}	11	0	MA2233.1
 Fer2	Tal {1.2.3}	11	0	MA2234.1
@@ -58,6 +60,7 @@ dsf	RXR R {2.1.3}	19	1	MA2218.1
 Hnf4	RXR R {2.1.3}	19	0	MA2242.1
 Hr78	RXR R {2.1.3}	19	0	MA2245.1
 svp	RXR R {2.1.3}	19	0	MA2286.1
+tll	RXR R {2.1.3}	19	0	MA0459.1
 usp	RXR R {2.1.3}	19	0	MA0016.2
 Hr38	NGFI (NR4A) {2.1.4}	20	1	MA2243.1
 ftz-f1	FTZF1 (NR5A) {2.1.5}	21	1	MA2311.1
@@ -94,6 +97,7 @@ CG4360	More than 3 adj ZFs {2.3.3}	26	0	MA2204.1
 CG4854	More than 3 adj ZFs {2.3.3}	26	0	MA2299.1
 CG7928	More than 3 adj ZFs {2.3.3}	26	0	MA2205.1
 CG8319	More than 3 adj ZFs {2.3.3}	26	0	MA2300.1
+crol	More than 3 adj ZFs {2.3.3}	26	0	MA2632.1
 CTCF	More than 3 adj ZFs {2.3.3}	26	0	MA0531.2
 D19B	More than 3 adj ZFs {2.3.3}	26	0	MA2307.1
 erm	More than 3 adj ZFs {2.3.3}	26	0	MA2225.1
@@ -104,6 +108,7 @@ klu	More than 3 adj ZFs {2.3.3}	26	0	MA2250.1
 Kr	More than 3 adj ZFs {2.3.3}	26	0	MA0452.3
 lmd	More than 3 adj ZFs {2.3.3}	26	0	MA2252.1
 M1BP	More than 3 adj ZFs {2.3.3}	26	0	MA1459.2
+odd	More than 3 adj ZFs {2.3.3}	26	0	MA0454.1
 opa	More than 3 adj ZFs {2.3.3}	26	0	MA0456.1
 ovo	More than 3 adj ZFs {2.3.3}	26	0	MA0126.2
 pho	More than 3 adj ZFs {2.3.3}	26	0	MA1460.2
@@ -130,6 +135,7 @@ Dref	BED ZF {2.3.5}	28	0	MA1456.2
 dmrt99B	DMRT {2.5.1}	29	1	MA1455.2
 dsx	DMRT {2.5.1}	29	0	MA1836.2
 Dbx	HD {3.1}	30	1	MA0174.1
+schlank	HD {3.1}	30	0	MA0193.1
 tin	HD {3.1}	30	0	MA0247.3
 abd-A	HOX {3.1.1}	31	1	MA0206.1
 Abd-B	HOX {3.1.1}	31	0	MA0165.1
@@ -140,18 +146,26 @@ cad	HOX {3.1.1}	31	0	MA0216.2
 Dfd	HOX {3.1.1}	31	0	MA0186.1
 eve	HOX {3.1.1}	31	0	MA0221.1
 exex	HOX {3.1.1}	31	0	MA0224.1
+ftz	HOX {3.1.1}	31	0	MA0225.1
 ind	HOX {3.1.1}	31	0	MA0228.1
 lab	HOX {3.1.1}	31	0	MA0230.1
+pb	HOX {3.1.1}	31	0	MA0238.1
+ro	HOX {3.1.1}	31	0	MA0241.1
 Scr	HOX {3.1.1}	31	0	MA0203.1
 Ubx	HOX {3.1.1}	31	0	MA0094.3
 unpg	HOX {3.1.1}	31	0	MA0251.1
+zen	HOX {3.1.1}	31	0	MA0256.1
 bsh	NK {3.1.2}	32	1	MA0214.1
 C15	NK {3.1.2}	32	0	MA0170.1
 CG11085	NK {3.1.2}	32	0	MA0171.1
+CG15696	NK {3.1.2}	32	0	MA0176.1
 CG18599	NK {3.1.2}	32	0	MA0177.1
 E5	NK {3.1.2}	32	0	MA0189.2
 ems	NK {3.1.2}	32	0	MA0219.1
 en	NK {3.1.2}	32	0	MA0220.1
+H2.0	NK {3.1.2}	32	0	MA0448.1
+HGTX	NK {3.1.2}	32	0	MA0191.1
+HHEX	NK {3.1.2}	32	0	MA0183.1
 Hmx	NK {3.1.2}	32	0	MA0192.1
 lbe	NK {3.1.2}	32	0	MA0231.1
 lbl	NK {3.1.2}	32	0	MA0232.1
@@ -161,7 +175,10 @@ slou	NK {3.1.2}	32	0	MA0245.1
 vnd	NK {3.1.2}	32	0	MA0253.1
 al	Paired HD {3.1.3}	33	1	MA0208.1
 bcd	Paired HD {3.1.3}	33	0	MA0212.1
+CG11294	Paired HD {3.1.3}	33	0	MA0172.1
+CG32532	Paired HD {3.1.3}	33	0	MA0179.1
 CG9876	Paired HD {3.1.3}	33	0	MA0184.2
+Gsc	Paired HD {3.1.3}	33	0	MA0190.1
 hbn	Paired HD {3.1.3}	33	0	MA0226.1
 oc	Paired HD {3.1.3}	33	0	MA0234.1
 PHDP	Paired HD {3.1.3}	33	0	MA0457.2
@@ -170,9 +187,13 @@ Ptx1	Paired HD {3.1.3}	33	0	MA0201.1
 repo	Paired HD {3.1.3}	33	0	MA0240.1
 Rx	Paired HD {3.1.3}	33	0	MA0202.1
 unc-4	Paired HD {3.1.3}	33	0	MA0250.1
+Vsx1	Paired HD {3.1.3}	33	0	MA0181.1
 Vsx2	Paired HD {3.1.3}	33	0	MA0180.1
-CG11617	TALE-type HD {3.1.4}	34	1	MA0173.1
+achi	TALE-type HD {3.1.4}	34	1	MA0207.1
+ara	TALE-type HD {3.1.4}	34	0	MA0210.1
+CG11617	TALE-type HD {3.1.4}	34	0	MA0173.1
 exd	TALE-type HD {3.1.4}	34	0	MA0222.2
+hth	TALE-type HD {3.1.4}	34	0	MA0227.1
 mirr	TALE-type HD {3.1.4}	34	0	MA0233.1
 sage	TALE-type HD {3.1.4}	34	0	MA2268.1
 vis	TALE-type HD {3.1.4}	34	0	MA0252.2
@@ -181,12 +202,15 @@ Awh	HD-LIM {3.1.5}	35	0	MA0167.1
 CG32105	HD-LIM {3.1.5}	35	0	MA0178.1
 CG4328	HD-LIM {3.1.5}	35	0	MA0182.1
 Lim3	HD-LIM {3.1.5}	35	0	MA0195.2
+tup	HD-LIM {3.1.5}	35	0	MA0248.1
 ct	HD-CUT {3.1.9}	36	1	MA0218.1
 dve	HD-CUT {3.1.9}	36	0	MA0915.2
 onecut	HD-CUT {3.1.9}	36	0	MA0235.1
-nub	POU {3.1.10}	37	1	MA0197.3
+acj6	POU {3.1.10}	37	1	MA2188.1
+nub	POU {3.1.10}	37	0	MA0197.3
 pdm2	POU {3.1.10}	37	0	MA2467.1
 pdm3	POU {3.1.10}	37	0	MA2260.1
+vvl	POU {3.1.10}	37	0	MA0254.1
 prd	Paired box {3.2}	38	1	MA0239.2
 toy	PD+HD {3.2.1}	39	1	MA2289.1
 Poxm	PD {3.2.2}	40	1	MA2263.1
@@ -221,29 +245,30 @@ Sox15	SOX {4.1.1}	48	0	MA2275.1
 Sox21a	SOX {4.1.1}	48	0	MA2276.1
 Sox21b	SOX {4.1.1}	48	0	MA2277.1
 SoxN	SOX {4.1.1}	48	0	MA2278.1
-Deaf1	DEAF {5.3.2}	49	1	MA0185.2
-dl	RHR {6.1}	50	1	MA0023.1
-Dif	NFkappaB {6.1.1}	51	1	MA2213.1
-Rel	NFkappaB {6.1.1}	51	0	MA2264.1
-kn	EBF {6.1.5}	52	1	MA1841.2
-Stat92E	STAT {6.2.1}	53	1	MA0532.2
-Bgb::run	Runt {6.4.1}	54	1	MA0242.1
-lz	Runt {6.4.1}	54	0	MA2254.1
-byn	Brachyury {6.5.1}	55	1	MA2202.1
-mid	TBX1 {6.5.3}	56	1	MA2256.1
-org-1	TBX1 {6.5.3}	56	0	MA2259.1
-Doc2	TBX6 {6.5.5}	57	1	MA2216.1
-grh	Grainyhead {6.7.1}	58	1	MA1457.2
-Mad	SMAD {7.1.1}	59	1	MA0535.1
-gcm	GCM {7.2.1}	60	1	MA1840.2
-gcm2	GCM {7.2.1}	60	0	MA0917.1
-TBP	TBP {8.1.1}	61	1	TBP.H14CORE.0.P.B
-D1	HMGA {8.2.1}	62	1	MA2306.1
-brk	Unknown {0.0}	63	1	MA0213.1
-Elba1	Unknown {0.0}	63	0	MA1837.2
-Elba2	Unknown {0.0}	63	0	MA1838.2
-hry	Unknown {0.0}	63	0	MA0449.1
-insv	Unknown {0.0}	63	0	MA2315.1
-Su(H)	Unknown {0.0}	63	0	MA0085.2
-Xrp1	Unknown {0.0}	63	0	MA2294.1
-z	Unknown {0.0}	63	0	MA0255.2
+bs	Responders to external signals {5.1.2}	49	1	MA2200.1
+Deaf1	DEAF {5.3.2}	50	1	MA0185.2
+dl	RHR {6.1}	51	1	MA0023.1
+Dif	NFkappaB {6.1.1}	52	1	MA2213.1
+Rel	NFkappaB {6.1.1}	52	0	MA2264.1
+kn	EBF {6.1.5}	53	1	MA1841.2
+Stat92E	STAT {6.2.1}	54	1	MA0532.2
+Bgb::run	Runt {6.4.1}	55	1	MA0242.1
+lz	Runt {6.4.1}	55	0	MA2254.1
+byn	Brachyury {6.5.1}	56	1	MA2202.1
+mid	TBX1 {6.5.3}	57	1	MA2256.1
+org-1	TBX1 {6.5.3}	57	0	MA2259.1
+Doc2	TBX6 {6.5.5}	58	1	MA2216.1
+grh	Grainyhead {6.7.1}	59	1	MA1457.2
+Mad	SMAD {7.1.1}	60	1	MA0535.1
+gcm	GCM {7.2.1}	61	1	MA1840.2
+gcm2	GCM {7.2.1}	61	0	MA0917.1
+TBP	TBP {8.1.1}	62	1	TBP.H14CORE.0.P.B
+D1	HMGA {8.2.1}	63	1	MA2306.1
+brk	Unknown {0.0}	64	1	MA0213.1
+Elba1	Unknown {0.0}	64	0	MA1837.2
+Elba2	Unknown {0.0}	64	0	MA1838.2
+hry	Unknown {0.0}	64	0	MA0449.1
+insv	Unknown {0.0}	64	0	MA2315.1
+Su(H)	Unknown {0.0}	64	0	MA0085.2
+Xrp1	Unknown {0.0}	64	0	MA2294.1
+z	Unknown {0.0}	64	0	MA0255.2
