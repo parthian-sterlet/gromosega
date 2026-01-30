@@ -85,11 +85,11 @@ int main(int argc, char* argv[])
 	//	double *val;
 	FILE * in_genelist, * in_rnaseq, * out_sta, *out_up, * out_do, * out_no;
 
-	if (argc != 13)
+	if (argc != 14)
 	{
 		puts("Sintax: 1file rnaseq table, 2,3,4int columns gene_id,log2Fold,padj 5file all_gene's_ID_list 6int columns gene_id ");
 		puts("7double threshold log2Fold up-/downDEG (default 2) 8double threshold log2Fold notDEG (default 1.25) 9double threshold padj (default 0.05)");
-		puts("10file_out_upDEG(0,1) 11file_out_downDEG(0,1) 12file_out_noDEG(0,1)");
+		puts("10file_out_upDEG(0,1) 11file_out_downDEG(0,1) 12file_out_noDEG(0,1) 13int reverse up/down (1yes 0no)");
 		return -1;
 	}
 	strcpy(filei_rnaseq, argv[1]);//out_file
@@ -100,10 +100,12 @@ int main(int argc, char* argv[])
 	int col_genome = atoi(argv[6]);
 	double threh_deg = atof(argv[7]);// 2 -> log2(2) means 1
 	double threh_nedeg = atof(argv[8]);//1.25 -> log2(1.25) = 0.32...
-	double padj_thr = atof(argv[9]); //0.05;
+	double padj_thr = atof(argv[9]); //0.05;	
 	strcpy(fileo_up, argv[10]);//out_file
-	strcpy(fileo_do, argv[11]);//out_file
+	strcpy(fileo_do, argv[11]);//out_file	
 	strcpy(fileo_no, argv[12]);//out_file
+	int rev = atoi(argv[13]);
+
 	col_gene--;
 	col_log2fold--;
 	col_padj--;
@@ -124,15 +126,33 @@ int main(int argc, char* argv[])
 		printf("Input file %s can't be opened!", filei_genelist);
 		return -1;
 	}
-	if ((out_up = fopen(fileo_up, "wt")) == NULL)
+	out_up = out_do = NULL;
+	if (rev == 0)
 	{
-		printf("Input file %s can't be opened!", fileo_up);
-		return -1;
+		if ((out_up = fopen(fileo_up, "wt")) == NULL)
+		{
+			printf("Input file %s can't be opened!", fileo_up);
+			return -1;
+		}
+		if ((out_do = fopen(fileo_do, "wt")) == NULL)
+		{
+			printf("Input file %s can't be opened!", fileo_do);
+			return -1;
+		}
 	}
-	if ((out_do = fopen(fileo_do, "wt")) == NULL)
+	else
 	{
-		printf("Input file %s can't be opened!", fileo_do);
-		return -1;
+		if ((out_do = fopen(fileo_up, "wt")) == NULL)
+		{
+			printf("Input file %s can't be opened!", fileo_up);
+			return -1;
+		}
+		if ((out_up = fopen(fileo_do, "wt")) == NULL)
+		{
+			printf("Input file %s can't be opened!", fileo_do);
+			return -1;
+		}
+
 	}
 	if ((out_no = fopen(fileo_no, "wt")) == NULL)
 	{
@@ -284,7 +304,14 @@ int main(int argc, char* argv[])
 	fclose(out_up);
 	fclose(out_no);
 	fclose(out_do);
-	fprintf(out_sta, "%s\t%s\t%s\t%s\t%s\tTotal genes %d\t%s\t%d\t%s\t%d\t%s\t%d\n", filei_rnaseq,filei_genelist, argv[7], argv[8], argv[9],n_genes, argv[10],total_up, argv[11], total_do, argv[12],total_no);
+	if (rev == 0)
+	{
+		fprintf(out_sta, "%s\t%s\t%s\t%s\t%s\tReverse_up&down\t%d\tTotal genes\t%d\t%s\t%d\t%s\t%d\t%s\t%d\n", filei_rnaseq, filei_genelist, argv[7], argv[8], argv[9], rev, n_genes, argv[10], total_up, argv[11], total_do, argv[12], total_no);
+	}
+	else
+	{
+		fprintf(out_sta, "%s\t%s\t%s\t%s\t%s\tReverse_up&down\t%d\tTotal genes\t%d\t%s\t%d\t%s\t%d\t%s\t%d\n", filei_rnaseq, filei_genelist, argv[7], argv[8], argv[9], rev, n_genes, argv[10], total_do, argv[11], total_up, argv[12], total_no);
+	}
 	fclose(out_sta);
 	for (i = 0; i < n_genes; i++)
 	{
