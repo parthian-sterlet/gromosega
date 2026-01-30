@@ -1148,9 +1148,10 @@ int main(int argc, char* argv[])
 			fprintf(out_1st, "Motif IDs");
 			for (i = 0; i < msel_max; i++)fprintf(out_1st, "\t");
 			fprintf(out_1st, "Families\n");
-			fprintf(out_prc_bin_1st, "Data\tpAUCPR\tMotif group\t");
-			for (i = 0; i < msel_max; i++)fprintf(out_prc_bin_1st, "\t");
-			fprintf(out_prc_bin_1st, "Recall\t");
+			fprintf(out_prc_bin_1st, "Data\tAUCPR\t");// 1 2
+			//fprintf(out_prc_bin_1st, "Motif group\t");
+			//for (i = 0; i < msel_max; i++)fprintf(out_prc_bin_1st, "\t");
+			fprintf(out_prc_bin_1st, "Recall\tGroup size");// 3 4
 			double tpr = 0.05, step = 0.05;
 			for (i = 0; i < 20; i++)
 			{
@@ -1168,12 +1169,12 @@ int main(int argc, char* argv[])
 		for (i = 0; i < mhole; i++)fprintf(out_1st, "\t");
 		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_1st, "%s\t", class_names[i]);
 		fprintf(out_1st, "\n");			
-		fprintf(out_prc_bin_1st, "%s vs. %s\t", filei_tabp, filei_tabn);
-		fprintf(out_prc_bin_1st, "%.12f\t", pop[0].fit);			
-		for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_prc_bin_1st, "%s\t", tf_names[i]);
-		for (i = 0; i < mhole; i++)fprintf(out_prc_bin_1st, "\t");
-		fprintf(out_prc_bin_1st, "\tPrecision\t");	
-		fprintf(out_prc_bin_1st, "%d", msel);
+		fprintf(out_prc_bin_1st, "%s vs. %s\t", filei_tabp, filei_tabn);//1
+		fprintf(out_prc_bin_1st, "%.12f\t", pop[0].fit);			//2
+		//for (i = 0; i < mtot; i++)if (pop[0].mot[i] == 1)fprintf(out_prc_bin_1st, "%s\t", tf_names[i]);
+		//for (i = 0; i < mhole; i++)fprintf(out_prc_bin_1st, "\t");
+		fprintf(out_prc_bin_1st, "Precision\t");	//3
+		fprintf(out_prc_bin_1st, "%d", msel); //4
 		for (i = 0; i < 20; i++)fprintf(out_prc_bin_1st, "\t%f", pop[0].prec[i]);
 		fprintf(out_prc_bin_1st, "\n");
 		

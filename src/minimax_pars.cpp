@@ -199,7 +199,8 @@ int main(int argc, char* argv[])
 	}
 	char tab = '\t';	
 	char buf[50];
-	int col_prb_gros = max_gros + 4;	
+	//int col_prb_gros = max_gros + 4;	
+	int col_prb_gros = 3;
 	int col_prb_pr = col_prb_gros + 1;
 	fgets(d, sizeof(d), in_prb);//header
 	double auprc_max = -1;
