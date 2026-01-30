@@ -77,6 +77,7 @@ AT1G01200 and FBgn0000008.
 10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FoldChange) > 1. 
 11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FoldChange) < -1.
 12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, e.g. default: padj > 0.05 &  0.8 < FoldChange < 1.25.
+13. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 
 This step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and not-DEGs.
 
