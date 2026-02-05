@@ -103,22 +103,27 @@ Now everything is ready for the search of the motif groups.
 10. output internal correlation file - correlations of -Log<sub>10</sub>(ERR) scores between motifs within found groups. For each motif group two separate correleation matrices are computed: for the positive and negative DNA sequence sets.
 11. output motif class/family file (all groups) - the list of found groups of motifs, for each groups are marked the recognition accuracy pAUPRC, motif names and class/family names for all participant motifs.
 12. output motif class/family file (1st group) - the group of motifs with the first rank, for this group are marked the recognition accuracy pAUPRC, motif names and class/family names for all participant motifs. 
-13. output file - distribution of motifs from the group with the first rank by classes/families. This output file will be concatanated with corresponding files from other runs with other values of the group size M<sub>SEL</sub>. The final output file shows dynamics of the family/class content for the motif group with the first rank as a function of the number of motifs (group size).
-14. output log file - GA evolution showing numbers of mutations and recombinations in each iteration of GA.
+13. output file - distribution of motifs from the group with the first rank by classes/families. This output file will be concatanated with corresponding files from other runs with other values of the group size M<sub>SEL</sub>. The final output file with concatenated results shows dynamics of the family/class content for the motif group with the first rank as a function of the number of motifs.
+14. output file - distribution of motifs from the group with the first rank by present/absent motifs. This output file will be concatanated with corresponding files from other runs with other values of the group size M<sub>SEL</sub>. The final output file with concatenated results shows dynamics of the motif content for the motif group with the first rank as a function of the number of motifs.
+15. output log file - GA evolution showing numbers of mutations and recombinations in each iteration of GA.
 
 ## Summary table of recognition performance and heatmaps showing emergence ranks and fold enrichments for TFBS motifs for TFs from different families 
 [minimax_pars.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax_pars.cpp) creates (a) summary table of recognition accuracy of the groups of motifs with highest recognition performance and (b) heatmaps of emergence ranks and fold enrichments for TFBS motifs respecting distinct TF families.
 1. input PR curve file - output data from the GA search, this file respects argument #8 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
-2. input motif class/family file - output data from the GA search, this file respects argument #13 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
-3. integer value - number of paralel runs of GA with different group size, default value 50
-4. integer value - minimal group size, default value 1
-5. integer value - step of group size, default value 1, e.g. if step = 1 then group sizes of 1, 2, ... 50 are tested; if step = 10 then four group sizes of 1, 11, ... 41 are tested.
-6. integer value - value 0 or 1 implies that a header of a summary table is printed or not printed.
-7. output file - source data for heatmaps showing ranks, if (a) in the group of size {N - 1} the motifs from certain TF family are absent, and (b) these motifs emerge in the group of size {N} then the rank of this family is N. The heatmap contains rank values for all group sizes from the minimal value (default 1) to the maximal value respecting the highest recognition performance.
-8. output file - source data for heatmaps showing fold enrichment for TF families, if (a) the collection of all motifs has M<sub>TOT</sub> motifs, among them the family FAM has M<sub>FAM</sub> motifs, and (b) in the group of total N motifs only N<sub>FAM</sub> motifs belong to the FAM family, then the fold enrichment is equal to {N<sub>FAM</sub> / N} / M<sub>FAM</sub> / {M<sub>TOT</sub>}. The heatmap contains fold values for all group sizes from the minimal value (default 1) to the maximal value respecting the highest recognition performance.
-9. output file - the ranks for motifs only for one selected group size respecting the highest recognition performance.
-10. output file - the folds for motifs only for one selected group size respecting the highest recognition performance.
-11. output file - plot for dynamics of the recognition performance for the total range of motif group sizes.
+2. input class/family distribution file - output data from the GA search, this file respects argument #13 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
+3. input motif distribution file - output data from the GA search, this file respects argument #14 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp)
+4. input file - input table representing the collection of all M<sub>TOT</sub> motifs, this file is the same as described as the argument #3 of [minimax.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/minimax.cpp). Here all names of families/classes, TFs and motifs are required.
+5. integer value - number of paralel runs of GA with different group size, default value 50
+6. integer value - minimal group size, default value 1
+7. integer value - step of group size, default value 1, e.g. if step = 1 then group sizes of 1, 2, ... 50 are tested; if step = 10 then four group sizes of 1, 11, ... 41 are tested.
+8. integer value - value 0 or 1 implies that a header of a summary table is printed or not printed.
+9. output file - source data for heatmaps showing ranks, if (a) in the group of size {N - 1} the motifs from certain TF family/class are absent, and (b) these motifs emerge in the group of size {N} then the rank of this family/class is N. The concatanated heatmap contains rank values for all group sizes from the minimal value (default 1) to the maximal value respecting the highest recognition performance.
+10. output file - source data for heatmaps showing ranks, if (a) in the group of size {N - 1} certain motif is absent, and (b) this motif emerges in the group of size {N} then the rank of this motif is N. The concatanated heatmap contains rank values for all group sizes from the minimal value (default 1) to the maximal value respecting the highest recognition performance.
+11. output file - source data for heatmaps showing fold enrichment for TF families, if (a) the collection of all motifs has M<sub>TOT</sub> motifs, among them the family FAM has M<sub>FAM</sub> motifs, and (b) in the group of total N motifs only N<sub>FAM</sub> motifs belong to the FAM family, then the fold enrichment is equal to {N<sub>FAM</sub> / N} / M<sub>FAM</sub> / {M<sub>TOT</sub>}. The heatmap contains fold values for all group sizes from the minimal value (default 1) to the maximal value respecting the highest recognition performance.
+12. output file - the family/class ranks only for one selected group size respecting the highest recognition performance.
+13. output file - the motif ranks only for one selected group size respecting the highest recognition performance.
+14. output file - the family/class folds only for one selected group size respecting the highest recognition performance.
+15. output file - plot for dynamics of the recognition performance for the total range of motif group sizes.
 
 # Command line examples
 ## ChIP-seq data 
