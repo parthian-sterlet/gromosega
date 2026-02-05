@@ -648,14 +648,14 @@ int PearsonExternal(combi* a, combi* b, int msel, int mtot, double** errp, doubl
 int main(int argc, char* argv[])
 {
 	char filei_tabp[300], filei_tabn[300], filei_motifs_tfclass[300], d[50000];
-	char fileo_prc[300], fileo_prc_bin_1st[300], fileo[300], fileo_1st[300], fileo_corr_ext[300], fileo_corr_int[300], fileo_class_hist[300], file_log[300];
+	char fileo_prc[300], fileo_prc_bin_1st[300], fileo[300], fileo_1st[300], fileo_corr_ext[300], fileo_corr_int[300], fileo_class_hist[300], fileo_motif_hist[300], file_log[300];
 	int i, j, k, m, msel, msel_max, mtot = 0, nseqp = 0, nseqn = 0;
-	FILE* inp, * inn, * in_motif_tfcass, * outh, *outlog, *out, * out_1st, *out_corr_ext, * out_corr_int, * out_class_hist, *out_prc_bin_1st;
+	FILE* inp, * inn, * in_motif_tfcass, * outh, *outlog, *out, * out_1st, *out_corr_ext, * out_corr_int, * out_class_hist, * out_motif_hist, *out_prc_bin_1st;
 
-	if (argc != 15)
+	if (argc != 16)
 	{
 		printf("Syntax: 1filei_tabp 2filei_tabn 3filei_TFClass_table Motif_or_TF_names,Class_Family_names,Class_Family_index,Class_Family_unique 4int motif_count 5int motif_count_max ");
-		printf("6double -Log10[ERRthresh] 7fileo_prc_all 8fileo_prc_bin_1st 9fileo_corr_external 10fileo_corr_internal 11fileo_results 12fileo_results_1st 13fileo_class_hist 14fileo_log");
+		printf("6double -Log10[ERRthresh] 7fileo_prc_all 8fileo_prc_bin_1st 9fileo_corr_external 10fileo_corr_internal 11fileo_results 12fileo_results_1st 13fileo_class_hist 14fileo_motif_hist 15fileo_log");
 		exit(1);
 	}
 	strcpy(filei_tabp, argv[1]);
@@ -671,7 +671,8 @@ int main(int argc, char* argv[])
 	strcpy(fileo, argv[11]);
 	strcpy(fileo_1st, argv[12]);
 	strcpy(fileo_class_hist, argv[13]);
-	strcpy(file_log, argv[14]);
+	strcpy(fileo_motif_hist, argv[14]);
+	strcpy(file_log, argv[15]);
 
 	srand((unsigned)time(NULL));
 	if ((inp = fopen(filei_tabp, "rt")) == NULL)
@@ -1255,6 +1256,11 @@ int main(int argc, char* argv[])
 		int z = pop[0].mot[i];
 		if (z == 1)class_inx[class_mot_inx[i]]++;
 	}
+	if ((out_motif_hist = fopen(fileo_motif_hist, "wt")) == NULL)
+	{
+		printf("Input file %s can't be opened!\n", fileo_motif_hist);
+		exit(1);
+	}
 	if ((out_class_hist = fopen(fileo_class_hist, "wt")) == NULL)
 	{
 		printf("Input file %s can't be opened!\n", fileo_class_hist);
@@ -1268,9 +1274,17 @@ int main(int argc, char* argv[])
 		fprintf(out_class_hist, "\t");
 		for (i = 0; i < mtot; i++)
 		{
-			if(class_mot_unq[i] == 1)fprintf(out_class_hist, "\t%s", class_names[i]);
+			if(class_mot_unq[i] == 1)fprintf(out_class_hist, "\t%s", class_names[i]);			
 		}
-		fprintf(out_class_hist, "\n");
+		fprintf(out_class_hist, "\n");	
+		fprintf(out_motif_hist, "\t");
+		for (i = 0; i < mtot; i++)fprintf(out_motif_hist, "\t%s", class_names[i]);
+		fprintf(out_motif_hist, "\t");
+		for (i = 0; i < mtot; i++)fprintf(out_motif_hist, "\t%s", tf_names[i]);
+		fprintf(out_motif_hist, "\n");
+		fprintf(out_motif_hist, "\t");
+		for (i = 0; i < mtot; i++)fprintf(out_motif_hist, "\t%s", motif_names[i]);
+		fprintf(out_motif_hist, "\n");
 	}
 	fprintf(out_class_hist, "%s vs. %s\t%d", filei_tabp, filei_tabn, msel);
 	for (i = 0; i < class_count; i++)
@@ -1280,6 +1294,15 @@ int main(int argc, char* argv[])
 	}
 	fprintf(out_class_hist, "\n");
 	fclose(out_class_hist);
+	fprintf(out_motif_hist, "%s vs. %s\t%d", filei_tabp, filei_tabn, msel);
+	for (i = 0; i < mtot; i++)
+	{
+		fprintf(out_motif_hist, "\t");
+		int cat = pop[0].mot[i];
+		if (cat > 0)fprintf(out_motif_hist, "%d", cat);
+	}
+	fprintf(out_motif_hist, "\n");
+	fclose(out_motif_hist);
 	for (i = 0; i < pool_act; i++)pop[i].term();
 	for (k = 0; k < mtot; k++)
 	{
@@ -1289,14 +1312,14 @@ int main(int argc, char* argv[])
 		delete[] class_names[k];
 		delete[] motif_names[k];
 	}
+	delete[] tf_names;
+	delete[] motif_names;
+	delete[] class_names;	
+	delete[] errp;
+	delete[] errn;
 	delete[] pop;
 	delete[] abp;
 	delete[] abn;
-	delete[] errp;
-	delete[] errn;
-	delete[] tf_names;
-	delete[] class_names;
-	delete[] motif_names;
 	delete[] seqtot;
 	delete[] fit_prev_iter;
 	delete[] class_inx;
