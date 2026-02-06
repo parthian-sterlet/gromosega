@@ -11,8 +11,8 @@ cd $4
 
 for (( i=1; i <= $5; i+= $6 )) {
 
-../../src/minimax.exe	up_$4.tab no_$4.tab ../rnaseq/jaspar_tfclass_insects238tbp $i $5 4 prc_up_$4 prb_up_$4 cex_up_$4 cin_up_$4 out_up_$4 per_up_$4 dbd_up_$4 log_up_$4
-../../src/minimax.exe	do_$4.tab no_$4.tab ../rnaseq/jaspar_tfclass_insects238tbp $i $5 4 prc_do_$4 prb_do_$4 cex_do_$4 cin_do_$4 out_do_$4 per_do_$4 dbd_do_$4 log_do_$4
+../../src/minimax.exe	up_$4.tab no_$4.tab ../rnaseq/jaspar_tfclass_insects272tbp $i $5 4 prc_up_$4 prb_up_$4 cex_up_$4 cin_up_$4 out_up_$4 per_up_$4 dbd_up_$4 mot_up_$4 log_up_$4
+../../src/minimax.exe	do_$4.tab no_$4.tab ../rnaseq/jaspar_tfclass_insects272tbp $i $5 4 prc_do_$4 prb_do_$4 cex_do_$4 cin_do_$4 out_do_$4 per_do_$4 dbd_do_$4 mot_do_$4 log_do_$4
 
 }
 
@@ -25,6 +25,9 @@ cp prb_do_$4_1 prb_do_$4
 cp per_up_$4_1 per_up_$4
 cp per_do_$4_1 per_do_$4
 
+cp mot_up_$4_1 mot_up_$4
+cp mot_do_$4_1 mot_do_$4
+
 for (( i=1 + $6; i <= $5; i+= $6 )) {
 
 cat dbd_up_$4_$i >> dbd_up_$4
@@ -36,10 +39,13 @@ cat prb_do_$4_$i >> prb_do_$4
 cat per_up_$4_$i >> per_up_$4
 cat per_do_$4_$i >> per_do_$4
 
+cat mot_up_$4_$i >> mot_up_$4
+cat mot_do_$4_$i >> mot_do_$4
+
 }
 
-../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	$5	1	$6	1	rank_up_$4	fold_up_$4	rank_best_$4	fold_best_$4	dynamics_$4
-../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	$5	1	$6	0	rank_do_$4	fold_do_$4	rank_best_$4	fold_best_$4	dynamics_$4
+../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	mot_up_$4 ../rnaseq/jaspar_tfclass_insects272tbp $5	1	$6	1	rank_dbd_up_$4 rank_mot_up_$4 fold_up_$4	rank_dbd_best_$4 rank_mot_best_$4 fold_best_$4	dynamics_$4
+../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	mot_do_$4 ../rnaseq/jaspar_tfclass_insects272tbp $5	1	$6	0	rank_dbd_do_$4 rank_mot_do_$4 fold_do_$4	rank_dbd_best_$4 rank_mot_best_$4 fold_best_$4	dynamics_$4
 
 
 cd ..
