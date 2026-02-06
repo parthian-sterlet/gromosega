@@ -1278,12 +1278,7 @@ int main(int argc, char* argv[])
 		}
 		fprintf(out_class_hist, "\n");	
 		fprintf(out_motif_hist, "\t");
-		for (i = 0; i < mtot; i++)fprintf(out_motif_hist, "\t%s", class_names[i]);
-		fprintf(out_motif_hist, "\t");
-		for (i = 0; i < mtot; i++)fprintf(out_motif_hist, "\t%s", tf_names[i]);
-		fprintf(out_motif_hist, "\n");
-		fprintf(out_motif_hist, "\t");
-		for (i = 0; i < mtot; i++)fprintf(out_motif_hist, "\t%s", motif_names[i]);
+		for (i = 1; i <= mtot; i++)fprintf(out_motif_hist, "\t%d", i);		
 		fprintf(out_motif_hist, "\n");
 	}
 	fprintf(out_class_hist, "%s vs. %s\t%d", filei_tabp, filei_tabn, msel);
