@@ -1,0 +1,44 @@
+		3	1	3	1	1	1	2	4	1	3	9	8	3	9	1	1	5	1	6	1	1	1	5	8	9	37	6	2	2	3	18	18	16	8	6	3	5	1	1	1	11	1	1	1	8	1	1	7	1	1	1	2	1	1	2	1	2	1	1	1	2	1	1	8
+		Jun {1.1.1}	Jun-, Maf-related {1.1.1},{1.1.3}	Fos {1.1.2}	Maf {1.1.3}	XBP1 {1.1.5}	ATF4 {1.1.6}	CREB {1.1.7}	C/EBP {1.1.8}	E2A {1.2.1}	MyoD-ASC {1.2.2}	Tal {1.2.3}	Hairy {1.2.4}	PAS {1.2.5}	bHLH-ZIP {1.2.6}	AP-2 {1.3.1}	Steroid HR {2.1.1}	Thyroid HR {2.1.2}	Thyroid,RXR receptors {2.1.2},{2.1.3}	RXR R {2.1.3}	NGFI (NR4A) {2.1.4}	FTZF1 (NR5A) {2.1.5}	GCNF (NR6) {2.1.6}	C4-GATA {2.2.1}	3-ZF Kruppel {2.3.1}	Other with up to 3 adj ZFs {2.3.2}	More than 3 adj ZFs {2.3.3}	Multiple dispersed ZFs {2.3.4}	BED ZF {2.3.5}	DMRT {2.5.1}	HD {3.1}	HOX {3.1.1}	NK {3.1.2}	Paired HD {3.1.3}	TALE-type HD {3.1.4}	HD-LIM {3.1.5}	HD-CUT {3.1.9}	POU {3.1.10}	Paired box {3.2}	PD+HD {3.2.1}	PD {3.2.2}	FOX {3.3.1}	RFX {3.3.3}	HSF {3.4.1}	Myb/SANT {3.5.1}	Ets {3.5.2}	TEF1 {3.6.1}	ARID {3.7.1}	SOX {4.1.1}	Responders to external signals {5.1.2}	DEAF {5.3.2}	RHR {6.1}	NFkappaB {6.1.1}	EBF {6.1.5}	STAT {6.2.1}	Runt {6.4.1}	Brachyury {6.5.1}	TBX1 {6.5.3}	TBX6 {6.5.5}	Grainyhead {6.7.1}	SMAD {7.1.1}	GCM {7.2.1}	TBP {8.1.1}	HMGA {8.2.1}	Unknown {0.0}
+../up_orco1.tab vs. ../no_orco1.tab	1																															1																																	
+../up_orco1.tab vs. ../no_orco1.tab	2																																2	2																															
+../up_orco1.tab vs. ../no_orco1.tab	3																														3	3																																	
+../up_orco1.tab vs. ../no_orco1.tab	4																															3	4																		4														
+../up_orco1.tab vs. ../no_orco1.tab	5																															3	4																																
+../up_orco1.tab vs. ../no_orco1.tab	6																															3		6		6	6																												
+../up_orco1.tab vs. ../no_orco1.tab	7																										7					3		6																															
+../up_orco1.tab vs. ../no_orco1.tab	8																															3		6	8	8																												8	
+../up_orco1.tab vs. ../no_orco1.tab	9																									9	9					3			8	8	9																												
+../up_orco1.tab vs. ../no_orco1.tab	10												10																		10	3	10	10	8																													10	
+../up_orco1.tab vs. ../no_orco1.tab	11								11		11		10											11			11			11		3			8																														11
+../up_orco1.tab vs. ../no_orco1.tab	12								11		11													11			11			11			12		8													12			12														11
+../up_orco1.tab vs. ../no_orco1.tab	13					13								13												13	11							13				13		13		13											13												
+../up_orco1.tab vs. ../no_orco1.tab	14					13								13												13	11							13				13		13		13				14							13												
+../up_orco1.tab vs. ../no_orco1.tab	15					13								13		15										13	11							13				13		13		13				14							13												
+../up_orco1.tab vs. ../no_orco1.tab	16					13								13		15										13	11	16						13				13		13		13				14							13												
+../up_orco1.tab vs. ../no_orco1.tab	17					13								13		15										13	11	16						13				13		13		13				14							13												
+../up_orco1.tab vs. ../no_orco1.tab	18					13								13		15										13	11	16						13				13		13		13				14							13	18											
+../up_orco1.tab vs. ../no_orco1.tab	19					13								13		15									19	13	11	16						13				13		13		13				14			19				13	18											
+../up_orco1.tab vs. ../no_orco1.tab	20					13							20	13		15									19	13	11	16						13				13		13		13							19				13	18											
+../up_orco1.tab vs. ../no_orco1.tab	21					13								13		15		21							19	13	11	16						13				13		13		13							19				13	18											
+../up_orco1.tab vs. ../no_orco1.tab	22					13							22	13		15									19	13	11	16						13				13		13		13							19				13	18											
+../up_orco1.tab vs. ../no_orco1.tab	23	23	23		23	13					23	23		13	23	15		23							19		11	16										13		13		13											13	18											23
+../up_orco1.tab vs. ../no_orco1.tab	24	23	23		23	13					23	23		13	23	15		23				24			19		11	16												13		13											13	18											23
+../up_orco1.tab vs. ../no_orco1.tab	25	23	23		23	13					23	23		13	23	15		23							19		11	16										25		13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	26		23		23	13					23	23		13	23	15		23							19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	27		23		23	13					23	23		13	23	15		23							19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	28		23		23	13					23	23		13	23	15		23							19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	29		23		23	13					23	23		13	23	15		23		29					19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	30		23		23	13					23	23		13	23	15		23		29				30	19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	31		23		23	13					23	23		13	23	15		23		29				30	19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	32		23		23	13					23	23		13	23	15		23		29				30	19		11	16												13		13											13	18		25									23
+../up_orco1.tab vs. ../no_orco1.tab	33		23		23	13					23	23		13	23	15		23		29		33			19	33	11	16												13		13				33							13	18											23
+../up_orco1.tab vs. ../no_orco1.tab	34		23		23	13					23	23		13	23	15		23		29		33			19	33	11	16												13		13				33			34				13	18											23
+../up_orco1.tab vs. ../no_orco1.tab	35		23		23	13					23	23	35	13	23	15		23		29					19	33	11	16												13		13				33							13	18		35				35					
+../up_orco1.tab vs. ../no_orco1.tab	36		23		23	13					23	23	35	13	23	15		23		29					19	33	11	16						36					36	13		13				33							13	18		35				35					
+../up_orco1.tab vs. ../no_orco1.tab	37		23		23	13					23	23		13	23	15		23		29		37			19	33	11	16												13		13				33			37				13	18											37
+../up_orco1.tab vs. ../no_orco1.tab	38		23		23	13					23	23	38	13	23	15		23		29				38	19	33	11	16												13		13		38		33							13	18		38				38					
+../up_orco1.tab vs. ../no_orco1.tab	39		23		23	13			39		23	23	38	13	23	15		23		29				38	19	33	11	16												13		13		38		33							13	18		38				38					
+../up_orco1.tab vs. ../no_orco1.tab	40		23		23	13			39		23	23	38	13	23	15		23		29				38	19	33	11	16						40						13		13		38		33							13	18		38				38					
+../up_orco1.tab vs. ../no_orco1.tab	41		23		23	13			39		23	23	38	13	23			23		29				38	19	33	11	16						40						13	41	13		38		33							13	18		38				38					
+../up_orco1.tab vs. ../no_orco1.tab	42		23		23	13			39		23	23	38	13	23			23		29				38	19	33	11	16						40						13	41	13		38		33							13	18		38				38					
