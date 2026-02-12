@@ -649,13 +649,15 @@ int main(int argc, char* argv[])
 {
 	char filei_tabp[300], filei_tabn[300], filei_motifs_tfclass[300], d[50000];
 	char fileo_prc[300], fileo_prc_bin_1st[300], fileo[300], fileo_1st[300], fileo_corr_ext[300], fileo_corr_int[300], fileo_class_hist[300], fileo_motif_hist[300], file_log[300];
-	int i, j, k, m, msel, msel_max, mtot = 0, nseqp = 0, nseqn = 0;
+	int i, j, k, m, msel, msel_max, batch_run, mtot = 0, nseqp = 0, nseqn = 0;
 	FILE* inp, * inn, * in_motif_tfcass, * outh, *outlog, *out, * out_1st, *out_corr_ext, * out_corr_int, * out_class_hist, * out_motif_hist, *out_prc_bin_1st;
 
-	if (argc != 16)
+	if (argc != 17)
 	{
 		printf("Syntax: 1filei_tabp 2filei_tabn 3filei_TFClass_table Motif_or_TF_names,Class_Family_names,Class_Family_index,Class_Family_unique 4int motif_count 5int motif_count_max ");
-		printf("6double -Log10[ERRthresh] 7fileo_prc_all 8fileo_prc_bin_1st 9fileo_corr_external 10fileo_corr_internal 11fileo_results 12fileo_results_1st 13fileo_class_hist 14fileo_motif_hist 15fileo_log");
+		printf("6int solo_run 7double -Log10[ERRthresh] 8fileo_prc_all 9fileo_prc_bin_1st 10fileo_corr_external 11fileo_corr_internal "); 
+		printf("12fileo_results 13fileo_results_1st 14fileo_class_hist 15fileo_motif_hist 16fileo_log");
+		
 		exit(1);
 	}
 	strcpy(filei_tabp, argv[1]);
@@ -663,16 +665,17 @@ int main(int argc, char* argv[])
 	strcpy(filei_motifs_tfclass, argv[3]);
 	msel = atoi(argv[4]);//4islo motivov
 	msel_max = atoi(argv[5]);//max 4islo motivov for several parallel runs
-	double fp2 = atof(argv[6]); //ERR threshold for pAUPRC	
-	strcpy(fileo_prc, argv[7]);	
-	strcpy(fileo_prc_bin_1st, argv[8]);
-	strcpy(fileo_corr_ext, argv[9]);
-	strcpy(fileo_corr_int, argv[10]);
-	strcpy(fileo, argv[11]);
-	strcpy(fileo_1st, argv[12]);
-	strcpy(fileo_class_hist, argv[13]);
-	strcpy(fileo_motif_hist, argv[14]);
-	strcpy(file_log, argv[15]);
+	batch_run = atoi(argv[6]);//any number besides 1 means solo runs, solo run implies printing all headers 
+	double fp2 = atof(argv[7]); //ERR threshold for pAUPRC	
+	strcpy(fileo_prc, argv[8]);	
+	strcpy(fileo_prc_bin_1st, argv[9]);
+	strcpy(fileo_corr_ext, argv[10]);
+	strcpy(fileo_corr_int, argv[11]);
+	strcpy(fileo, argv[12]);
+	strcpy(fileo_1st, argv[13]);
+	strcpy(fileo_class_hist, argv[14]);
+	strcpy(fileo_motif_hist, argv[15]);
+	strcpy(file_log, argv[16]);
 
 	srand((unsigned)time(NULL));
 	if ((inp = fopen(filei_tabp, "rt")) == NULL)
@@ -814,7 +817,10 @@ int main(int argc, char* argv[])
 			memset(val, 0, sizeof(val));
 			for (i = 0; i < mtot; i++)
 			{
-				if(UnderStolStr(d, val, sizeof(val), i, sep) == NULL){ printf("Wrong format %s\n", filei_tabp); return(-1); }
+				if(UnderStolStr(d, val, sizeof(val), i, sep) == NULL)
+				{ 
+					printf("Wrong format %s\n", filei_tabp); return(-1); 
+				}
 				errp[i][j] = atof(val);
 			}
 		}
@@ -1142,7 +1148,7 @@ int main(int argc, char* argv[])
 			for (i = 0; i < 20; i++)fprintf(out, "\t%.3f", pop[k].prec[i]);
 			fprintf(out, "\n");
 		}		
-		if (msel == 1)
+		if (msel == 1 || batch_run == 0)
 		{
 			fprintf(out_1st, "Data\tpAUCPR\t#Motif count in groups\tTFs");
 			for (i = 0; i < msel_max; i++)fprintf(out_1st, "\t");
