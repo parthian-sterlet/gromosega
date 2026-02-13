@@ -143,29 +143,6 @@ int main(int argc, char* argv[])
 	strcpy(file_sta, "minimax_mot_rank.txt");//out_file
 	int max_gros = nrun * step_gros;
 
-	int num_thr;
-	if (nrun >= 20)num_thr = 8;
-	else num_thr = 1;
-	out_rank_motif = new FILE * [num_thr];
-	if (out_rank_motif == NULL) { printf("Not  enough memory!"); return -1; }
-	for (i = 0; i < num_thr; i++)
-	{
-		memset(fileo_rank_motif, '\0', sizeof(fileo_rank_motif));
-		strcpy(fileo_rank_motif, fileo_rank_motif_base);
-		if (i > 0)
-		{
-			strcat(fileo_rank_motif, "_");
-			strcat(fileo_rank_motif, ratc[i]);
-		}
-		rat[i] = atof(ratc[i]);
-		rat[i] /= 100;
-		if ((out_rank_motif[i] = fopen(fileo_rank_motif, "wt")) == NULL)
-		{
-			printf("Out file %s can't be opened!\n", fileo_rank_motif);
-			return -1;
-		}
-	}
-
 	if ((in_motif_tfcass = fopen(filei_motifs_tfclass, "rt")) == NULL)
 	{
 		printf("Input file %s can't be opened\n", filei_motifs_tfclass);
@@ -184,6 +161,11 @@ int main(int argc, char* argv[])
 		printf("Number of motifs %d above the upper limit %d", mtot, MMAX);
 		exit(1);
 	}
+	int *g_sizes;
+	g_sizes = new int[nrun];
+	if (g_sizes == NULL) { puts("Out of memory..."); exit(1); }
+	g_sizes[0] = min_gros;
+	for( i = 1 ; i < nrun; i++ )g_sizes[i] = g_sizes[i-1] + step_gros;
 	double* auprc;
 	auprc = new double[nrun];
 	if (auprc == NULL) { puts("Out of memory..."); exit(1); }
@@ -248,76 +230,116 @@ int main(int argc, char* argv[])
 		printf("Input file %s can't be opened!", fileo_fold);
 		return -1;
 	}
-	if ((out_rank_dbd = fopen(fileo_rank_dbd, "wt")) == NULL)
+	int num_thr;
+	if (nrun > 1)num_thr = 8;
+	else num_thr = 1;
+	out_rank_dbd = out_polka = out_rank_dbd_best = out_rank_motif_best = out_sta = NULL;
+	if (num_thr > 1)
 	{
-		printf("Input file %s can't be opened!", fileo_rank_dbd);
-		return -1;
+		if ((out_rank_dbd = fopen(fileo_rank_dbd, "wt")) == NULL)
+		{
+			printf("Input file %s can't be opened!", fileo_rank_dbd);
+			return -1;
+		}
 	}
 	if (print_headers == 1)
 	{
-		if ((out_rank_dbd_best = fopen(fileo_rank_dbd_best, "wt")) == NULL)
+		if (num_thr > 1)
 		{
-			printf("Input file %s can't be opened!", fileo_rank_dbd_best);
-			return -1;
-		}
-		if ((out_rank_motif_best = fopen(fileo_rank_motif_best, "wt")) == NULL)
-		{
-			printf("Input file %s can't be opened!", fileo_rank_motif_best);
-			return -1;
+			if ((out_rank_dbd_best = fopen(fileo_rank_dbd_best, "wt")) == NULL)
+			{
+				printf("Input file %s can't be opened!", fileo_rank_dbd_best);
+				return -1;
+			}
+			if ((out_rank_motif_best = fopen(fileo_rank_motif_best, "wt")) == NULL)
+			{
+				printf("Input file %s can't be opened!", fileo_rank_motif_best);
+				return -1;
+			}
+			if ((out_sta = fopen(file_sta, "wt")) == NULL)
+			{
+				printf("Input file %s can't be opened!", file_sta);
+				return -1;
+			}
+			if ((out_polka = fopen(fileo_polka, "wt")) == NULL)
+			{
+				printf("Input file %s can't be opened!", fileo_polka);
+				return -1;
+			}
 		}
 		if ((out_fold_best = fopen(fileo_fold_best, "wt")) == NULL)
 		{
 			printf("Input file %s can't be opened!", fileo_fold_best);
 			return -1;
 		}
-		if ((out_polka = fopen(fileo_polka, "wt")) == NULL)
-		{
-			printf("Input file %s can't be opened!", fileo_polka);
-			return -1;
-		}
-		if ((out_sta = fopen(file_sta, "wt")) == NULL)
-		{
-			printf("Input file %s can't be opened!", file_sta);
-			return -1;
-		}
 	}
 	else
 	{
-		if ((out_rank_dbd_best = fopen(fileo_rank_dbd_best, "at")) == NULL)
+		if (num_thr > 1)
 		{
-			printf("Input file %s can't be opened!", fileo_rank_dbd_best);
-			return -1;
-		}
-		if ((out_rank_motif_best = fopen(fileo_rank_motif_best, "at")) == NULL)
-		{
-			printf("Input file %s can't be opened!", fileo_rank_motif_best);
-			return -1;
+			if ((out_rank_dbd_best = fopen(fileo_rank_dbd_best, "at")) == NULL)
+			{
+				printf("Input file %s can't be opened!", fileo_rank_dbd_best);
+				return -1;
+			}
+			if ((out_rank_motif_best = fopen(fileo_rank_motif_best, "at")) == NULL)
+			{
+				printf("Input file %s can't be opened!", fileo_rank_motif_best);
+				return -1;
+			}
+			if ((out_polka = fopen(fileo_polka, "at")) == NULL)
+			{
+				printf("Input file %s can't be opened!", fileo_polka);
+				return -1;
+			}
+			if ((out_sta = fopen(file_sta, "at")) == NULL)
+			{
+				printf("Input file %s can't be opened!", file_sta);
+				return -1;
+			}
+
 		}
 		if ((out_fold_best = fopen(fileo_fold_best, "at")) == NULL)
 		{
 			printf("Input file %s can't be opened!", fileo_fold_best);
 			return -1;
 		}
-		if ((out_polka = fopen(fileo_polka, "at")) == NULL)
-		{
-			printf("Input file %s can't be opened!", fileo_polka);
-			return -1;
-		}
-		if ((out_sta = fopen(file_sta, "at")) == NULL)
-		{
-			printf("Input file %s can't be opened!", file_sta);
-			return -1;
-		}
 	}
 	if (print_headers == 1)
 	{
-		int cur_gros = min_gros;
-		for (i = 0; i < nrun; i++)
+		if (num_thr > 1)
 		{
-			fprintf(out_polka, "\t%d", cur_gros);
-			cur_gros += step_gros;
+			int cur_gros = min_gros;
+			for (i = 0; i < nrun; i++)
+			{
+				fprintf(out_polka, "\t%d", cur_gros);
+				cur_gros += step_gros;
+			}
+			fprintf(out_polka, "\n");
 		}
-		fprintf(out_polka, "\n");
+	}
+	out_rank_motif = NULL;
+	if (num_thr > 1)
+	{
+		out_rank_motif = new FILE * [num_thr];
+		if (out_rank_motif == NULL) { printf("Not  enough memory!"); return -1; }
+		for (i = 0; i < num_thr; i++)
+		{
+			memset(fileo_rank_motif, '\0', sizeof(fileo_rank_motif));
+			strcpy(fileo_rank_motif, fileo_rank_motif_base);
+			if (i > 0)
+			{
+				strcat(fileo_rank_motif, "_");
+				strcat(fileo_rank_motif, ratc[i]);
+			}
+			rat[i] = atof(ratc[i]);
+			rat[i] /= 100;
+			if ((out_rank_motif[i] = fopen(fileo_rank_motif, "wt")) == NULL)
+			{
+				printf("Out file %s can't be opened!\n", fileo_rank_motif);
+				return -1;
+			}
+		}
 	}
 	char tab = '\t';
 	char buf[50];
@@ -347,22 +369,25 @@ int main(int argc, char* argv[])
 				printf("Wrong format in file %s\n", filei_dbd);
 				return(-1);
 			}
-			fprintf(out_polka, "%s", track_name);
+			if (num_thr > 1)fprintf(out_polka, "%s", track_name);
 			strcpy(track_name0, track_name);
 		}
 		double prec_sta = 0;
 		int gom = 0;
-		for (j = 0; j < decil_tested; j++)
+		if (num_thr > 1)
 		{
-			prec_sta = UnderStolDouble(d, col_prb_pr + j, buf, sizeof(buf), tab);
-			if (prec_sta <= precision_thr)
+			for (j = 0; j < decil_tested; j++)
 			{
-				gom++;
+				prec_sta = UnderStolDouble(d, col_prb_pr + j, buf, sizeof(buf), tab);
+				if (prec_sta <= precision_thr)
+				{
+					gom++;
+				}
+				else break;
 			}
-			else break;
 		}
 		double auprc1 = UnderStolDouble(d, 1, buf, sizeof(buf), tab);
-		fprintf(out_polka, "\t%f", auprc1);
+		if (num_thr > 1)fprintf(out_polka, "\t%f", auprc1);
 		auprc[i] = auprc1;
 		if (gom < 2)
 		{
@@ -395,12 +420,15 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	/*for (j = 0; j < num_thr; j++)printf("\t%f", polka_rez[j]);
-	printf("\n");
-	for (j = 0; j < num_thr; j++)printf("\t%d", i_rez[j]);
-	printf("\n");*/
-	fprintf(out_polka, "\n");
-	fclose(out_polka);
+//	for (j = 0; j < num_thr; j++)printf("\t%f", polka_rez[j]);
+//	printf("\n");
+//	for (j = 0; j < num_thr; j++)printf("\t%d", i_rez[j]);
+//	printf("\n");
+	if (num_thr > 1)
+	{
+		fprintf(out_polka, "\n");
+		fclose(out_polka);
+	}
 	fclose(in_prb);
 	if (auprc_max == -1)
 	{
@@ -408,18 +436,17 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 	fgets(d, sizeof(d), in_motif);
-	//if (nrun == 1 && *d != tab)rewind(in_motif);
 	if (print_headers == 1)
 	{
-		fprintf(out_rank_motif_best, "%s", d);//header 1 2 3 4 5
+		if (num_thr > 1)fprintf(out_rank_motif_best, "%s", d);//header 1 2 3 4 5
 	}
 	int nfamilies = 0;
 	fgets(d, sizeof(d), in_dbd);//1st header numbers count of motifs in families	
-	fprintf(out_rank_dbd, "%s", d);
+	if (num_thr > 1)fprintf(out_rank_dbd, "%s", d);
 	fprintf(out_fold, "%s", d);
 	if (print_headers == 1)
 	{
-		fprintf(out_rank_dbd_best, "%s", d);
+		if (num_thr > 1)fprintf(out_rank_dbd_best, "%s", d);
 		fprintf(out_fold_best, "%s", d);
 	}
 	DelChar(d, '\n');
@@ -465,11 +492,11 @@ int main(int argc, char* argv[])
 		}
 	}
 	fgets(d, sizeof(d), in_dbd);// 2nd header	
-	fprintf(out_rank_dbd, "%s", d);
+	if (num_thr > 1)fprintf(out_rank_dbd, "%s", d);
 	fprintf(out_fold, "%s", d);
 	if (print_headers == 1)
 	{
-		fprintf(out_rank_dbd_best, "%s", d);
+		if (num_thr > 1)fprintf(out_rank_dbd_best, "%s", d);
 		fprintf(out_fold_best, "%s", d);
 	}
 	size_t sizemot = lens * sizeof(track_name[0]);
@@ -488,7 +515,7 @@ int main(int argc, char* argv[])
 		//fprintf(out_rank_motif, "\t%d", cur_gros);
 		if (j == best_index1)
 		{
-			fprintf(out_rank_motif_best, "%s\t%d", track_name, cur_gros);
+			if (num_thr > 1)fprintf(out_rank_motif_best, "%s\t%d", track_name, cur_gros);
 		}
 		for (i = 0; i < mtot; i++)
 		{
@@ -525,15 +552,21 @@ int main(int argc, char* argv[])
 			return(-1);
 		}
 		cur_gros = UnderStolInt(d, 1, buf, sizeof(buf), tab);
-		fprintf(out_rank_dbd, "%s", track_name);
+		if (num_thr > 1)
+		{
+			fprintf(out_rank_dbd, "%s", track_name);
+			fprintf(out_rank_dbd, "\t%d", cur_gros);
+		}
 		fprintf(out_fold, "%s", track_name);
-		fprintf(out_rank_dbd, "\t%d", cur_gros);
 		fprintf(out_fold, "\t%d", cur_gros);
 		if (j == best_index1)
 		{
-			fprintf(out_rank_dbd_best, "%s", track_name);
+			if (num_thr > 1)
+			{
+				fprintf(out_rank_dbd_best, "%s", track_name);
+				fprintf(out_rank_dbd_best, "\t%d", cur_gros);
+			}
 			fprintf(out_fold_best, "%s", track_name);
-			fprintf(out_rank_dbd_best, "\t%d", cur_gros);
 			fprintf(out_fold_best, "\t%d", cur_gros);
 		}
 		int family_obs;
@@ -556,94 +589,97 @@ int main(int argc, char* argv[])
 			{
 				family_rank[i] = 0;
 			}
-			fprintf(out_rank_dbd, "\t");
+			if (num_thr > 1)fprintf(out_rank_dbd, "\t");
 			fprintf(out_fold, "\t");
 			if (family_rank[i] > 0)
 			{
-				fprintf(out_rank_dbd, "%d", family_rank[i]);
+				if (num_thr > 1)fprintf(out_rank_dbd, "%d", family_rank[i]);
 				fprintf(out_fold, "%f", ratio);
 			}
 			if (j == best_index1)
 			{
-				fprintf(out_rank_dbd_best, "\t");
+				if (num_thr > 1)fprintf(out_rank_dbd_best, "\t");
 				fprintf(out_fold_best, "\t");
 				if (family_rank[i] > 0)
 				{
-					fprintf(out_rank_dbd_best, "%d", family_rank[i]);
+					if (num_thr > 1)fprintf(out_rank_dbd_best, "%d", family_rank[i]);
 					fprintf(out_fold_best, "%f", ratio);
 				}
 			}
 		}
-		fprintf(out_rank_dbd, "\n");
+		if (num_thr > 1)fprintf(out_rank_dbd, "\n");
 		fprintf(out_fold, "\n");
 		if (j == best_index1)
 		{
-			fprintf(out_rank_dbd_best, "\n");
+			if (num_thr > 1)fprintf(out_rank_dbd_best, "\n");
 			fprintf(out_fold_best, "\n");
 		}
 	}
-	j = best_index1;
+	if (num_thr > 1)
 	{
-		for (i = 0; i < mtot; i++)
+		j = best_index1;
 		{
-			fprintf(out_rank_motif_best, "\t");
-			if (motif_rank[j][i] > 0)
+			for (i = 0; i < mtot; i++)
 			{
-				fprintf(out_rank_motif_best, "%d", motif_rank[j][i]);
-			}
-		}
-		fprintf(out_rank_motif_best, "\n");
-	}
-	for (k = 0; k < num_thr; k++)
-	{
-		fprintf(out_rank_motif[k], "%s\n\t\t", track_name0);
-		{
-			int x = min_gros;
-			for (j = 0; j < i_rez[k]; j++)
-			{
-				fprintf(out_rank_motif[k], "\t%d", x);
-				x += step_gros;
-			}
-		}
-		fprintf(out_rank_motif[k], "\n");
-	}
-	{
-		for (i = 0; i < mtot; i++)
-		{
-			if (motif_rank_min[i] != 0)
-			{
-				//printf("Motif %d\tThr %d\n", i + 1, motif_rank_min[i]);
-				//for (j = 0; j < i_rez[k]; j++)
-				for (k = 0; k < num_thr; k++)
+				fprintf(out_rank_motif_best, "\t");
+				if (motif_rank[j][i] > 0)
 				{
-					if (motif_rank_min[i] <= i_rez[k])
+					fprintf(out_rank_motif_best, "%d", motif_rank[j][i]);
+				}
+			}
+			fprintf(out_rank_motif_best, "\n");
+		}
+		for (k = 0; k < num_thr; k++)
+		{
+			fprintf(out_rank_motif[k], "%s\n\t\t", track_name0);
+			{
+				int x = min_gros;
+				for (j = 0; j < i_rez[k]; j++)
+				{
+					fprintf(out_rank_motif[k], "\t%d", x);
+					x += step_gros;
+				}
+			}
+			fprintf(out_rank_motif[k], "\n");
+		}
+		{
+			for (i = 0; i < mtot; i++)
+			{
+				if (motif_rank_min[i] != 0)
+				{
+					//printf("Motif %d\tThr %d\n", i + 1, motif_rank_min[i]);
+					for (k = 0; k < num_thr; k++)
 					{
-						//	printf("Rez %d\tThr %d\n", k + 1, i_rez[k]);
-						nmots[k]++;
-						fprintf(out_rank_motif[k], "%s\t%s\t%s", class_names[i], tf_names[i], motif_names[i]);
-						for (j = 0; j < i_rez[k]; j++)
+						if (motif_rank_min[i] <= g_sizes[i_rez[k]])
 						{
-							fprintf(out_rank_motif[k], "\t");
-							if (motif_rank[j][i] > 0)
+						//	printf("Rez %d\tThr %d\n", k + 1, g_sizes[i_rez[k]]);
+							nmots[k]++;
+							fprintf(out_rank_motif[k], "%s\t%s\t%s", class_names[i], tf_names[i], motif_names[i]);
+							for (j = 0; j < i_rez[k]; j++)
 							{
-								fprintf(out_rank_motif[k], "%d", motif_rank[j][i]);
-								//printf("%d %d\t", j+1, motif_rank[j][i]);
+								fprintf(out_rank_motif[k], "\t");
+								if (motif_rank[j][i] > 0)
+								{
+									fprintf(out_rank_motif[k], "%d", motif_rank[j][i]);
+								//	printf("%d %d\t", j + 1, motif_rank[j][i]);
+								}
 							}
+						//	printf("\n");
+							fprintf(out_rank_motif[k], "\n");
 						}
-						//printf("\n");
-						fprintf(out_rank_motif[k], "\n");
+						else break;
 					}
-					else break;
 				}
 			}
 		}
+		for (k = 0; k < num_thr; k++)fclose(out_rank_motif[k]);
+		for (k = 0; k < num_thr; k++)fprintf(out_sta, "%s\t%s\t#ThrAUPRC\t%f\t#motifs\t%d\n", fileo_rank_motif_base, ratc[k], polka_rez[k], nmots[k]);
+		fclose(out_sta);
+		fclose(out_rank_dbd);
+		fclose(out_rank_dbd_best);
+		fclose(out_rank_motif_best);
 	}
-	for (k = 0; k < num_thr; k++)fclose(out_rank_motif[k]);
-	for (k = 0; k < num_thr; k++)fprintf(out_sta, "%s\t%s\t#ThrAUPRC\t%f\t#motifs\t%d\n", fileo_rank_motif_base, ratc[k], polka_rez[k], nmots[k]);
-	fclose(out_sta);
-	fclose(out_rank_dbd);
 	fclose(out_fold);
-	fclose(out_rank_dbd_best);
 	fclose(out_fold_best);
 	fclose(in_dbd);
 	delete[] family_exp;
@@ -660,5 +696,6 @@ int main(int argc, char* argv[])
 	delete[] motif_names;
 	delete[] motif_rank;
 	delete[] auprc;
+	delete[] g_sizes;
 	return 1;
 }
