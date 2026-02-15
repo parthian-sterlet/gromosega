@@ -20,6 +20,7 @@ struct grpa // for all runs
 struct grps //for selected 8 points
 {
 	double rat;
+	double auprc;
 	int gsi;
 	int irez;	
 };
@@ -390,12 +391,14 @@ int main(int argc, char* argv[])
 	double auprc_min = allg[0].auprc;
 	double auprc_raz = auprc_max - auprc_min;
 	selg[num_thr1].rat = 1;
+	selg[num_thr1].auprc = auprc_max;
 	selg[num_thr1].gsi = best_size;
 	selg[num_thr1].irez = best_index1;
 	allg[0].rat = 0;
 	for (i = 1; i < nrun; i++)
 	{
-		allg[i].rat = allg[i - 1].rat;
+		int i1 = i - 1;
+		allg[i].rat = allg[i1].rat;
 		double ratio = (allg[i].auprc - auprc_min) / auprc_raz;
 		if (ratio > allg[i].rat)allg[i].rat = ratio;
 	}
@@ -430,6 +433,7 @@ int main(int argc, char* argv[])
 						selg[j].rat = allg[i].rat;
 						selg[j].gsi = allg[i].gsi;
 						selg[j].irez = allg[i].irez;
+						selg[j].auprc = allg[i].auprc;
 	//					printf("Ratio %.2f\t%.2f\t%d\t%d\n", rat[j], selg[j].rat, selg[j].irez, selg[j].gsi);
 						ix = i;
 						break;
@@ -694,7 +698,10 @@ int main(int argc, char* argv[])
 			}
 		}
 		for (k = 0; k < num_thr; k++)fclose(out_rank_motif[k]);
-		for (k = num_thr1; k >=0; k--)fprintf(out_sta, "%s\t%s\t#ThrAUPRC\t%f\tGroupSize\t%d\t#motifs\t%d\n", fileo_rank_motif_base, ratc[k], selg[k].rat, selg[k].gsi,nmots[k]);
+		for (k = num_thr1; k >= 0; k--)
+		{
+			fprintf(out_sta, "%s\t%s\tAUPRC\t%f\tRatioAUPRC\t%f\tNMotifsMax\t%d\tNMotifsTotal\t%d\n", fileo_rank_motif_base, ratc[k], selg[k].auprc, selg[k].rat, selg[k].gsi, nmots[k]);
+		}
 		fclose(out_sta);
 		fclose(out_rank_dbd);
 		fclose(out_rank_dbd_best);
