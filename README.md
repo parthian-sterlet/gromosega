@@ -63,7 +63,7 @@ The analysis of ChIP-seq data is more simple, the positive and negative DNA sequ
 Preliminary computed data are the results of TFBS motif recognition for promoters of all genes, they represent a table of WG (rows, number all genes in genome) × M<sub>TOT</sub> (columns, number of all motif in the input collection) of -Log<sub>10</sub>(ERR) values, these are best scores of motifs for promoters of all WG genes of genome. This step prepare recognition result for whole genome, this results fits any possible RNA-seq data containing gene lists, only one option may be here 5' and 3' ends of promoters relative to the transcription start sites, recognition for different borders of promoter gene regions can resolve this issues. The next preliminary analysis performs two steps. 
 
 ## Preparation of the lists of DEGs and not-DEGs according to rhe results of RNA-seq
-[table_rnaseq_filter.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_filter.cpp) selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
+[table_rnaseq_adapted.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_adapted.cpp) selects the lists of up-/down-regulated DEGs and not-DEGs from the RNA-seq data.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
 AT1G01200 and FBgn0000008.
@@ -71,12 +71,12 @@ AT1G01200 and FBgn0000008.
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
 5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
 6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
-7. double threshold of Fold Change for up-/down-regulated DEGs, default value FoldChange = 2, log2Fold(2) = 1, log2Fold(1/2) = -1.
-8. double threshold for Fold Change not DEGs, default value FoldChange = 1.25 = 1/0.8, log2Fold(1.25) = -log2Fold(0.8) = 0.321928094887362.
+7. integer value - minimal number of DEGs, selected (either up or down), default value 500.
+8. integer value - minimal number of non-DEGs, selected, default value 2500.
 9. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
-10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FoldChange) > 1. 
-11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FoldChange) < -1.
-12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, e.g. default: padj > 0.05 &  0.8 < FoldChange < 1.25.
+10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) > log2(FCup). 
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) < log2(FCdown).
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on not-DEGs, e.g. default: padj > 0.05 &  log2(FCdown) < log2(FC) < log2(FCup).
 13. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 
 This step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and not-DEGs.
