@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 	char d[50000], filei_prb[300], filei_dbd[300], filei_mot[300], filei_motifs_tfclass[300], file_sta[300];
 	char fileo_rank_dbd[300], fileo_rank_motif_base[300], fileo_rank_motif[300], fileo_fold[300], fileo_rank_dbd_best[300], fileo_rank_motif_best[300], fileo_fold_best[300], fileo_polka[300];
 	double precision_thr = 0.5;
-	int best_index = 0, best_size = 1, decil_tested = 2;
+	int best_index = 0, decil_tested = 2;
 	FILE* in_prb, * in_dbd, * in_motif, * in_motif_tfcass;
 	FILE* out_rank_dbd, * out_rank_dbd_best, * out_rank_motif_best, * out_fold, * out_fold_best, * out_polka, * out_sta;
 	FILE** out_rank_motif;
@@ -338,6 +338,8 @@ int main(int argc, char* argv[])
 	char track_name[300];
 	char track_name0[300];
 	const size_t lens = 100;
+	int irez_max = 0;
+	int gsi_max = 0;
 	for (i = 0; i < nrun; i++)
 	{
 		if (fgets(d, sizeof(d), in_prb) == NULL)
@@ -382,18 +384,18 @@ int main(int argc, char* argv[])
 			if (auprc1 > auprc_max)
 			{
 				auprc_max = auprc1;
-				best_index = i + 1;
-				best_size = cur_gros;
+				best_index = i;
+				irez_max = allg[i].irez;
+				gsi_max = allg[i].gsi;
 			}
 		}
-	}
-	int best_index1 = best_index - 1;
+	}	
 	double auprc_min = allg[0].auprc;
 	double auprc_raz = auprc_max - auprc_min;
 	selg[num_thr1].rat = 1;
 	selg[num_thr1].auprc = auprc_max;
-	selg[num_thr1].gsi = best_size;
-	selg[num_thr1].irez = best_index1;
+	selg[num_thr1].gsi = gsi_max;
+	selg[num_thr1].irez = irez_max;
 	allg[0].rat = 0;
 	for (i = 1; i < nrun; i++)
 	{
@@ -487,19 +489,20 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	int best_index1 = best_index + 1;
 	int* motif_rank_min;
 	motif_rank_min = new int[mtot];
 	if (motif_rank_min == NULL) { printf("Out of memory..."); return -1; };
 	for (i = 0; i < mtot; i++)motif_rank_min[i] = 0;
 	int** motif_rank;
-	motif_rank = new int* [best_index];
+	motif_rank = new int* [best_index1];
 	if (motif_rank == NULL) { printf("Out of memory..."); return -1; };
-	for (i = 0; i < best_index; i++)
+	for (i = 0; i < best_index1; i++)
 	{
 		motif_rank[i] = new int[mtot];
 		if (motif_rank == NULL) { printf("Out of memory..."); return -1; };
 	}
-	for (j = 0; j < best_index; j++)for (i = 0; i < mtot; i++)motif_rank[j][i] = 0;
+	for (j = 0; j < best_index1; j++)for (i = 0; i < mtot; i++)motif_rank[j][i] = 0;
 	int* family_rank;
 	family_rank = new int[nfamilies];
 	if (family_rank == NULL) { printf("Out of memory..."); return -1; };
@@ -525,7 +528,7 @@ int main(int argc, char* argv[])
 		fprintf(out_fold_best, "%s", d);
 	}	
 	size_t sizemot = lens * sizeof(track_name[0]);
-	for (j = 0; j < best_index; j++)
+	for (j = 0; j < best_index1; j++)
 	{
 		fgets(d, sizeof(d), in_motif);
 		DelChar(d, '\n');
@@ -538,7 +541,7 @@ int main(int argc, char* argv[])
 		int cur_gros = UnderStolInt(d, 1, buf, sizeof(buf), tab);
 		//fprintf(out_rank_motif, "%s", track_name);		
 		//fprintf(out_rank_motif, "\t%d", cur_gros);
-		if (j == best_index1)
+		if (j == best_index)
 		{
 			if (num_thr > 1)fprintf(out_rank_motif_best, "%s\t%d", track_name, cur_gros);
 		}
@@ -584,7 +587,7 @@ int main(int argc, char* argv[])
 		}
 		fprintf(out_fold, "%s", track_name);
 		fprintf(out_fold, "\t%d", cur_gros);
-		if (j == best_index1)
+		if (j == best_index)
 		{
 			if (num_thr > 1)
 			{
@@ -621,7 +624,7 @@ int main(int argc, char* argv[])
 				if (num_thr > 1)fprintf(out_rank_dbd, "%d", family_rank[i]);
 				fprintf(out_fold, "%f", ratio);
 			}
-			if (j == best_index1)
+			if (j == best_index)
 			{
 				if (num_thr > 1)fprintf(out_rank_dbd_best, "\t");
 				fprintf(out_fold_best, "\t");
@@ -634,7 +637,7 @@ int main(int argc, char* argv[])
 		}
 		if (num_thr > 1)fprintf(out_rank_dbd, "\n");
 		fprintf(out_fold, "\n");
-		if (j == best_index1)
+		if (j == best_index)
 		{
 			if (num_thr > 1)fprintf(out_rank_dbd_best, "\n");
 			fprintf(out_fold_best, "\n");
@@ -642,7 +645,7 @@ int main(int argc, char* argv[])
 	}
 	if (num_thr > 1)
 	{
-		j = best_index1;
+		j = best_index;
 		{
 			for (i = 0; i < mtot; i++)
 			{
@@ -719,7 +722,7 @@ int main(int argc, char* argv[])
 		delete[] tf_names[i];
 		delete[] motif_names[i];
 	}
-	for (i = 0; i < best_index; i++)delete[] motif_rank[i];
+	for (i = 0; i < best_index1; i++)delete[] motif_rank[i];
 	delete[] tf_names;
 	delete[] motif_names;
 	delete[] motif_rank;
