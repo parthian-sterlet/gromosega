@@ -37,8 +37,8 @@ separate compilation of all source files in VC++
 
 # Algorithm
 GroMoSeGA algorithm considers a pair of positive/negative sequence sets derived either from RNA-seq or ChIP-seq data. peaks. For RNA-seq data the positive and negative sequences are promoters of DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (padj) & Fold Change (FC) thresholds padj<sub>CRIT</sub> & log2(FC<sub>UP</sub>) / log2(FC<sub>DOWN</sub>): 
-- {padj < padj<sub>CRIT</sub> & log2(FC) > log2(FC<sub>UP</sub>) / {padj < padj<sub>CRIT</sub> & log2(FC) > log2(FC<sub>DOWN</sub>})  for up-/down-regulated DEGs, and 
-- {padj > padj<sub>CRIT</sub> &  log2(FC<sub>DOWN</sub>}) < log2(FC) < log2(FC<sub>UP</sub>)} for not DEGs.
+- for DEGs: {padj < padj<sub>CRIT</sub>, and log2(FC) > log2(FC<sub>UP</sub>) & log2(FC) < log2(FC<sub>DOWN</sub>) for up- & down-regulated DEGs; 
+- for non-DEGs: {padj > padj<sub>CRIT</sub> &  log2(FC<sub>DOWN</sub>}) < log2(FC) < log2(FC<sub>UP</sub>)} .
 The default value for the threshold padj<sub>CRIT</sub> is 0.05, threshold values log2(FC<sub>UP</sub>) and log2(FC<sub>DOWN</sub>) are selected to comprise fixed number of DEGs/non-DEGs, e.g. 500 / 2000. Genes with the maximal /minimal values of |log2(FC)| are compiled in DEGs / non-DEGs.
 
 For ChIP-seq data the positive / negative sequences are ChIP-seq peaks / randomly selected genomic loci, correspondingly. In the case if RNA-seq data, the , respectively. For ChIP-seq/ATAC-seq data the negative set contains [randomly selected genomic loci, adopted by G/C-content selected by the AntiNoise tool](https://github.com/parthian-sterlet/antinoise/). 
