@@ -116,8 +116,7 @@ int main(int argc, char* argv[])
 	int i, j, k;
 	char d[50000], filei_prb[300], filei_dbd[300], filei_mot[300], filei_motifs_tfclass[300], file_sta[300];
 	char fileo_rank_dbd[300], fileo_rank_motif_base[300], fileo_rank_motif[300], fileo_fold[300], fileo_rank_dbd_best[300], fileo_rank_motif_best[300], fileo_fold_best[300], fileo_polka[300];
-	double precision_thr = 0.5;
-	int best_index = 0, decil_tested = 2;
+	
 	FILE* in_prb, * in_dbd, * in_motif, * in_motif_tfcass;
 	FILE* out_rank_dbd, * out_rank_dbd_best, * out_rank_motif_best, * out_fold, * out_fold_best, * out_polka, * out_sta;
 	FILE** out_rank_motif;
@@ -333,13 +332,20 @@ int main(int argc, char* argv[])
 	//int col_prb_gros = max_gros + 4;	
 	int col_prb_gros = 3;
 	int col_prb_pr = col_prb_gros + 1;
-	fgets(d, sizeof(d), in_prb);//header
-	double auprc_max = -1;
+	fgets(d, sizeof(d), in_prb);//header	
 	char track_name[300];
 	char track_name0[300];
 	const size_t lens = 100;
 	int irez_max = 0;
 	int gsi_max = 0;
+	double auprc_max = -1;
+	double auprc_max_zero = -1;
+	int irez_max_zero = 0;
+	int gsi_max_zero = 0;
+	double precision_thr = 0.5;
+	int best_index = 0;
+	int best_index_zero = 0;
+	int decil_tested = 2;
 	for (i = 0; i < nrun; i++)
 	{
 		if (fgets(d, sizeof(d), in_prb) == NULL)
@@ -380,7 +386,7 @@ int main(int argc, char* argv[])
 		allg[i].auprc = auprc1;
 		if (gom < 2)
 		{
-			int cur_gros = UnderStolInt(d, col_prb_gros, buf, sizeof(buf), tab);
+			//int cur_gros = UnderStolInt(d, col_prb_gros, buf, sizeof(buf), tab);
 			if (auprc1 > auprc_max)
 			{
 				auprc_max = auprc1;
@@ -389,13 +395,36 @@ int main(int argc, char* argv[])
 				gsi_max = allg[i].gsi;
 			}
 		}
+		else
+		{
+			if (auprc1 > auprc_max_zero)
+			{
+				auprc_max_zero = auprc1;
+				best_index_zero = i;
+				irez_max_zero = allg[i].irez;
+				gsi_max_zero = allg[i].gsi;
+			}
+		}
 	}	
 	double auprc_min = allg[0].auprc;
-	double auprc_raz = auprc_max - auprc_min;
+	double auprc_raz;
+	if (auprc_max > -1)
+	{
+		auprc_raz = auprc_max - auprc_min;
+		selg[num_thr1].auprc = auprc_max;
+		selg[num_thr1].gsi = gsi_max;
+		selg[num_thr1].irez = irez_max;
+	}
+	else
+	{
+		auprc_raz = auprc_max_zero - auprc_min;
+		selg[num_thr1].auprc = auprc_max_zero;
+		selg[num_thr1].gsi = gsi_max_zero;
+		selg[num_thr1].irez = irez_max_zero;
+		auprc_max = auprc_max_zero;
+		best_index = best_index_zero;
+	}
 	selg[num_thr1].rat = 1;
-	selg[num_thr1].auprc = auprc_max;
-	selg[num_thr1].gsi = gsi_max;
-	selg[num_thr1].irez = irez_max;
 	allg[0].rat = 0;
 	for (i = 1; i < nrun; i++)
 	{
@@ -417,8 +446,8 @@ int main(int argc, char* argv[])
 		if (i1 % 10 == 0)printf("\n");
 		printf("%.3f\t", allg[i].rat);
 	}
-	printf("\n");
-	*/
+	printf("\n");*/
+	
 	int nmots[8]; //no. of motifs, from 8 various ratios
 	for (j = 0; j < num_thr; j++)nmots[j] = 0;
 	for (j = 0; j < num_thr1; j++)selg[j].rat = 0;
@@ -436,7 +465,7 @@ int main(int argc, char* argv[])
 						selg[j].gsi = allg[i].gsi;
 						selg[j].irez = allg[i].irez;
 						selg[j].auprc = allg[i].auprc;
-	//					printf("Ratio %.2f\t%.2f\t%d\t%d\n", rat[j], selg[j].rat, selg[j].irez, selg[j].gsi);
+				//		printf("Ratio %.2f\t%.2f\t%d\t%d\n", rat[j], selg[j].rat, selg[j].irez, selg[j].gsi);
 						ix = i;
 						break;
 					}
@@ -457,11 +486,11 @@ int main(int argc, char* argv[])
 	}
 	fclose(out_polka);
 	fclose(in_prb);
-	if (auprc_max == -1)
+	/*if (auprc_max == -1)
 	{
 		printf("Input file %s - maximal pAUPRC is not found!", filei_prb);
 		exit(1);
-	}
+	}*/
 	fgets(d, sizeof(d), in_motif);
 	if (print_headers == 1)
 	{
