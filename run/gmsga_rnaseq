@@ -1,5 +1,10 @@
 #!/bin/bash
 
+ftype=("dbd" "mot" "per" "prb")
+dire=("_up_" "_do_")
+tab="tab"
+emp="_"
+
 cd ../examples
 mkdir $4
 cd $4
@@ -16,37 +21,35 @@ for (( i=1; i <= $5; i+= $6 )) {
 
 }
 
-cp dbd_up_$4_1 dbd_up_$4
-cp dbd_do_$4_1 dbd_do_$4
+for (( i=0; i<4; i++));
+do
+for (( k=0; k<2; k++));
+do
+cp ${ftype[$i]}${dire[$k]}$4${emp}1 ${ftype[$i]}${dire[$k]}$4
+done
+done
 
-cp prb_up_$4_1 prb_up_$4
-cp prb_do_$4_1 prb_do_$4
-
-cp per_up_$4_1 per_up_$4
-cp per_do_$4_1 per_do_$4
-
-cp mot_up_$4_1 mot_up_$4
-cp mot_do_$4_1 mot_do_$4
-
-for (( i=1 + $6; i <= $5; i+= $6 )) {
-
-cat dbd_up_$4_$i >> dbd_up_$4
-cat dbd_do_$4_$i >> dbd_do_$4
-
-cat prb_up_$4_$i >> prb_up_$4
-cat prb_do_$4_$i >> prb_do_$4
-
-cat per_up_$4_$i >> per_up_$4
-cat per_do_$4_$i >> per_do_$4
-
-cat mot_up_$4_$i >> mot_up_$4
-cat mot_do_$4_$i >> mot_do_$4
-
-}
+for (( i=1 + $6; i <= $5; i+= $6 ));
+do
+for (( k=0; k<2; k++));
+do
+cat ${ftype[$i]}${dire[$k]}$4{emp}$i >> ${ftype[$i]}${dire[$k]}$4
+done
+done
 
 ../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	mot_up_$4 ../rnaseq/jaspar_tfclass_insects272tbp $5	1	$6	1	rank_dbd_up_$4 rank_mot_up_$4 fold_up_$4	rank_dbd_best_$4 rank_mot_best_$4 fold_best_$4	dynamics_$4
 ../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	mot_do_$4 ../rnaseq/jaspar_tfclass_insects272tbp $5	1	$6	0	rank_dbd_do_$4 rank_mot_do_$4 fold_do_$4	rank_dbd_best_$4 rank_mot_best_$4 fold_best_$4	dynamics_$4
 
+for (( i=0; i<4; i++));
+do
+table=${tab}${emp}${ftype[$i]}
+rm $table
+for (( k=0; k<2; k++));
+do
+filen=${ftype[$i]}${dire[$k]}$4
+cat $filen >> $table 
+done
+done
 
 cd ..
 cd ..
