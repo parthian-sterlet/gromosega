@@ -49,8 +49,17 @@ done
 done
 done
 
-../../src/minimax_pars.exe	prb_up_$4_$n	dbd_up_$4_$n	mot_up_$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	1	rank_dbd_up_$4_$n rank_mot_up_$4_$n fold_up_$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
-../../src/minimax_pars.exe	prb_do_$4_$n	dbd_do_$4_$n	mot_do_$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	0	rank_dbd_do_$4_$n rank_mot_do_$4_$n fold_do_$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
+for (( k=0; k<2; k++));
+do
+for (( n=0; n<$7; n++));
+do
+if [[ $n -gt 0 && $k -gt 0 ]]; then
+../../src/minimax_pars.exe	prb${dire[$k]}$4_$n	dbd${dire[$k]}$4_$n	mot${dire[$k]}$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	1	rank_dbd${dire[$k]}$4_$n rank_mot${dire[$k]}$4_$n fold${dire[$k]}$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
+else
+../../src/minimax_pars.exe	prb${dire[$k]}$4_$n	dbd${dire[$k]}$4_$n	mot${dire[$k]}$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	0	rank_dbd${dire[$k]}$4_$n rank_mot${dire[$k]}$4_$n fold${dire[$k]}$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
+fi
+done
+done
 
 for (( j=0; j<4; j++));
 do
@@ -58,8 +67,11 @@ table=${tab}_${ftype[$j]}
 rm $table
 for (( k=0; k<2; k++));
 do
-filen=${ftype[$j]}${dire[$k]}$4
+for (( n=0; n<$7; n++));
+do
+filen=${ftype[$j]}${dire[$k]}$4_$n
 cat $filen >> $table 
+done
 done
 done
 
