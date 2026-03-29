@@ -28,7 +28,7 @@ chmod a+x build.sh
 ./build.sh
 cd ../genomes
 tar -xvzf protcod_dm6_m1kb_p100_tss_272tbp.tab.tar.gz
-cd ..
+cd ../run
 
 ```
 * In Windows system:
