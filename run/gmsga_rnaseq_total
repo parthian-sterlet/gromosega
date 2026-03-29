@@ -24,6 +24,7 @@ do
 done
 done
 
+
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
@@ -31,21 +32,20 @@ do
 cp ${ftype[$j]}_${dire[$k]}_$4_1 ${ftype[$j]}_${dire[$k]}_$4
 done
 done
-
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
 for (( i=1+$6; i<=$5; i+=$6 ));
 do
-cat ${ftype[$j]}$_{dire[$k]}_$4_$i >> ${ftype[$j]}$_{dire[$k]}_$4
+cat ${ftype[$j]}_${dire[$k]}_$4_$i >> ${ftype[$j]}_${dire[$k]}_$4
 done
 done
 done
 
 for (( k=0; k<2; k++));
 do
-../../src/minimax_pars.exe	prb_{dire[$k]}_$4	dbd_{dire[$k]}_$4	mot_{dire[$k]}_$4	../rnaseq/jaspar2026_tfclass_insects272tbp	$5	1	$6	${zo[$k]}	dynamics	fold_{dire[$k]}_$4	fold_best	rank_dbd_{dire[$k]}_$4	rank_dbd_best	rank_mot_{dire[$k]}_$4	rank_mot_best	ratio_dbd_{dire[$k]}_$4	ratio_dbd_best	ratio_mot_{dire[$k]}_$4	ratio_mot_best
+../../src/minimax_pars.exe	prb_${dire[$k]}_$4	dbd_${dire[$k]}_$4	mot_${dire[$k]}_$4	../rnaseq/jaspar2026_tfclass_insects272tbp	$5	1	$6	${zo[$k]}	dynamics	fold_${dire[$k]}_$4	fold_best	rank_dbd_${dire[$k]}_$4	rank_dbd_best	rank_mot_${dire[$k]}_$4	rank_mot_best	ratio_dbd_${dire[$k]}_$4	ratio_dbd_best	ratio_mot_${dire[$k]}_$4	ratio_mot_best
 done
 
 for (( j=0; j<4; j++));
@@ -54,7 +54,7 @@ table=${tab}_${ftype[$j]}
 rm $table
 for (( k=0; k<2; k++));
 do
-filen=${ftype[$j]}$_{dire[$k]}_$4
+filen=${ftype[$j]}_${dire[$k]}_$4
 cat $filen >> $table 
 done
 done
