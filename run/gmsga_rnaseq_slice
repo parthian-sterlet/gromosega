@@ -9,38 +9,49 @@ cd ../examples
 mkdir $4
 cd $4
 
-../../src/table_rnaseq_adapted.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 200 1000 0.05 up_$4 do_$4 no_$4 0
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab up_$4 up_$4.tab
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab do_$4 do_$4.tab
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab no_$4 no_$4.tab
+../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 1000 0.05 up_$4 do_$4 no_$4 0
+for (( n=0; n<$7; n++));
+do
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab up_$4_$n up_$4_$n.tab
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab do_$4_$n do_$4_$n.tab
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab no_$4_$n no_$4_$n.tab
+done
 
-for (( i=1; i <= $5; i+= $6 )) {
+for (( n=0; n<$7; n++));
+do
+for (( i=1; i<=$5; i+= $6 )) 
+do
+../../src/minimax.exe	up_$4_$n.tab no_$4_$n.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_up_$4_$n_$i prb_up_$4_$n_$i cex_up_$4_$n_$i cin_up_$4_$n_$i out_up_$4_$n_$i per_up_$4_$n_$i dbd_up_$4_$n_$i mot_up_$4_$n_$i log_up_$4_$n_$i
+../../src/minimax.exe	do_$4_$n.tab no_$4_$n.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_do_$4_$n_$i prb_do_$4_$n_$i cex_do_$4_$n_$i cin_do_$4_$n_$i out_do_$4_$n_$i per_do_$4_$n_$i dbd_do_$4_$n_$i mot_do_$4_$n_$i log_do_$4_$n_$i
+done
+done
 
-../../src/minimax.exe	up_$4.tab no_$4.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_up_$4_$i prb_up_$4_$i cex_up_$4_$i cin_up_$4_$i out_up_$4_$i per_up_$4_$i dbd_up_$4_$i mot_up_$4_$i log_up_$4_$i
-../../src/minimax.exe	do_$4.tab no_$4.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_do_$4_$i prb_do_$4_$i cex_do_$4_$i cin_do_$4_$i out_do_$4_$i per_do_$4_$i dbd_do_$4_$i mot_do_$4_$i log_do_$4_$i
-
-}
-
+for (( n=0; n<$7; n++));
+do
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-cp ${ftype[$j]}${dire[$k]}$4${emp}1 ${ftype[$j]}${dire[$k]}$4
+cp ${ftype[$j]}${dire[$k]}$4${emp}$n{emp}1 ${ftype[$j]}${dire[$k]}$4${emp}$n
 done
 done
+done
+
+for (( n=0; n<$7; n++));
+do
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
 for (( i=1 + $6; i <= $5; i+= $6 ));
 do
-cat ${ftype[$j]}${dire[$k]}$4${emp}$i >> ${ftype[$j]}${dire[$k]}$4
+cat ${ftype[$j]}${dire[$k]}$4{emp}$n${emp}$i >> ${ftype[$j]}${dire[$k]}$4{emp}$n
 done
 done
 done
 
-../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	mot_up_$4 ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	1	rank_dbd_up_$4 rank_mot_up_$4 fold_up_$4	rank_dbd_best_$4 rank_mot_best_$4 fold_best_$4	dynamics_$4
-../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	mot_do_$4 ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	0	rank_dbd_do_$4 rank_mot_do_$4 fold_do_$4	rank_dbd_best_$4 rank_mot_best_$4 fold_best_$4	dynamics_$4
+../../src/minimax_pars.exe	prb_up_$4_$n	dbd_up_$4_$n	mot_up_$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	1	rank_dbd_up_$4_$n rank_mot_up_$4_$n fold_up_$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
+../../src/minimax_pars.exe	prb_do_$4_$n	dbd_do_$4_$n	mot_do_$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	0	rank_dbd_do_$4_$n rank_mot_do_$4_$n fold_do_$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
 
 for (( j=0; j<4; j++));
 do
