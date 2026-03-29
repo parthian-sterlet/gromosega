@@ -2,8 +2,8 @@
 
 chmod a+x rnaseq_total_com_line
 chmod a+x rnaseq_slice com_line
-chmod a+x gmsga_total_rnaseq
-chmod a+x gmsga_slice_chipseq
+chmod a+x gmsga_rnaseq_total
+chmod a+x gmsga_rnaseq_slice
 
 cd ../src
 
