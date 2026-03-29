@@ -31,7 +31,7 @@ for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-cp ${ftype[$j]}${dire[$k]}$4_$n{emp}1 ${ftype[$j]}${dire[$k]}$4_$n
+cp ${ftype[$j]}${dire[$k]}$4_$n_1 ${ftype[$j]}${dire[$k]}$4_$n
 done
 done
 done
@@ -44,7 +44,7 @@ for (( k=0; k<2; k++));
 do
 for (( i=1 + $6; i <= $5; i+= $6 ));
 do
-cat ${ftype[$j]}${dire[$k]}$4{emp}$n_$i >> ${ftype[$j]}${dire[$k]}$4{emp}$n
+cat ${ftype[$j]}${dire[$k]}$4_$n_$i >> ${ftype[$j]}${dire[$k]}$4_$n
 done
 done
 done
