@@ -3,7 +3,6 @@
 ftype=("dbd" "mot" "per" "prb")
 dire=("_up_" "_do_")
 tab="tab"
-emp="_"
 
 cd ../examples
 mkdir $4
@@ -25,7 +24,7 @@ for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-cp ${ftype[$j]}${dire[$k]}$4${emp}1 ${ftype[$j]}${dire[$k]}$4
+cp ${ftype[$j]}${dire[$k]}$4_1 ${ftype[$j]}${dire[$k]}$4
 done
 done
 for (( j=0; j<4; j++));
@@ -34,7 +33,7 @@ for (( k=0; k<2; k++));
 do
 for (( i=1 + $6; i <= $5; i+= $6 ));
 do
-cat ${ftype[$j]}${dire[$k]}$4${emp}$i >> ${ftype[$j]}${dire[$k]}$4
+cat ${ftype[$j]}${dire[$k]}$4_$i >> ${ftype[$j]}${dire[$k]}$4
 done
 done
 done
@@ -44,7 +43,7 @@ done
 
 for (( j=0; j<4; j++));
 do
-table=${tab}${emp}${ftype[$j]}
+table=${tab}_${ftype[$j]}
 rm $table
 for (( k=0; k<2; k++));
 do
