@@ -1,45 +1,52 @@
 #!/bin/bash
 
 ftype=("dbd" "mot" "per" "prb")
-dire=("_up_" "_do_")
+dire=("up" "do" "no")
 tab="tab"
+zo=("0" "1")
 
 cd ../examples
 mkdir $4
 cd $4
 
 ../../src/table_rnaseq_adapted.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 200 1000 0.05 up_$4 do_$4 no_$4 0
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab up_$4 up_$4.tab
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab do_$4 do_$4.tab
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab no_$4 no_$4.tab
 
-for (( i=1; i <= $5; i+= $6 )) {
+for (( k=0; k<3; k++));
+do
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab ${dire[$k]}_$4 ${dire[$k]}_$4.tab
+done
 
-../../src/minimax.exe	up_$4.tab no_$4.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_up_$4_$i prb_up_$4_$i cex_up_$4_$i cin_up_$4_$i out_up_$4_$i per_up_$4_$i dbd_up_$4_$i mot_up_$4_$i log_up_$4_$i
-../../src/minimax.exe	do_$4.tab no_$4.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_do_$4_$i prb_do_$4_$i cex_do_$4_$i cin_do_$4_$i out_do_$4_$i per_do_$4_$i dbd_do_$4_$i mot_do_$4_$i log_do_$4_$i
+for (( k=0; k<2; k++));
+do
+for (( i=1; i<=$5; i+=$6 ));
+do
+../../src/minimax.exe	${dire[$k]}_$4.tab no_$4.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_${dire[$k]}_$4_$i prb_${dire[$k]}_$4_$i cex_${dire[$k]}_$4_$i cin_${dire[$k]}_$4_$i out_${dire[$k]}_$4_$i per_${dire[$k]}_$4_$i dbd_${dire[$k]}_$4_$i mot_${dire[$k]}_$4_$i log_${dire[$k]}_$4_$i
+done
+done
 
-}
 
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-cp ${ftype[$j]}${dire[$k]}$4_1 ${ftype[$j]}${dire[$k]}$4
+cp ${ftype[$j]}_${dire[$k]}_$4_1 ${ftype[$j]}_${dire[$k]}_$4
 done
 done
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-for (( i=1 + $6; i <= $5; i+= $6 ));
+for (( i=1+$6; i<=$5; i+=$6 ));
 do
-cat ${ftype[$j]}${dire[$k]}$4_$i >> ${ftype[$j]}${dire[$k]}$4
+cat ${ftype[$j]}$_{dire[$k]}_$4_$i >> ${ftype[$j]}$_{dire[$k]}_$4
 done
 done
 done
 
-../../src/minimax_pars.exe	prb_up_$4	dbd_up_$4	mot_up_$4	../rnaseq/jaspar2026_tfclass_insects272tbp	$5	1	$6	1	dynamics	fold_up_$4	fold_best	rank_dbd_up_$4	rank_dbd_best	rank_mot_up_$4	rank_mot_best	ratio_dbd_up_$4	ratio_dbd_best	ratio_mot_up_$4	ratio_mot_best
-../../src/minimax_pars.exe	prb_do_$4	dbd_do_$4	mot_do_$4	../rnaseq/jaspar2026_tfclass_insects272tbp	$5	1	$6	0	dynamics	fold_do_$4	fold_best	rank_dbd_do_$4	rank_dbd_best	rank_mot_do_$4	rank_mot_best	ratio_dbd_do_$4	ratio_dbd_best	ratio_mot_do_$4	ratio_mot_best
+for (( k=0; k<2; k++));
+do
+../../src/minimax_pars.exe	prb_{dire[$k]}_$4	dbd_{dire[$k]}_$4	mot_{dire[$k]}_$4	../rnaseq/jaspar2026_tfclass_insects272tbp	$5	1	$6	${zo[$k]}	dynamics	fold_{dire[$k]}_$4	fold_best	rank_dbd_{dire[$k]}_$4	rank_dbd_best	rank_mot_{dire[$k]}_$4	rank_mot_best	ratio_dbd_{dire[$k]}_$4	ratio_dbd_best	ratio_mot_{dire[$k]}_$4	ratio_mot_best
+done
 
 for (( j=0; j<4; j++));
 do
@@ -47,7 +54,7 @@ table=${tab}_${ftype[$j]}
 rm $table
 for (( k=0; k<2; k++));
 do
-filen=${ftype[$j]}${dire[$k]}$4
+filen=${ftype[$j]}$_{dire[$k]}_$4
 cat $filen >> $table 
 done
 done
