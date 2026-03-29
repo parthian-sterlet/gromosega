@@ -24,7 +24,6 @@ do
 done
 done
 
-
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
@@ -32,6 +31,7 @@ do
 cp ${ftype[$j]}_${dire[$k]}_$4_1 ${ftype[$j]}_${dire[$k]}_$4
 done
 done
+
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
