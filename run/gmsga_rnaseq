@@ -33,7 +33,7 @@ for (( i=1 + $6; i <= $5; i+= $6 ));
 do
 for (( k=0; k<2; k++));
 do
-cat ${ftype[$i]}${dire[$k]}$4{emp}$i >> ${ftype[$i]}${dire[$k]}$4
+cat ${ftype[$i]}${dire[$k]}$4${emp}$i >> ${ftype[$i]}${dire[$k]}$4
 done
 done
 
