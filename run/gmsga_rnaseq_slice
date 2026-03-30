@@ -1,76 +1,98 @@
 #!/bin/bash
 
 ftype=("dbd" "mot" "per" "prb")
-dire=("_up_" "_do_")
+dire=("up" "do" "no")
 tab="tab"
+emp="_"
+ext=".tab"
 
 cd ../examples
 mkdir $4
 cd $4
 
 ../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 1000 0.05 up_$4 do_$4 no_$4 0
-for (( n=0; n<$7; n++));
+
+for (( n=1; n <= $7; n++));
 do
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab up_$4_$n up_$4_$n.tab
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab do_$4_$n do_$4_$n.tab
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab no_$4_$n no_$4_$n.tab
+for (( k=0; k<3; k++));
+do
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab ${dire[$k]}_$4_$n ${dire[$k]}_$4_$n.tab
+done
+done
+for (( n=1; n <= $7; n++));
+do
+fileno=${dire[2]}${emp}$4${emp}$n${ext}
+for (( k=0; k<2; k++));
+do
+fileye=${dire[$k]}${emp}$4${emp}$n${ext}
+for (( i=1; i<=$5; i+=$6 ));
+do
+name=${emp}${dire[$k]}${emp}$4${emp}$n${emp}$i
+#echo -e "$fileye $fileno slice $n nmotifs $i name $name\n"
+../../src/minimax.exe	${fileye} ${fileno} ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc${name} prb${name} cex${name} cin${name} out${name} per${name} dbd${name} mot${name} log${name}
+done
+done
 done
 
-for (( n=0; n<$7; n++));
-do
-for (( i=1; i<=$5; i+= $6 )) 
-do
-../../src/minimax.exe	up_$4_$n.tab no_$4_$n.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_up_$4_$n_$i prb_up_$4_$n_$i cex_up_$4_$n_$i cin_up_$4_$n_$i out_up_$4_$n_$i per_up_$4_$n_$i dbd_up_$4_$n_$i mot_up_$4_$n_$i log_up_$4_$n_$i
-../../src/minimax.exe	do_$4_$n.tab no_$4_$n.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_do_$4_$n_$i prb_do_$4_$n_$i cex_do_$4_$n_$i cin_do_$4_$n_$i out_do_$4_$n_$i per_do_$4_$n_$i dbd_do_$4_$n_$i mot_do_$4_$n_$i log_do_$4_$n_$i
-done
-done
-
-for (( n=0; n<$7; n++));
+for (( n=1; n<=$7; n++));
 do
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-cp ${ftype[$j]}${dire[$k]}$4_$n_1 ${ftype[$j]}${dire[$k]}$4_$n
+name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+cp ${name}${emp}1 ${name}
 done
 done
 done
 
-for (( n=0; n<$7; n++));
+echo -e "Rename 1\n"
+
+for (( n=1; n<=$7; n++));
 do
 for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-for (( i=1 + $6; i <= $5; i+= $6 ));
+name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+#echo -e "name $name\n"
+for (( i=1+$6; i<=$5; i+=$6 ));
 do
-cat ${ftype[$j]}${dire[$k]}$4_$n_$i >> ${ftype[$j]}${dire[$k]}$4_$n
+cat ${name}${emp}$i >> ${name}
+done
 done
 done
 done
 
+#echo -e "Rename 2\n"
 for (( k=0; k<2; k++));
 do
-for (( n=0; n<$7; n++));
+for (( n=1; n<=$7; n++));
 do
-if [[ $n -gt 0 && $k -gt 0 ]]; then
-../../src/minimax_pars.exe	prb${dire[$k]}$4_$n	dbd${dire[$k]}$4_$n	mot${dire[$k]}$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	1	rank_dbd${dire[$k]}$4_$n rank_mot${dire[$k]}$4_$n fold${dire[$k]}$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
+name=${emp}${dire[$k]}${emp}$4${emp}$n
+#echo -e "name $name\n"
+if [[ $k -eq 0 && $n -eq 1 ]]; then
+zo=1
 else
-../../src/minimax_pars.exe	prb${dire[$k]}$4_$n	dbd${dire[$k]}$4_$n	mot${dire[$k]}$4_$n ../rnaseq/jaspar2026_tfclass_insects272tbp $5	1	$6	0	rank_dbd${dire[$k]}$4_$n rank_mot${dire[$k]}$4_$n fold${dire[$k]}$4_$n	rank_dbd_best_$4_$n rank_mot_best fold_best	dynamics
+zo=0
 fi
+../../src/minimax_pars.exe	prb${name}	dbd${name}	mot${name}	../rnaseq/jaspar2026_tfclass_insects272tbp	$5 	1	$6 	$zo	dynamics	fold${name}	fold_best	rank_dbd${name}	rank_dbd_best	rank_mot${name}	rank_mot_best	ratio_dbd${name}	ratio_dbd_best	ratio_mot${name}	ratio_mot_best
 done
 done
 
+echo -e "Rename 3\n"
 for (( j=0; j<4; j++));
 do
-table=${tab}_${ftype[$j]}
+table=${tab}${emp}${ftype[$j]}
+#echo -e "table $table\n"
 rm $table
 for (( k=0; k<2; k++));
 do
-for (( n=0; n<$7; n++));
+for (( n=1; n<=$7; n++));
 do
-filen=${ftype[$j]}${dire[$k]}$4_$n
-cat $filen >> $table 
+filen=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+#echo -e "filen $filen\n"
+cat $filen >> $table
 done
 done
 done
