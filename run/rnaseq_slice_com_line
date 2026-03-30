@@ -1,0 +1,2 @@
+./gmsga_rnaseq_slice E-MTAB-5516-query-results.tsv 3 4 3h50 4 1 5
+# ./gmsga_rnaseq_slice E-MTAB-5516-query-results.tsv 5 6 6h50 4 1 5
