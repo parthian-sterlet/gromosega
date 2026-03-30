@@ -46,8 +46,6 @@ done
 done
 done
 
-echo -e "Rename 1\n"
-
 for (( n=1; n<=$7; n++));
 do
 for (( j=0; j<4; j++));
@@ -64,7 +62,6 @@ done
 done
 done
 
-#echo -e "Rename 2\n"
 for (( k=0; k<2; k++));
 do
 for (( n=1; n<=$7; n++));
@@ -80,7 +77,6 @@ fi
 done
 done
 
-echo -e "Rename 3\n"
 for (( j=0; j<4; j++));
 do
 table=${tab}${emp}${ftype[$j]}
@@ -96,6 +92,3 @@ cat $filen >> $table
 done
 done
 done
-
-cd ..
-cd ..
