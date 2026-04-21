@@ -5,6 +5,12 @@ dire=("up" "do" "no")
 tab="tab"
 emp="_"
 ext=".tab"
+# $1 RNA-seq experiment ID
+# $2,$3 int columns log2Fold,,padj in input RNa-seq table
+# $4 Name of dataset used as folder name here
+# $5,$6 Maximal number of motifs per group, step of Maximal number of motifs per group
+# $7 Number of separate non-overlapped sets RNA-seq DEGs 
+# $8 Number of top-scored TF families in output data
 
 cd ../examples
 mkdir $4
@@ -90,5 +96,16 @@ filen=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
 #echo -e "filen $filen\n"
 cat $filen >> $table
 done
+
+for (( k=0; k<2; k++));
+do
+for (( n=1; n<=$7; n++));
+do
+name=${emp}${dire[$k]}${emp}$4${emp}$n
+#echo -e "name $name\n"
+../../src/minimax_sort.exe ../examples ratio_dbd${name}	sort	1	$8
 done
 done
+
+cd .. 
+cd ..
