@@ -5,6 +5,12 @@ dire=("up" "do" "no")
 tab="tab"
 zo=("0" "1")
 
+# $1 RNA-seq experiment ID
+# $2,$3 int columns log2Fold,,padj in input RNa-seq table
+# $4 Name of dataset used as folder name here
+# $5,$6 Maximal number of motifs per group, step of Maximal number of motifs per group
+# $7 Number of top-scored TF families in output data
+
 cd ../examples
 mkdir $4
 cd $4
@@ -59,7 +65,7 @@ cat $filen >> $table
 done
 done
 
-../../src/minimax_sort.exe ../examples ratio_dbd_best	sort	2	10
+../../src/minimax_sort.exe ../examples ratio_dbd_best	sort	2	$7
 
 cd ..
 cd ..
