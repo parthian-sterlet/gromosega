@@ -5,6 +5,7 @@ dire=("up" "do" "no")
 tab="tab"
 emp="_"
 ext=".tab"
+
 # $1 RNA-seq experiment ID
 # $2,$3 int columns log2Fold,,padj in input RNa-seq table
 # $4 Name of dataset used as folder name here
