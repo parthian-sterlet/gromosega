@@ -15,17 +15,17 @@ ext=".tab"
 
 cd ../examples
 mkdir $4
-cd $4
 
-../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 1000 0.05 up_$4 do_$4 no_$4 0
+../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 1000 0.05 ../examples/$4/up_$4 ../examples/$4/do_$4 ../examples/$4/no_$4 0
 
 for (( n=1; n <= $7; n++));
 do
 for (( k=0; k<3; k++));
 do
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab ${dire[$k]}_$4_$n ${dire[$k]}_$4_$n.tab
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab ../examples/$4/${dire[$k]}_$4_$n ../examples/$4/${dire[$k]}_$4_$n.tab
 done
 done
+
 for (( n=1; n <= $7; n++));
 do
 fileno=${dire[2]}${emp}$4${emp}$n${ext}
@@ -36,7 +36,7 @@ for (( i=1; i<=$5; i+=$6 ));
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n${emp}$i
 #echo -e "$fileye $fileno slice $n nmotifs $i name $name\n"
-../../src/minimax.exe	${fileye} ${fileno} ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc${name} prb${name} cex${name} cin${name} out${name} per${name} dbd${name} mot${name} log${name}
+../../src/minimax.exe	../examples/$4/${fileye} ../examples/$4/${fileno} ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc${name} ../examples/$4/ prb${name} cex${name} cin${name} out${name} per${name} dbd${name} mot${name} log${name}
 done
 done
 done
@@ -47,8 +47,8 @@ for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
-cp ${name}${emp}1 ${name}
+name=../examples/$4/${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+cp ../examples/$4/${name}${emp}1 ../examples/$4/${name}
 done
 done
 done
@@ -59,7 +59,7 @@ for (( j=0; j<4; j++));
 do
 for (( k=0; k<2; k++));
 do
-name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+name=../examples/$4/${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
 #echo -e "name $name\n"
 for (( i=1+$6; i<=$5; i+=$6 ));
 do
@@ -80,7 +80,7 @@ zo=1
 else
 zo=0
 fi
-../../src/minimax_pars.exe	prb${name}	dbd${name}	mot${name}	../rnaseq/jaspar2026_tfclass_insects272tbp	$5 	1	$6 	$zo	dynamics	fold${name}	fold_best	rank_dbd${name}	rank_dbd_best	rank_mot${name}	rank_mot_best	ratio_dbd${name}	ratio_dbd_best	ratio_mot${name}	ratio_mot_best
+../../src/minimax_pars.exe	../examples/$4/ prb${name}	dbd${name}	mot${name}	../rnaseq/jaspar2026_tfclass_insects272tbp	$5 	1	$6 	$zo	dynamics	fold${name}	fold_best	rank_dbd${name}	rank_dbd_best	rank_mot${name}	rank_mot_best	ratio_dbd${name}	ratio_dbd_best	ratio_mot${name}	ratio_mot_best
 done
 done
 
