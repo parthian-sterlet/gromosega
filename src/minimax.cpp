@@ -647,17 +647,16 @@ int PearsonExternal(combi* a, combi* b, int msel, int mtot, double** errp, doubl
 }
 int main(int argc, char* argv[])
 {
-	char filei_tabp[300], filei_tabn[300], filei_motifs_tfclass[300], d[50000];
+	char filei_tabp[300], filei_tabn[300], filei_motifs_tfclass[300], d[50000], path_out[300];
 	char fileo_prc[300], fileo_prc_bin_1st[300], fileo[300], fileo_1st[300], fileo_corr_ext[300], fileo_corr_int[300], fileo_class_hist[300], fileo_motif_hist[300], file_log[300];
 	int i, j, k, m, msel, msel_max, batch_run, mtot = 0, nseqp = 0, nseqn = 0;
 	FILE* inp, * inn, * in_motif_tfcass, * outh, *outlog, *out, * out_1st, *out_corr_ext, * out_corr_int, * out_class_hist, * out_motif_hist, *out_prc_bin_1st;
 
-	if (argc != 17)
+	if (argc != 18)
 	{
 		printf("Syntax: 1filei_tabp 2filei_tabn 3filei_TFClass_table Motif_or_TF_names,Class_Family_names,Class_Family_index,Class_Family_unique 4int motif_count 5int motif_count_max ");
-		printf("6int solo_run 7double -Log10[ERRthresh] 8fileo_prc_all 9fileo_prc_bin_1st 10fileo_corr_external 11fileo_corr_internal "); 
-		printf("12fileo_results 13fileo_results_1st 14fileo_class_hist 15fileo_motif_hist 16fileo_log");
-		
+		printf("6int batch_run 7double -Log10[ERRthresh] 8char path_out 9fileo_prc_all 10fileo_prc_bin_1st 11fileo_corr_external 12fileo_corr_internal "); 
+		printf("13fileo_results 14fileo_results_1st 15fileo_class_hist 16fileo_motif_hist 17fileo_log");		
 		exit(1);
 	}
 	strcpy(filei_tabp, argv[1]);
@@ -667,15 +666,27 @@ int main(int argc, char* argv[])
 	msel_max = atoi(argv[5]);//max 4islo motivov for several parallel runs
 	batch_run = atoi(argv[6]);//any number besides 1 means solo runs, solo run implies printing all headers 
 	double fp2 = atof(argv[7]); //ERR threshold for pAUPRC	
-	strcpy(fileo_prc, argv[8]);	
-	strcpy(fileo_prc_bin_1st, argv[9]);
-	strcpy(fileo_corr_ext, argv[10]);
-	strcpy(fileo_corr_int, argv[11]);
-	strcpy(fileo, argv[12]);
-	strcpy(fileo_1st, argv[13]);
-	strcpy(fileo_class_hist, argv[14]);
-	strcpy(fileo_motif_hist, argv[15]);
-	strcpy(file_log, argv[16]);
+	strcat(path_out, argv[8]);
+
+	strcpy(fileo_prc, path_out);
+	strcpy(fileo_prc_bin_1st, path_out);
+	strcpy(fileo_corr_ext, path_out);
+	strcpy(fileo_corr_int, path_out);
+	strcpy(fileo, path_out);
+	strcpy(fileo_1st, path_out);
+	strcpy(fileo_class_hist, path_out);
+	strcpy(fileo_motif_hist, path_out);
+	strcpy(file_log, path_out);
+
+	strcat(fileo_prc, argv[9]);
+	strcat(fileo_prc_bin_1st, argv[10]);
+	strcat(fileo_corr_ext, argv[11]);
+	strcat(fileo_corr_int, argv[12]);
+	strcat(fileo, argv[13]);
+	strcat(fileo_1st, argv[14]);
+	strcat(fileo_class_hist, argv[15]);
+	strcat(fileo_motif_hist, argv[16]);
+	strcat(file_log, argv[17]);
 
 	srand((unsigned)time(NULL));
 	if ((inp = fopen(filei_tabp, "rt")) == NULL)
@@ -1272,7 +1283,7 @@ int main(int argc, char* argv[])
 		printf("Input file %s can't be opened!\n", fileo_class_hist);
 		exit(1);
 	}
-	if (msel == 1)
+	if (msel == 1 || batch_run == 0)
 	{
 		fprintf(out_class_hist, "\t");
 		for (i = 0; i < class_count; i++)fprintf(out_class_hist, "\t%d",class_inx_tot[i]);

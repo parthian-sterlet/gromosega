@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
 {
 	int i, j, k;
 	char d[50000], filei_prb[300], filei_dbd[300], filei_mot[300], filei_motifs_tfclass[300], file_sta[300];
-	char fileo_fold[300], fileo_fold_best[300], fileo_polka[300];
+	char fileo_fold[300], fileo_fold_best[300], fileo_polka[300], path_work[300];
 	char fileo_rank_dbd[300], fileo_rank_motif_base[300], fileo_rank_motif[300], fileo_rank_dbd_best[300], fileo_rank_motif_best[300];
 	char fileo_ratio_dbd[300], fileo_ratio_motif_base[300], fileo_ratio_motif[300], fileo_ratio_dbd_best[300], fileo_ratio_motif_best[300];
 	
@@ -126,44 +126,67 @@ int main(int argc, char* argv[])
 	FILE* out_ratio_dbd, * out_ratio_dbd_best, * out_ratio_motif_best;
 	FILE** out_rank_motif, ** out_ratio_motif;
 
-	if (argc != 20)
+	if (argc != 21)
 	{
-		puts("Sintax: 1file in_table_prb 2file in_table_dbd file 3in_table_mot 4filei_TFClass_table"); //file in_table_per,
-		puts("5int nrun(default 50) 6int min_group_size 7int step_group_size 8int print_headers");
-		puts("9file_out_dynamics 10file_out_fold 11file_out_fold_best" );
-		puts("12file_out_rank_dbd 13file_out_rank_dbd_best 14file_out_rank_motif_base 15file_out_rank_motif_best ");
-		puts("16file_out_ratio_dbd 17file_out_ratio_dbd_best 18file_out_ratio_motif_base 19file_out_ratio_motif_best ");
+		puts("Sintax: 1char path_work 2file in_table_prb 3file in_table_dbd file 4in_table_mot 5filei_TFClass_table"); //file in_table_per,
+		puts("6int nrun(default 50) 7int min_group_size 8int step_group_size 9int print_headers");
+		puts("10file_out_dynamics 11file_out_fold 12file_out_fold_best" );
+		puts("13file_out_rank_dbd 14file_out_rank_dbd_best 15file_out_rank_motif_base 16file_out_rank_motif_best ");
+		puts("17file_out_ratio_dbd 18file_out_ratio_dbd_best 19file_out_ratio_motif_base 20file_out_ratio_motif_best ");
 		return -1;
 	}
-	//strcpy(filei_per, argv[1]);//in_file
-	strcpy(filei_prb, argv[1]);//in_file
-	strcpy(filei_dbd, argv[2]);//in_file
-	strcpy(filei_mot, argv[3]);//in_file
-	strcpy(filei_motifs_tfclass, argv[4]);
-	int nrun = atoi(argv[5]); // no. of ga runs
-	int min_gros = atoi(argv[6]);//min group size
-	int step_gros = atoi(argv[7]);//step group size
-	int print_headers = atoi(argv[8]);// 0 / 1 == print or not headers to file_table*best files 
+	strcpy(path_work, argv[1]);
+	strcpy(filei_prb, path_work);//in_file
+	strcpy(filei_dbd, path_work);//in_file
+	strcpy(filei_mot, path_work);//in_file	
+	strcat(filei_prb, argv[2]);//in_file
+	strcat(filei_dbd, argv[3]);//in_file
+	strcat(filei_mot, argv[4]);//in_file
+
+	strcpy(filei_motifs_tfclass, argv[5]);
+	int nrun = atoi(argv[6]); // no. of ga runs
+	int min_gros = atoi(argv[7]);//min group size
+	int step_gros = atoi(argv[8]);//step group size
+	int print_headers = atoi(argv[9]);// 0 / 1 == print or not headers to file_table*best files 	
+
+	//dynamics & fold
+	strcpy(fileo_polka, path_work);//out_file
+	strcpy(fileo_fold, path_work);//out_file
+	strcpy(fileo_fold_best, path_work);//out_file
+	//rank
+	strcpy(fileo_rank_dbd, path_work);//out_file
+	strcpy(fileo_rank_dbd_best, path_work);//out_file
+	strcpy(fileo_rank_motif_base, path_work);//out_file		
+	strcpy(fileo_rank_motif_best, path_work);//out_file	
+	//ratio
+	strcpy(fileo_ratio_dbd, path_work);//out_file
+	strcpy(fileo_ratio_dbd_best, path_work);//out_file
+	strcpy(fileo_ratio_motif_base, path_work);//out_file		
+	strcpy(fileo_ratio_motif_best, path_work);//out_file	
+
+	strcpy(file_sta, path_work);//out_file
+
+	//dynamics & fold
+	strcat(fileo_polka, argv[10]);//out_file
+	strcat(fileo_fold, argv[11]);//out_file
+	strcat(fileo_fold_best, argv[12]);//out_file
+	//rank
+	strcat(fileo_rank_dbd, argv[13]);//out_file
+	strcat(fileo_rank_dbd_best, argv[14]);//out_file
+	strcat(fileo_rank_motif_base, argv[15]);//out_file		
+	strcat(fileo_rank_motif_best, argv[16]);//out_file	
+	//ratio
+	strcat(fileo_ratio_dbd, argv[17]);//out_file
+	strcat(fileo_ratio_dbd_best, argv[18]);//out_file
+	strcat(fileo_ratio_motif_base, argv[19]);//out_file		
+	strcat(fileo_ratio_motif_best, argv[20]);//out_file	
+
+	strcat(file_sta, "minimax_mot_rank.txt");//out_file
+
 	//                1    2    3    4    5     6    7     8
 	char ratc[8][4] = { "50", "60", "70", "80", "85", "90", "95", "100" };
-	double rat[8];	
+	double rat[8];
 	for (j = 0; j < 8; j++)rat[j] = 0;
-	//dynamics & fold
-	strcpy(fileo_polka, argv[9]);//out_file
-	strcpy(fileo_fold, argv[10]);//out_file
-	strcpy(fileo_fold_best, argv[11]);//out_file
-	//rank
-	strcpy(fileo_rank_dbd, argv[12]);//out_file
-	strcpy(fileo_rank_dbd_best, argv[13]);//out_file
-	strcpy(fileo_rank_motif_base, argv[14]);//out_file		
-	strcpy(fileo_rank_motif_best, argv[15]);//out_file	
-	//ratio
-	strcpy(fileo_ratio_dbd, argv[16]);//out_file
-	strcpy(fileo_ratio_dbd_best, argv[17]);//out_file
-	strcpy(fileo_ratio_motif_base, argv[18]);//out_file		
-	strcpy(fileo_ratio_motif_best, argv[19]);//out_file	
-
-	strcpy(file_sta, "minimax_mot_rank.txt");//out_file
 	int nrun1 = nrun - 1;
 	int max_gros = 1 + nrun1 * step_gros;
 
