@@ -79,7 +79,7 @@ AT1G01200 and FBgn0000008.
 
 This option forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and non-DEGs.
 
-[table_rnaseq_knife.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_knife.cpp) selects series of non-overlapped portions of up-/down-regulated DEGs, and the same all these portions set of the contrast non-DEGs from the RNA-seq data.
+[table_rnaseq_knife.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_knife.cpp) selects from the RNA-seq data sets of non-overlapped portions of up-/down-regulated DEGs, and for each of these portions the set of the contrast non-DEGs.
 1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
 AT1G01200 and FBgn0000008.
