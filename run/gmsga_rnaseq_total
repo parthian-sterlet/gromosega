@@ -3,7 +3,9 @@
 ftype=("dbd" "mot" "per" "prb")
 dire=("up" "do" "no")
 tab="tab"
-zo=("0" "1")
+emp="_"
+ext=".tab"
+lin="/"
 
 # $1 RNA-seq experiment ID
 # $2,$3 int columns log2Fold,,padj in input RNa-seq table
@@ -11,61 +13,107 @@ zo=("0" "1")
 # $5,$6 Maximal number of motifs per group, step of Maximal number of motifs per group
 # $7 Number of top-scored TF families in output data
 
+
 cd ../examples
 mkdir $4
 cd $4
+my_dir=$PWD$lin
 
 ../../src/table_rnaseq_adapted.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 200 1000 0.05 up_$4 do_$4 no_$4 0
 
 for (( k=0; k<3; k++));
 do
-../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab ${dire[$k]}_$4 ${dire[$k]}_$4.tab
-done
-
-for (( k=0; k<2; k++));
-do
-for (( i=1; i<=$5; i+=$6 ));
-do
-../../src/minimax.exe	${dire[$k]}_$4.tab no_$4.tab ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 prc_${dire[$k]}_$4_$i prb_${dire[$k]}_$4_$i cex_${dire[$k]}_$4_$i cin_${dire[$k]}_$4_$i out_${dire[$k]}_$4_$i per_${dire[$k]}_$4_$i dbd_${dire[$k]}_$4_$i mot_${dire[$k]}_$4_$i log_${dire[$k]}_$4_$i
-done
+../../src/select_lines01.exe ../../genomes/protcod_dm6_m1kb_p100_tss_272tbp.tab ${dire[$k]}_$4 ${dire[$k]}_$4_1.tab
 done
 
 
-for (( j=0; j<4; j++));
+
+
+for (( n=1; n <= 1; n++))
 do
-for (( k=0; k<2; k++));
+fileno=${dire[2]}${emp}$4${emp}$n${ext}
+for (( k=0; k<2; k++))
 do
-cp ${ftype[$j]}_${dire[$k]}_$4_1 ${ftype[$j]}_${dire[$k]}_$4
-done
-done
-for (( j=0; j<4; j++));
+fileye=${dire[$k]}${emp}$4${emp}$n${ext}
+for (( i=1; i<=$5; i+=$6 ))
 do
-for (( k=0; k<2; k++));
-do
-for (( i=1+$6; i<=$5; i+=$6 ));
-do
-cat ${ftype[$j]}_${dire[$k]}_$4_$i >> ${ftype[$j]}_${dire[$k]}_$4
+name=${emp}${dire[$k]}${emp}$4${emp}$n${emp}$i
+echo -e "$fileye $fileno slice $n nmotifs $i name $name my_dir $my_dir\n"
+../../src/minimax.exe	${fileye} ${fileno} ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 $my_dir prc${name} prb${name} cex${name} cin${name} out${name} per${name} dbd${name} mot${name} log${name}
 done
 done
 done
 
-for (( k=0; k<2; k++));
+for (( n=1; n<=$7; n++))
 do
-../../src/minimax_pars.exe	prb_${dire[$k]}_$4	dbd_${dire[$k]}_$4	mot_${dire[$k]}_$4	../rnaseq/jaspar2026_tfclass_insects272tbp	$5	1	$6	${zo[$k]}	dynamics	fold_${dire[$k]}_$4	fold_best	rank_dbd_${dire[$k]}_$4	rank_dbd_best	rank_mot_${dire[$k]}_$4	rank_mot_best	ratio_dbd_${dire[$k]}_$4	ratio_dbd_best	ratio_mot_${dire[$k]}_$4	ratio_mot_best
+for (( j=0; j<4; j++))
+do
+for (( k=0; k<2; k++))
+do
+name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+cp ${name}${emp}1 ${name}
+done
+done
 done
 
-for (( j=0; j<4; j++));
+for (( n=1; n<=$7; n++))
 do
-table=${tab}_${ftype[$j]}
+for (( j=0; j<4; j++))
+do
+for (( k=0; k<2; k++))
+do
+name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+echo -e "name $name\n"
+for (( i=1+$6; i<=$5; i+=$6 ))
+do
+cat ${name}${emp}$i >> ${name}
+done
+done
+done
+done
+
+for (( k=0; k<2; k++))
+do
+for (( n=1; n<=1; n++))
+do
+name=${emp}${dire[$k]}${emp}$4${emp}$n
+echo -e "name $name\n"
+if [[ $k -eq 0 && $n -eq 1 ]]; 
+then
+zo=1
+else
+zo=0
+fi
+../../src/minimax_pars.exe	$my_dir prb${name}	dbd${name}	mot${name}	../rnaseq/jaspar2026_tfclass_insects272tbp	$5 	1	$6 	$zo	dynamics	fold${name}	fold_best	rank_dbd${name}	rank_dbd_best	rank_mot${name}	rank_mot_best	ratio_dbd${name}	ratio_dbd_best	ratio_mot${name}	ratio_mot_best
+done
+done
+
+for (( j=0; j<4; j++))
+do
+table=${tab}${emp}${ftype[$j]}
+echo -e "table $table\n"
 rm $table
-for (( k=0; k<2; k++));
+for (( k=0; k<2; k++))
 do
-filen=${ftype[$j]}_${dire[$k]}_$4
-cat $filen >> $table 
+for (( n=1; n<=1; n++))
+do
+filen=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
+echo -e "filen $filen\n"
+cat $filen >> $table
+done
 done
 done
 
-../../src/minimax_sort.exe ../examples ratio_dbd_best	sort	2	$7
+for (( k=0; k<2; k++))
+do
+for (( n=1; n<=1; n++))
+do
+name=${emp}${dire[$k]}${emp}$4${emp}$n
+echo -e "name $name\n"
+../../src/minimax_sort.exe $my_dir ratio_dbd${name}	sort	1	$7
+done
+done
 
-cd ..
+
+cd .. 
 cd ..
