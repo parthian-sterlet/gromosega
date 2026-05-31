@@ -95,7 +95,7 @@ AT1G01200 and FBgn0000008.
 12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) < log2(FCdown).
 13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  log2(FCdown) < log2(FC) < log2(FCup).
 14. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
-15. integer value - marks 1 / -1 indicate taking DEGs with the highest/lowest values of |log2fold|, default 1. This option is required to study fold-specific distribution of enriched TFBS motifs in DEGs with distinct |log2fold| values.
+15. integer value - marks 1 / -1 indicate taking DEGs with the highest/lowest values of |log2fold|, default values 1. This option is required to study fold-specific distribution of enriched TFBS motifs in DEGs with distinct |log2fold| values.
 
 This step forms three set of files marking gene portions of up-/down-regulated DEGs and sets of WG genes (non-DEGs).
 
