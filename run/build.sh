@@ -1,7 +1,7 @@
 #!/bin/sh
 
 chmod a+x rnaseq_total_com_line
-chmod a+x rnaseq_slice com_line
+chmod a+x rnaseq_slice_com_line
 chmod a+x gmsga_rnaseq_total
 chmod a+x gmsga_rnaseq_slice
 
