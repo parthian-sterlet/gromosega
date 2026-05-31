@@ -19,7 +19,7 @@ mkdir $4
 cd $4
 my_dir=$PWD$lin
 
-../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 1000 0.05 up_$4 do_$4 no_$4 0
+../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 1000 0.05 up_$4 do_$4 no_$4 0 1
 
 for (( n=1; n <= $7; n++))
 do
