@@ -1199,6 +1199,8 @@ int main(int argc, char* argv[])
 	}
 	fclose(out_prc_bin_1st);
 	fclose(out_1st);
+	fclose(out);
+	fclose(outlog);
 	int pair_elit = elit_act * (elit_act - 1) / 2;
 	double* abp;
 	abp = new double[pair_elit];
@@ -1206,6 +1208,7 @@ int main(int argc, char* argv[])
 	double* abn;
 	abn = new double[pair_elit];
 	if (abn == NULL) { puts("Out of memory..."); exit(1); }
+	/*
 	for (i = 0; i < elit_act; i++)Modules(&pop[i], msel, mtot, errp, errn, nseqp, nseqn, fp2);
 	k = 0;
 	for (i = 0; i < elit_act; i++)
@@ -1215,8 +1218,7 @@ int main(int argc, char* argv[])
 			PearsonExternal(&pop[i], &pop[j], msel, mtot, errp, errn, nseqp, nseqn, fp2, abp[k], abn[k]);
 			k++;
 		}
-	}
-	fclose(out);
+	}	
 	if (msel > 1)
 	{
 		if ((out_corr_int = fopen(fileo_corr_int, "wt")) == NULL)
@@ -1232,7 +1234,8 @@ int main(int argc, char* argv[])
 			PearsonInternal(&pop[i], msel, mtot, errp, errn, nseqp, nseqn, tf_names, out_corr_int);
 		}
 		fclose(out_corr_int);
-	}
+	}*/
+	/*
 	if ((out_corr_ext = fopen(fileo_corr_ext, "wt")) == NULL)
 	{
 		printf("Input file %s can't be opened!\n", fileo_corr_ext);
@@ -1266,8 +1269,7 @@ int main(int argc, char* argv[])
 		}
 		fprintf(out_corr_ext,"\n");
 	}
-	fclose(out_corr_ext);
-	fclose(outlog);
+	fclose(out_corr_ext);*/
 	for (i = 0; i < mtot; i++)
 	{
 		int z = pop[0].mot[i];
