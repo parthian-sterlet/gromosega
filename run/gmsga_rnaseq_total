@@ -11,7 +11,9 @@ lin="/"
 # $2,$3 int columns log2Fold,,padj in input RNa-seq table
 # $4 Name of dataset used as folder name here
 # $5,$6 Maximal number of motifs per group, step of Maximal number of motifs per group
-# $7 Number of top-scored TF families in output data
+# $7 Number of DEGs in the positive set
+# $8 Number of non-DEGs in the negative set
+# $9 Number of top-scored TF families in output data
 
 
 cd ../examples
@@ -19,7 +21,7 @@ mkdir $4
 cd $4
 my_dir=$PWD$lin
 
-../../src/table_rnaseq_adapted.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 200 1000 0.05 up_$4 do_$4 no_$4 0
+../../src/table_rnaseq_adapted.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 $7 $8 0.05 up_$4 do_$4 no_$4 0
 
 for (( k=0; k<3; k++));
 do
@@ -110,7 +112,7 @@ for (( n=1; n<=1; n++))
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n
 echo -e "name $name\n"
-../../src/minimax_sort.exe $my_dir ratio_dbd${name}	sort	1	$7
+../../src/minimax_sort.exe $my_dir ratio_dbd${name}	sort	1	$9
 done
 done
 
