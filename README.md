@@ -69,15 +69,35 @@ AT1G01200 and FBgn0000008.
 4. integer value - column number of padj values in the RNA-seq table (argument #1).
 5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
 6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
-7. integer value - minimal number of DEGs, selected (either up or down), default value 500.
-8. integer value - minimal number of non-DEGs, selected, default value 2500.
+7. integer value - minimal number of DEGs, selected (either up or down), default values 500 or 250.
+8. integer value - minimal number of non-DEGs, selected, default value 1000.
 9. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
 10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) > log2(FCup). 
 11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) < log2(FCdown).
 12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  log2(FCdown) < log2(FC) < log2(FCup).
 13. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 
-This step forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and non-DEGs.
+This option forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and non-DEGs.
+
+[table_rnaseq_knife.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_knife.cpp) selects series of non-overlapped portions of up-/down-regulated DEGs, and the same all these portions set of the contrast non-DEGs from the RNA-seq data.
+1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
+2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
+AT1G01200 and FBgn0000008.
+3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
+4. integer value - column number of padj values in the RNA-seq table (argument #1).
+5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
+6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
+7. integer value - number of DEGs per one portion, selected (either up or down), default values 50 or 25.
+8. integer value - number of DEGs portions, default 10.
+9. integer value - minimal number of non-DEGs, selected, default value 1000.
+10. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) > log2(FCup). 
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) < log2(FCdown).
+13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  log2(FCdown) < log2(FC) < log2(FCup).
+14. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
+15. integer value - marks 1 / -1 indicate taking DEGs with the highest/lowest values of |log2fold|, default 1. This option is required to study fold-specific distribution of enriched TFBS motifs in DEGs with distinct |log2fold| values.
+
+This step forms three set of files marking gene portions of up-/down-regulated DEGs and sets of WG genes (non-DEGs).
 
 ## Extraction TFBS recognition data for DEGs and non-DEGs
 [select_lines01.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/select_lines01.cpp) selects the lines of pre-computed TFBS motif recognition data for all up-/down-regulated DEGs and non-DEGs from the RNA-seq data.
