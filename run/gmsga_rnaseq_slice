@@ -38,7 +38,7 @@ fileye=${dire[$k]}${emp}$4${emp}$n${ext}
 for (( i=1; i<=$5; i+=$6 ))
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n${emp}$i
-echo -e "$fileye $fileno slice $n nmotifs $i name $name my_dir $my_dir\n"
+#echo -e "$fileye $fileno slice $n nmotifs $i name $name my_dir $my_dir\n"
 ../../src/minimax.exe	${fileye} ${fileno} ../rnaseq/jaspar2026_tfclass_insects272tbp $i $5 1 4 $my_dir prc${name} prb${name} cex${name} cin${name} out${name} per${name} dbd${name} mot${name} log${name}
 done
 done
@@ -63,7 +63,7 @@ do
 for (( k=0; k<2; k++))
 do
 name=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
-echo -e "name $name\n"
+#echo -e "name $name\n"
 for (( i=1+$6; i<=$5; i+=$6 ))
 do
 cat ${name}${emp}$i >> ${name}
@@ -77,7 +77,7 @@ do
 for (( n=1; n<=$7; n++))
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n
-echo -e "name $name\n"
+#echo -e "name $name\n"
 if [[ $k -eq 0 && $n -eq 1 ]]; 
 then
 zo=1
@@ -91,14 +91,14 @@ done
 for (( j=0; j<4; j++))
 do
 table=${tab}${emp}${ftype[$j]}
-echo -e "table $table\n"
+#echo -e "table $table\n"
 rm $table
 for (( k=0; k<2; k++))
 do
 for (( n=1; n<=$7; n++))
 do
 filen=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
-echo -e "filen $filen\n"
+#echo -e "filen $filen\n"
 cat $filen >> $table
 done
 done
@@ -109,7 +109,7 @@ do
 for (( n=1; n<=$7; n++))
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n
-echo -e "name $name\n"
+#echo -e "name $name\n"
 ../../src/minimax_sort.exe $my_dir ratio_dbd${name}	sort	1	$8
 done
 done
