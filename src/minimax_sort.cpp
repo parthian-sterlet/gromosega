@@ -26,7 +26,16 @@ int compare_rang(const void* X1, const void* X2)
 	if (S1->sum - S2->sum < 0)return 1;
 	return 0;
 }
-
+int compare_sum(const void* X1, const void* X2)
+{
+	struct rang* S1 = (struct rang*)X1;
+	struct rang* S2 = (struct rang*)X2;
+	if (S1->sum - S2->sum > 0)return -1;
+	if (S1->sum - S2->sum < 0)return 1;
+	if (S1->cou - S2->cou > 0)return -1;
+	if (S1->cou - S2->cou < 0)return 1;
+	return 0;
+}
 int StrNStr(char* str, char c, int n)
 {
 	if (n == 0)return -1;
@@ -133,7 +142,7 @@ int main(int argc, char* argv[])
 	strcat(filei, filei_name);
 	if ((in = fopen(filei, "rt")) == NULL)
 	{
-		printf("Input file %s can't be opened!", filei);
+		printf("Input file %s can't be opened!\n", filei);
 		return -1;
 	}
 	const char tab = '\t', end1 = '_', end2 = ' ', end3 = '.';
@@ -201,7 +210,7 @@ int main(int argc, char* argv[])
 		}
 		i++;
 		double val = UnderStolDouble(d, 1, buf, sizeof(buf), tab);
-		if (val > 1)nstr[k]++;				
+		if (val >= 1)nstr[k]++;				
 	}	
 	rewind(in);
 	fgets(d, sizeof(d), in);//header with counts of TF family TFBS motifs
@@ -218,7 +227,7 @@ int main(int argc, char* argv[])
 		strcat(fileo, track_name[k]);
 		if ((out = fopen(fileo, "at")) == NULL)
 		{
-			printf("Output file %s can't be opened!", fileo);
+			printf("Output file %s can't be opened!\n", fileo);
 			return -1;
 		}
 		for (i = 0; i < nfamilies; i++)
@@ -244,7 +253,7 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-		qsort(family_ratio, nfamilies, sizeof(family_ratio[0]), compare_rang);
+		qsort(family_ratio, nfamilies, sizeof(family_ratio[0]), compare_sum);
 		fprintf(out, "%s", path);
 		fprintf(out, "\t%s", filei_name);
 		fprintf(out, "\t%s", track_name[k]);

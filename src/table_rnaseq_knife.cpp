@@ -25,7 +25,7 @@ int compare_padj(const void* X1, const void* X2)//descending
 	else return -1;
 	return 0;
 }
-int compare_fc(const void* X1, const void* X2)//ascending
+int compare_fc_top(const void* X1, const void* X2)//ascending
 {
 	struct table_rna* S1 = (struct table_rna*)X1;
 	struct table_rna* S2 = (struct table_rna*)X2;
@@ -34,6 +34,17 @@ int compare_fc(const void* X1, const void* X2)//ascending
 	double dif = abs1 - abs2;
 	if (dif > 0)return -1;
 	else return 1;
+	return 0;
+}
+int compare_fc_bottom(const void* X1, const void* X2)//ascending
+{
+	struct table_rna* S1 = (struct table_rna*)X1;
+	struct table_rna* S2 = (struct table_rna*)X2;
+	double abs1 = fabs(S1->log2fc);
+	double abs2 = fabs(S2->log2fc);
+	double dif = abs1 - abs2;
+	if (dif > 0)return 1;
+	else return -1;
 	return 0;
 }
 int StrNStr(char* str, char c, int n)
@@ -113,11 +124,11 @@ int main(int argc, char* argv[])
 	FILE* in_genelist, * in_rnaseq, * out_sta;
 	FILE ** out_up, ** out_do, ** out_no;
 
-	if (argc != 15)
+	if (argc != 16)
 	{
 		puts("Sintax: 1file rnaseq table, 2,3,4int columns gene_id,log2Fold,padj 5file all_gene's_ID_list 6int columns gene_id ");
 		puts("7int #DEGcount per segment (default 50) 8int number of segments (default 5) 9int int #notDEGmin (default 1000) 10double threshold padj (default 0.05)");
-		puts("11file_out_upDEG(0,1) 12file_out_downDEG(0,1) 13file_out_noDEG(0,1) 14int reverse up/down (1yes 0no)");
+		puts("11file_out_upDEG(0,1) 12file_out_downDEG(0,1) 13file_out_noDEG(0,1) 14int reverse up/down (1yes 0no) 15int 1 / -1 take DEGs from the top / bottom of |log2fold|");
 		return -1;
 	}
 	strcpy(filei_rnaseq, argv[1]);//out_file
@@ -134,6 +145,7 @@ int main(int argc, char* argv[])
 	strcpy(fileo_do_base, argv[12]);//out_file	
 	strcpy(fileo_no_base, argv[13]);//out_file
 	int rev = atoi(argv[14]);
+	int border = atoi(argv[15]); // 1 / -1 take DEGs with highest / lowest |log2fold| values
 
 	int size_deg_min = size_deg_seg * nseg_deg;
 	col_gene--;
@@ -299,7 +311,7 @@ int main(int argc, char* argv[])
 		if (*d != resh)break;
 	}
 	double padj_min = 0, padj_max = 1, log2fc_min = -1000, log2fc_max = 1000;
-	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
+	do
 	{
 		DelChar(d, '\n');
 		DelChar(d, ' ');
@@ -338,7 +350,7 @@ int main(int argc, char* argv[])
 				else ndegdo_tot++;
 			}
 		}
-	}
+	} while (fgets(d, sizeof(d), in_rnaseq) != NULL);
 	rewind(in_rnaseq);
 	int ndeg_tot = ndegup_tot + ndegdo_tot;
 	table_rna* rnaseq;
@@ -349,7 +361,7 @@ int main(int argc, char* argv[])
 		if (*d != resh)break;
 	}
 	j = 0;
-	while (fgets(d, sizeof(d), in_rnaseq) != NULL)
+	do
 	{
 		DelChar(d, '\n');
 		DelChar(d, ' ');
@@ -386,11 +398,12 @@ int main(int argc, char* argv[])
 		//	strcpy(rnaseq[j].id, gene_id);
 			j++;
 		}
-	}
+	} while (fgets(d, sizeof(d), in_rnaseq) != NULL);
 	fclose(in_rnaseq);
 	qsort(rnaseq, n_str_cor, sizeof(rnaseq[0]), compare_padj);
-	qsort(rnaseq, ndeg_tot, sizeof(rnaseq[0]), compare_fc);
-	qsort(&rnaseq[ndeg_tot], nnedeg_tot, sizeof(rnaseq[0]), compare_fc);
+	if(border == 1)qsort(rnaseq, ndeg_tot, sizeof(rnaseq[0]), compare_fc_top);
+	else qsort(rnaseq, ndeg_tot, sizeof(rnaseq[0]), compare_fc_bottom);
+	qsort(&rnaseq[ndeg_tot], nnedeg_tot, sizeof(rnaseq[0]), compare_fc_top);
 	double* thr_log2fc_up1, * thr_log2fc_do1;
 	thr_log2fc_up1 = new double[nseg_deg];
 	if (thr_log2fc_up1 == NULL) { printf("Out of memory..."); return -1; };
@@ -399,10 +412,30 @@ int main(int argc, char* argv[])
 	for (i = 0; i < nseg_deg; i++)thr_log2fc_up1[i] = 1000;
 	for (i = 0; i < nseg_deg; i++)thr_log2fc_do1[i] = 1000;
 
+	int nseg_deg1 = nseg_deg - 1;
 	int take_up = 0, take_do = 0, take_no = 0;
 	int print_up = 1, print_do = 1;
 	int iup_last = -1, ido_last = -1;
 	int count_up = 0, count_do = 0;
+	if (border != 1)
+	{
+		for (i = 0; i < ndeg_tot; i++)
+		{
+			if (rnaseq[i].log2fc > 0)
+			{
+				thr_log2fc_up1[0] = rnaseq[i].log2fc;
+				break;
+			}
+		}
+		for (i = 0; i < ndeg_tot; i++)
+		{
+			if (rnaseq[i].log2fc < 0)
+			{
+				thr_log2fc_do1[0] = rnaseq[i].log2fc;
+				break;
+			}
+		}
+	}
 	for (i = 0; i < ndeg_tot; i++)
 	{
 		if (rnaseq[i].log2fc > 0)
@@ -414,7 +447,9 @@ int main(int argc, char* argv[])
 				gen_type[rnaseq[i].num] = 1 + count_up;
 				if (rest == 0)
 				{
-					thr_log2fc_up1[count_up++] = rnaseq[i].log2fc;					
+					if (border != 1)count_up++;
+					if(count_up <= nseg_deg1)thr_log2fc_up1[count_up] = rnaseq[i].log2fc;
+					if(border ==1)count_up++;
 				}
 				iup_last = i;
 				if (take_up == size_deg_min)print_up = 0;
@@ -430,7 +465,9 @@ int main(int argc, char* argv[])
 				ido_last = i;
 				if (rest == 0)
 				{
-					thr_log2fc_do1[count_do++] = rnaseq[i].log2fc;
+					if (border != 1)count_do++;
+					if (count_do <= nseg_deg1)thr_log2fc_do1[count_do] = rnaseq[i].log2fc;
+					if (border == 1)count_do++;
 				}
 				if (take_do == size_deg_min)print_do = 0;
 			}
