@@ -38,10 +38,10 @@ cd ../run
 separate compilation of all source files in VC++
 
 # Algorithm
-Gromosega algorithm considers a pair of foreground/background sequence sets derived from RNA-seq/Microchip data. For these data the foreground and background sequences are promoters of DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (padj) & Fold Change (FC) thresholds padj<sub>CRIT</sub> & log2(FC<sub>UP</sub>) / log2(FC<sub>DOWN</sub>): 
-- for DEGs: {padj < padj<sub>CRIT</sub>, and log2(FC) >= log2(FC<sub>UP</sub>) & log2(FC) <= log2(FC<sub>DOWN</sub>) for up- & down-regulated DEGs; 
-- for non-DEGs: {padj > padj<sub>CRIT</sub> &  log2(FC<sub>DOWN</sub>}) <= log2(FC) <= log2(FC<sub>UP</sub>)} .
-The default value for the threshold padj<sub>CRIT</sub> is 0.05, threshold values log2(FC<sub>UP</sub>) and log2(FC<sub>DOWN</sub>) are selected to compile fixed number of DEGs/non-DEGs, e.g. 500 / 2000. Genes with the maximal /minimal values of |log2(FC)| are compiled in DEGs / non-DEGs.
+Gromosega algorithm considers a pair of foreground/background sequence sets derived from RNA-seq/Microchip data. For these data the foreground and background sequences are promoters of DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (padj) & Fold Change (FC) thresholds padj<sub>CRIT</sub> & FC<sub>UP</sub> / FC<sub>DOWN</sub>: 
+- for DEGs: padj < padj<sub>CRIT</sub>, & FC >= FC<sub>UP</sub>) and FC <= FC<sub>DOWN</sub> for up- and down-regulated DEGs; 
+- for non-DEGs: padj > padj<sub>CRIT</sub> &  FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub> .
+The default value for the threshold padj<sub>CRIT</sub> is 0.05, threshold values FC<sub>UP</sub> and FC<sub>DOWN</sub> are selected to compile fixed number of DEGs/non-DEGs, e.g. 500 / 2000. Genes with the maximal /minimal values of |FC| are compiled in DEGs / non-DEGs.
 
 ## GA input data:
 - a pair of foreground / background sets, containing N<sub>POS</sub> / N<sub>NEG</sub> DNA sequences;
@@ -72,9 +72,9 @@ AT1G01200 and FBgn0000008.
 7. integer value - minimal number of DEGs, selected (either up or down), default values 500 or 250.
 8. integer value - minimal number of non-DEGs, selected, default value 1000.
 9. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
-10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) > log2(FCup). 
-11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) < log2(FCdown).
-12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  log2(FCdown) < log2(FC) < log2(FCup).
+10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & FC >= FCup. 
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & FC <= FCdown.
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  FCdown <= FC <= FCup.
 13. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 
 This option forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and non-DEGs.
@@ -91,9 +91,9 @@ AT1G01200 and FBgn0000008.
 8. integer value - number of DEGs portions, default 10.
 9. integer value - minimal number of non-DEGs, selected, default value 1000.
 10. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
-11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) > log2(FCup). 
-12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & log2(FC) < log2(FCdown).
-13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  log2(FCdown) < log2(FC) < log2(FCup).
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & FC >= FCup. 
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & FC <= FCdown.
+13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  FCdown <= FC <= FCup.
 14. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 15. integer value - marks 1 / -1 indicate taking DEGs with the highest/lowest values of |log2fold|, default values 1. This option is required to study fold-specific distribution of enriched TFBS motifs in DEGs with distinct |log2fold| values.
 
