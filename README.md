@@ -39,7 +39,7 @@ separate compilation of all source files in VC++
 
 # Algorithm
 Gromosega algorithm considers a pair of foreground/background sequence sets derived from RNA-seq/Microchip data. For these data the foreground and background sequences are promoters of DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (padj) & Fold Change (FC) thresholds padj<sub>CRIT</sub> & FC<sub>UP</sub> / FC<sub>DOWN</sub>: 
-- for DEGs: padj < padj<sub>CRIT</sub>, & FC >= FC<sub>UP</sub>) and FC <= FC<sub>DOWN</sub> for up- and down-regulated DEGs; 
+- for DEGs: padj < padj<sub>CRIT</sub>, & FC >= FC<sub>UP</sub> and FC <= FC<sub>DOWN</sub> for up- and down-regulated DEGs; 
 - for non-DEGs: padj > padj<sub>CRIT</sub> &  FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub> .
 The default value for the threshold padj<sub>CRIT</sub> is 0.05, threshold values FC<sub>UP</sub> and FC<sub>DOWN</sub> are selected to compile fixed number of DEGs/non-DEGs, e.g. 500 / 2000. Genes with the maximal /minimal values of |FC| are compiled in DEGs / non-DEGs.
 
