@@ -1058,7 +1058,7 @@ int main(int argc, char* argv[])
 					if (rec == -1)
 					{
 						r_success_no++;
-						continue;
+						break;
 					}
 					int gom = 0;
 					for (k = 0; k < 2; k++)
