@@ -38,10 +38,12 @@ cd ../run
 separate compilation of all source files in VC++
 
 # Algorithm
-GromoseGA algorithm considers a pair of foreground/background sequence sets derived from RNA-seq/Microchip data. For these data the foreground and background sequences are promoters of DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (padj) & Fold Change (FC) thresholds padj<sub>CRIT</sub> & FC<sub>UP</sub> / FC<sub>DOWN</sub>: 
-- for DEGs: padj < padj<sub>CRIT</sub>, & FC >= FC<sub>UP</sub> and FC <= FC<sub>DOWN</sub> for up- and down-regulated DEGs; 
-- for non-DEGs: padj > padj<sub>CRIT</sub> &  FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub> .
-The default value for the threshold padj<sub>CRIT</sub> is 0.05, threshold values FC<sub>UP</sub> and FC<sub>DOWN</sub> are selected to compile fixed number of DEGs/non-DEGs, e.g. 500 / 2000. Genes with the maximal /minimal values of |FC| are compiled in DEGs / non-DEGs.
+GromoseGA algorithm considers a pair of foreground/background sequence sets derived from RNA-seq/microchip data. For these data the foreground and background sequences are promoters of N<sub>UP</sub> up- or N<sub>DOWN</sub> down-regulated DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (p-adj) & Fold Change (FC) thresholds p-adj<sub>CRIT</sub> & FC<sub>UP</sub> / FC<sub>DOWN</sub>: 
+- all genes are sorted by the Log<sub>2</sub>(FC) value;
+- The criterion p-adj < p-adj<sub>CRIT</sub> provides DEGs (the List #1) and all the remaining genes (List #2);
+- The List #1 and List #2 are separately sorted by |Log<sub>2</sub>(FC)| value;
+- Two criteria {FC > 1 and FC < 1} commpile N<sub>UP</sub> and N<sub>DOWN</sub> up- and down-regulated DEGs from the List #1, this defines the thresholds FC<sub>UP</sub> and FC<sub>DOWN</sub>; 
+- Two criteria FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub> prepare the list of NB non-DEGs from the List #2.
 
 ## GA input data:
 - a pair of foreground / background sets, containing N<sub>POS</sub> / N<sub>NEG</sub> DNA sequences;
@@ -62,38 +64,38 @@ Preliminary computed data are the results of TFBS motif recognition for promoter
 
 ## Preparation of the lists of DEGs and non-DEGs according to rhe results of RNA-seq
 [table_rnaseq_adapted.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_adapted.cpp) selects the lists of up-/down-regulated DEGs and non-DEGs from the RNA-seq data.
-1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
+1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and p-adj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
 AT1G01200 and FBgn0000008.
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
-4. integer value - column number of padj values in the RNA-seq table (argument #1).
+4. integer value - column number of p-adj values in the RNA-seq table (argument #1).
 5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
 6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
 7. integer value - minimal number of DEGs, selected (either up or down), default values 500 or 250.
 8. integer value - minimal number of non-DEGs, selected, default value 1000.
-9. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
-10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & FC >= FCup. 
-11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & FC <= FCdown.
-12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  FCdown <= FC <= FCup.
+9. double threshold for adjusted p-value (p-adj), default value for up-/down-regulated DEGs and not DEGs: p-adj = 0.05.
+10. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: p-adj < 0.05 & FC >= FC<sub>UP</sub>. 
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: p-adj < 0.05 & FC <= FC<sub>DOWN</sub>.
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: p-adj > 0.05 &  FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub>.
 13. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 
 This option forms three files marking for the whole genome list of WG genes up-/down-regulated DEGs and non-DEGs.
 
 [table_rnaseq_knife.cpp](https://github.com/parthian-sterlet/gromosega/blob/main/cpp/table_rnaseq_knife.cpp) selects from the RNA-seq data sets of non-overlapped portions of up-/down-regulated DEGs, and for each of these portions the set of the contrast non-DEGs.
-1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and padj (adjusted p-value).
+1. input file - table from RNA-seq experiment with a list of gene IDs and log2Fold (Logarithm of the FoldChange value to a base of 2) and p-adj (adjusted p-value).
 2. integer value - column number of gene IDs in the RNA-seq table (argument #1). Currently, for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ Ensembl gene IDs, TAIR AGI codes and FyBase gene IDs are supported, e.g. ENSG00000160072 / ENSMUSG00000033813,
 AT1G01200 and FBgn0000008.
 3. integer value - column number of log2Fold values in the RNA-seq table (argument #1).
-4. integer value - column number of padj values in the RNA-seq table (argument #1).
+4. integer value - column number of p-adj values in the RNA-seq table (argument #1).
 5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
 6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
 7. integer value - number of DEGs per one portion, selected (either up or down), default values 50 or 25.
 8. integer value - number of DEGs portions, default 10.
 9. integer value - minimal number of non-DEGs, selected, default value 1000.
-10. double threshold for adjusted p-value (padj), default value for up-/down-regulated DEGs and not DEGs: padj = 0.05.
-11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: padj < 0.05 & FC >= FCup. 
-12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: padj < 0.05 & FC <= FCdown.
-13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: padj > 0.05 &  FCdown <= FC <= FCup.
+10. double threshold for adjusted p-value (p-adj), default value for up-/down-regulated DEGs and not DEGs: p-adj = 0.05.
+11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: p-adj < 0.05 & FC >= FC<sub>UP</sub>. 
+12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: p-adj < 0.05 & FC <= FC<sub>DOWN</sub>.
+13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: p-adj > 0.05 &  FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub>.
 14. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 15. integer value - marks 1 / -1 indicate taking DEGs with the highest/lowest values of |log2fold|, default values 1. This option is required to study fold-specific distribution of enriched TFBS motifs in DEGs with distinct |log2fold| values.
 
