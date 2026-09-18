@@ -39,11 +39,14 @@ separate compilation of all source files in VC++
 
 # Algorithm
 GromoseGA algorithm considers a pair of foreground/background sequence sets derived from RNA-seq/microchip data. For these data the foreground and background sequences are promoters of N<sub>UP</sub> up- or N<sub>DOWN</sub> down-regulated DEGs and non-DEGs, that are defined by the default criteria for adjusted p-value (p-adj) & Fold Change (FC) thresholds p-adj<sub>CRIT</sub> & FC<sub>UP</sub> / FC<sub>DOWN</sub>: 
-- all genes are sorted by the p-adj value in the ascending order;
+- All genes are sorted by the p-adj value in the ascending order;
 - The criterion p-adj < p-adj<sub>CRIT</sub> provides DEGs (the List #1) and all the remaining genes (List #2);
 - The Lists #1/#2 are separately sorted by the |Log<sub>2</sub>(FC)| value in the descending/ascending order;
 - Two criteria {FC > 1 and FC < 1} compile the separate lists of N<sub>UP</sub> and N<sub>DOWN</sub> up- and down-regulated DEGs from the List #1; two cut-off points define the thresholds FC<sub>UP</sub> and FC<sub>DOWN</sub>; 
 - Two criteria FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub> prepare the list of NB non-DEGs from the List #2.
+
+The lists of up- and down-regulated DEGs are partitioned by the |Log<sub>2</sub>(FC)| into several portions.
+Genetic Algorithm is applied to define the motif groups.  
 
 ## GA input data:
 - a pair of foreground / background sets, containing N<sub>POS</sub> / N<sub>NEG</sub> DNA sequences;
