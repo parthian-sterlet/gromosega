@@ -84,7 +84,7 @@ AT1G01200 and FBgn0000008.
 13. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on non-DEGs, e.g. default: p-adj > 0.05 &  FC<sub>DOWN</sub> <= FC <= FC<sub>UP</sub>.
 14. integer value - marks 0 / 1 indicate absence / presence of a swap between up- and down-regultated DEGs in output data
 15. integer value - marks 1 / -1 indicate taking DEGs with the highest/lowest values of |log2fold|, default values 1. This option is required to study fold-specific distribution of enriched TFBS motifs in DEGs with distinct |log2fold| values.
-16. integer value - mark randomization. 0 / 1 values indicate that output data include real DEGs & non-DEgs / randomization implies permutation of real DEGs & non-DEgs
+16. integer value - mark randomization. 0 / 1 values indicate that output data include real DEGs & non-DEGs / randomization implies permutation of real DEGs & non-DEGs (shuffling of gene indices)
 17. input file mononucleotide content of whole gene promoter set (argument #5), file contains two columns marking the number of (A+T) and (G+C) nucleotides
 18. input file dinonucleotide content of whole gene promoter set (argument #5), file contains ten columns marking the number of {(AA + TT), (AC + GT), (AG + CT), AT, (CA + TG), (CC + GG), CG, (GA + TC), GC, TA} dinucleotides
 19. integer value, approach to take into account a dinucleotide bias. Values of 1, 4 and 10 mean that only CG dinucleotide, the four dinucleotide types {CG 4AT,TA,CG,GC}, or all ten dinucleotide types are taken into account
