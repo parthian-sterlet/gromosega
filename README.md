@@ -76,9 +76,9 @@ AT1G01200 and FBgn0000008.
 4. integer value - column number of p-adj values in the RNA-seq table (argument #1).
 5. input file - the table for whole genome containing gene IDs (presumed these are all WG protein coding genes of genome). Currently for _H. sapiens_ / _M. musculus_, _A. thaliana_ and _D. melanogaster_ protein coding genes for the recent genome releases hg38, mm38, TAIR10 and dm6 are considered.
 6. integer value - the column number of gene IDs in the table for whole genome input file (argument #5).
-7. integer value - number of DEGs per one portion, selected (either up or down), default values 50 or 25 / 500 or 250 are used for the numbers of DEGs portions 10 / 1 (argument #9).
+7. integer value - number of DEGs per one portion, selected (either up or down), default values 50 or 25 / 500 or 250 are used for the numbers of DEGs portions 10 / 1 (argument #8).
 8. integer value - number of DEGs portions, default values 10 / 1 to perform analysis of several portions / one portion.
-9. double value in the range from 0 to 1, a fraction of potential non-DEGs (all genes meeting criteria on p-adj and FC values), that selected to the set of non-DEGs by the discriminant analysis metrics, discrimination {up-regulated DEGs vs. potential non-DEGs} and {down-regulated DEGs vs. potential non-DEGs}, default value 0.25
+9. double value in the range from 0 to 1, an approximated fraction of potential non-DEGs (all genes meeting criteria on p-adj and FC values), that selected to the set of non-DEGs by the discriminant analysis metrics, default value 0.4
 10. double value - threshold for adjusted p-value (p-adj), default value for up-/down-regulated DEGs and not DEGs: p-adj = 0.05.
 11. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on up-regulated DEGs, e.g. default: p-adj < 0.05 & FC >= FC<sub>UP</sub>. 
 12. output file -list of all WG integer values (0 or 1) marking gene satisfying the default criterion on down-regulated DEGs, e.g. default: p-adj < 0.05 & FC <= FC<sub>DOWN</sub>.
@@ -88,7 +88,7 @@ AT1G01200 and FBgn0000008.
 16. integer value - mark randomization. 0 / 1 values indicate that output data include real DEGs & non-DEGs / randomization implies permutation of real DEGs & non-DEGs (shuffling of gene indices)
 17. input file mononucleotide content of whole gene promoter set (argument #5), file contains two columns marking the number of (A+T) and (G+C) nucleotides
 18. input file dinonucleotide content of whole gene promoter set (argument #5), file contains ten columns marking the number of {(AA + TT), (AC + GT), (AG + CT), AT, (CA + TG), (CC + GG), CG, (GA + TC), GC, TA} dinucleotides
-19. integer value, approach to take into account a dinucleotide bias. Values of 1, 4 and 10 mean that only CG dinucleotide, the four dinucleotide types {CG 4AT,TA,CG,GC}, or all ten dinucleotide types are taken into account
+19. integer value, approach to take into account a dinucleotide bias. Values of {1, 4 and 10} mean that {only one dinucleotide type CG, four types {CG 4AT,TA,CG,GC}, or all ten types} are taken into discriminant analysis space
 
 This step forms three set of files marking gene portions of up-/down-regulated DEGs and sets of WG genes (non-DEGs).
 
@@ -149,7 +149,7 @@ Now everything is ready for the search of the motif groups.
 # Command line examples
 ## RNA-seq data 
 [RNA-seq data](https://github.com/parthian-sterlet/gromosega/blob/main/examples/rnaseq/E-MTAB-5516-query-results.tsv) [ID E-MTAB-5516](https://www.ebi.ac.uk/gxa/experiments-content/E-MTAB-5516/resources/ExperimentDownloadSupplier.BulkDifferential/tsv) ([Ragheb et al., 2017](https://doi.org/10.1038/s41598-017-14969-7)) on whole female drosophila wounded and/or infected with _Pseudomonas entomophila_. Data *'wounding' vs 'none' in 'Pseudomonas entomophila' at '3 hour'* were used as a functional example of the tool applicatiion
-Two commamd line examples [gmsga_rnaseq_total](https://github.com/parthian-sterlet/minimax/blob/main/run/gmsga_rnaseq_total) and [gmsga_rnaseq_slice](https://github.com/parthian-sterlet/minimax/blob/main/run/gmsga_rnaseq_slice) illustrate two slightly different modes to the tool: 
+The commamd line example [gmsga_rnaseq](https://github.com/parthian-sterlet/minimax/blob/main/run/gmsga_rnaseq_slice) illustrate two slightly different modes to run the tool: 
 - The [first](https://github.com/parthian-sterlet/minimax/blob/main/run/gmsga_rnaseq_total) takes a whole set of DEGs, e.g. 250 top-scored by |log2fold| values up- or down-regulated DEGs vs. 1000 non-DEGs.
 - The [second](https://github.com/parthian-sterlet/minimax/blob/main/run/gmsga_rnaseq_slice) takes the same whole of DEGs subdivided into certain number of consequent non-overlapping portions, e.g. 5 x 50 top-scored by |log2fold| values up- or down-regulated DEGs vs. 1000 non-DEGs. These separate portion reveal TF regulators potentially involved in the transcription of genes with high or low intensity estimated by the high or low  |log2fold| values.
 
