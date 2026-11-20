@@ -12,7 +12,7 @@ ext=".tab"
 # $4 Name of dataset used as folder name here
 # $5,$6 Maximal number of motifs per group, step of Maximal number of motifs per group
 # $7 Number of genes per DEG portion, table_rnaseq_knife.exe
-# $8 Number of separate non-overlapped sets RNA-seq DEGs, table_rnaseq_knife.exe
+# $8 Number of separate non-overlapped DEGs portions, table_rnaseq_knife.exe
 # 0.4 Fraction of non-DEGs among all potential non-DEGs, the negative set, table_rnaseq_knife.exe
 # 20 Number of top-scored TF families in output data, minimax_sort.exe
 # 10 Approach to apply a dinucleotide bias (1 only CG; 4 only CG, GC, TA and AT; 10 all ten complementary dinucleotide pairs}, table_rnaseq_knife.exe
