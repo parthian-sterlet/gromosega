@@ -24,7 +24,7 @@ my_dir=$PWD$lin
 
 ../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 $7 $8 0.4 0.05 up_$4 do_$4 no_$4 0 1 0	../../genomes/mono_all_bestsco	../../genomes/di_all_bestsco 10
 
-if [[ $7 -eq 1 ]]; then
+if [[ $8 -eq 1 ]]; then
 
 mv -- "up_$4" "up_$4_1"
 mv -- "do_$4" "do_$4_1"
@@ -32,7 +32,7 @@ mv -- "no_$4" "no_$4_1"
 
 fi
 
-for (( n=1; n <= $7; n++))
+for (( n=1; n <= $8; n++))
 do
 for (( k=0; k<3; k++))
 do
@@ -40,7 +40,7 @@ do
 done
 done
 
-for (( n=1; n <= $7; n++))
+for (( n=1; n <= $8; n++))
 do
 fileno=${dire[2]}${emp}$4${emp}$n${ext}
 for (( k=0; k<2; k++))
@@ -55,7 +55,7 @@ done
 done
 done
 
-for (( n=1; n<=$7; n++))
+for (( n=1; n<=$8; n++))
 do
 for (( j=0; j<4; j++))
 do
@@ -67,7 +67,7 @@ done
 done
 done
 
-for (( n=1; n<=$7; n++))
+for (( n=1; n<=$8; n++))
 do
 for (( j=0; j<4; j++))
 do
@@ -85,7 +85,7 @@ done
 
 for (( k=0; k<2; k++))
 do
-for (( n=1; n<=$7; n++))
+for (( n=1; n<=$8; n++))
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n
 #echo -e "name $name\n"
@@ -106,7 +106,7 @@ table=${tab}${emp}${ftype[$j]}
 rm $table
 for (( k=0; k<2; k++))
 do
-for (( n=1; n<=$7; n++))
+for (( n=1; n<=$8; n++))
 do
 filen=${ftype[$j]}${emp}${dire[$k]}${emp}$4${emp}$n
 #echo -e "filen $filen\n"
@@ -117,7 +117,7 @@ done
 
 for (( k=0; k<2; k++))
 do
-for (( n=1; n<=$7; n++))
+for (( n=1; n<=$8; n++))
 do
 name=${emp}${dire[$k]}${emp}$4${emp}$n
 #echo -e "name $name\n"
