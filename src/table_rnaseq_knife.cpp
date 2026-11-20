@@ -349,9 +349,58 @@ void Mix(double* a, double* b)
 	*a = *b;
 	*b = buf;
 }
+double Laplace(double z)
+{
+	const double pi = 3.141592653589793;
+	const double step = 0.0001;
+	const double step2 = step / 2;
+	double x, y = 0, dy;
+	double prec = 1E-20;
+	x = z;
+	double mnoj = sqrt(2 * pi);
+	do
+	{
+		x += step2;
+		dy = step * exp(-x * x / 2);
+		dy /= mnoj;
+		y += dy;
+		x += step2;
+	} while (dy > prec);
+	return(y);
+}
+double BackLaplace(double u)
+{
+	const double pi = 3.141592653589793;
+	const double step = 0.0001;
+	double x, y;
+	if (u <= 0) return(-1);
+	if (u >= 1) return(-1);
+	x = 0;
+	y = 0.5;
+	double mnoj = 1 / sqrt(2 * pi);	
+	if (u < 0.5)
+	{
+		while (y > u)
+		{
+			x -= step / 2;
+			y -= step * mnoj * exp(-x * x / 2);
+			x -= step / 2;
+		}
+	}
+	else
+	{
+		while (y < u)
+		{
+			x += step / 2;
+			y += step * mnoj * exp(-x * x / 2);
+			x += step / 2;
+		}
+	}	
+	return(x);	
+}
 int main(int argc, char* argv[])
 {
-	int i, j, k, n;
+	int i, j, k;
 	char d[15000], dmi[300], ddi[300];
 	char filei_genelist[300], filei_rnaseq[300], fileo_up_base[300], fileo_do_base[300], fileo_no_base[300], fileo_up[300], fileo_do[300], fileo_no[300], fileo_sta[80];
 	char filei_moc[300], filei_dic[300], file_log[300];
@@ -387,7 +436,9 @@ int main(int argc, char* argv[])
 	strcpy(filei_dic, argv[18]);//in_file		
 	strcpy(file_log, "backmat_err.txt");
 	int ndity = atoi(argv[19]);
+	double rat_nf_nb_max = 3;
 	int back_err = 0;
+	double z_sco_thr = BackLaplace(size_nedeg_fraction);
 	{
 		int allowv[3] = { 1,4,10 };
 		int ndity_test = 0;
@@ -420,22 +471,22 @@ int main(int argc, char* argv[])
 
 	if ((in_rnaseq = fopen(filei_rnaseq, "rt")) == NULL)
 	{
-		printf("Input file %s can't be opened!", filei_rnaseq);
+		printf("Input file %s can't be opened!\n", filei_rnaseq);
 		return -1;
 	}
 	if ((in_genelist = fopen(filei_genelist, "rt")) == NULL)
 	{
-		printf("Input file %s can't be opened!", filei_genelist);
+		printf("Input file %s can't be opened!\n", filei_genelist);
 		return -1;
 	}
 	if ((in_moc = fopen(filei_moc, "rt")) == NULL)
 	{
-		printf("Input file %s can't be opened!", filei_moc);
+		printf("Input file %s can't be opened!\n", filei_moc);
 		return -1;
 	}
 	if ((in_dic = fopen(filei_dic, "rt")) == NULL)
 	{
-		printf("Input file %s can't be opened!", filei_dic);
+		printf("Input file %s can't be opened!\n", filei_dic);
 		return -1;
 	}
 	if (rev == 0)
@@ -459,17 +510,17 @@ int main(int argc, char* argv[])
 			}
 			if ((out_up[j] = fopen(fileo_up, "wt")) == NULL)
 			{
-				printf("Input file %s can't be opened!", fileo_up);
+				printf("Input file %s can't be opened!\n", fileo_up);
 				return -1;
 			}
 			if ((out_do[j] = fopen(fileo_do, "wt")) == NULL)
 			{
-				printf("Input file %s can't be opened!", fileo_do);
+				printf("Input file %s can't be opened!\n", fileo_do);
 				return -1;
 			}
 			if ((out_no[j] = fopen(fileo_no, "wt")) == NULL)
 			{
-				printf("Input file %s can't be opened!", fileo_no);
+				printf("Input file %s can't be opened!\n", fileo_no);
 				return -1;
 			}
 		}
@@ -495,17 +546,17 @@ int main(int argc, char* argv[])
 			}
 			if ((out_up[j] = fopen(fileo_do, "wt")) == NULL)
 			{
-				printf("Input file %s can't be opened!", fileo_do);
+				printf("Input file %s can't be opened!\n", fileo_do);
 				return -1;
 			}
 			if ((out_do[j] = fopen(fileo_up, "wt")) == NULL)
 			{
-				printf("Input file %s can't be opened!", fileo_up);
+				printf("Input file %s can't be opened!\n", fileo_up);
 				return -1;
 			}
 			if ((out_no[j] = fopen(fileo_no, "wt")) == NULL)
 			{
-				printf("Input file %s can't be opened!", fileo_no);
+				printf("Input file %s can't be opened!\n", fileo_no);
 				return -1;
 			}
 		}
@@ -654,8 +705,9 @@ int main(int argc, char* argv[])
 			rnaseq[i].num = inx;
 		}
 		else break;
-	}
+	}	
 	rewind(in_genelist);
+	
 	if (random == 1)
 	{
 		srand((unsigned)time(NULL));
@@ -680,20 +732,21 @@ int main(int argc, char* argv[])
 					Mix(&rnaseq[i].gen_type, &rnaseq[i2].gen_type);
 					Mix(&rnaseq[i].padj, &rnaseq[i2].padj);
 					Mix(&rnaseq[i].log2fc, &rnaseq[i2].log2fc);
-					/*char gene_id[100];
-					memset(gene_id, '\0', sizeof(gene_id));
-					int g1 = (int)strlen(genes[i]);
-					int g2 = (int)strlen(genes[i2]);
-					strcpy(gene_id, genes[i]);
-					gene_id[g1] = '\0';
-					strncpy(genes[i], genes[i2], g2);
-					genes[i][g2] = '\0';
-					strncpy(genes[i2], gene_id, g1);
-					genes[i2][g1] = '\0';*/
+					//char gene_id[100];
+					//memset(gene_id, '\0', sizeof(gene_id));
+					//int g1 = (int)strlen(genes[i]);
+					//int g2 = (int)strlen(genes[i2]);
+					//strcpy(gene_id, genes[i]);
+					//gene_id[g1] = '\0';
+					//strncpy(genes[i], genes[i2], g2);
+					//genes[i][g2] = '\0';
+					//strncpy(genes[i2], gene_id, g1);
+					//genes[i2][g1] = '\0';
 				}
 			}
 		}
 	}
+
 	int unknown_gen_type = -100000;
 	table_gene* gene;
 	gene = new table_gene[n_genes_tot];
@@ -778,9 +831,9 @@ int main(int argc, char* argv[])
 				di[k] = UnderStolInt(ddi, k, buf, sizeof(buf), tab);
 			}
 			int len_prom = mo[0] + mo[1];
-			gene[j].moc = (double)mo[1] / len_prom / 2;
+			gene[j].moc = (double)mo[1] / len_prom;
 			double mocf[2];
-			for (k = 0; k < 2; k++)mocf[k] = (double)mo[k] / len_prom / 2;
+			for (k = 0; k < 2; k++)mocf[k] = (double)mo[k] / len_prom;
 			double dexp[10];// di  0aa/tt 1ac/gt 2ag/ct 3at 4ca/tg 5cc/gg 6cg 7ga/tc 8gc 9ta .., popolam 012 457
 			dexp[0] = dexp[3] = dexp[9] = mocf[0] * mocf[0];
 			dexp[5] = dexp[6] = dexp[8] = mocf[1] * mocf[1];
@@ -795,21 +848,14 @@ int main(int argc, char* argv[])
 			{
 				if (ndity == 1)
 				{
-					gene[j].dic[0] = (double)di[6] / len_prom1 / dexp[k];
-					gene[j].dic[0] /= dexp[6];
+					gene[j].dic[0] = (double)di[6] / len_prom1 / dexp[6];
 				}
 				else
-				{                   //0 1 2 3 4 5 6 7 8 9 					                
-					int fourt[10] = { 0,0,0,1,0,0,1,0,1,1 };
-					int kk = 0;
-					for (k = 0; k < 10; k++)
-					{
-						if (fourt[k] == 1)
-						{
-							gene[j].dic[kk] = (double)di[k] / len_prom1 / dexp[k];
-							kk++;
-						}
-					}
+				{                   
+					gene[j].dic[0] = (double)di[3] / len_prom1 / dexp[3];
+					gene[j].dic[1] = (double)di[6] / len_prom1 / dexp[6];
+					gene[j].dic[2] = (double)di[8] / len_prom1 / dexp[8];
+					gene[j].dic[3] = (double)di[9] / len_prom1 / dexp[9];					
 				}
 			}
 		}
@@ -936,7 +982,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	*/
-	double** vec_up, ** vec_do, ** vec_no;
+	double** vec_up, ** vec_do, vec_no[SPACESIZE], vec_dif[SPACESIZE];
 	vec_up = new double* [ndegup];
 	if (vec_up == NULL) return -1;
 	for (i = 0; i < ndegup; i++)
@@ -951,24 +997,11 @@ int main(int argc, char* argv[])
 		vec_do[i] = new double[space_size];
 		if (vec_do[i] == NULL) return -1;
 	}
-	vec_no = new double* [nnedeg_good];
-	if (vec_do == NULL) return -1;
-	for (i = 0; i < nnedeg_good; i++)
-	{
-		vec_no[i] = new double[space_size];
-		if (vec_no[i] == NULL) return -1;
-	}
-	int mah_up = 0, mah_do = 0, mah_no = 0;
+	int mah_up = 0, mah_do = 0;
 	for (i = 0; i < ndeg + nnedeg_good; i++)
 	{
 		int ii = gene[i].gen_type;
-		if (ii <= 0)continue;
-		if (ii == 1 && mah_no < nnedeg_good)//non-DEG
-		{
-			for (k = 0; k < space_size1; k++)vec_no[mah_no][k] = gene[i].dic[k];
-			vec_no[mah_no][space_size1] = gene[i].moc;
-			mah_no++;
-		}
+		if (ii <= 1)continue;
 		else
 		{
 			if (ii == 2 && mah_up < ndegup)
@@ -990,12 +1023,12 @@ int main(int argc, char* argv[])
 		fprintf(outlog, "Input file %s can't be opened!\n", file_log);
 		exit(1);
 	}
-	double av_up[SPACESIZE], av_do[SPACESIZE], av_no[SPACESIZE];
-	double uw_up[SPACESIZE][SPACESIZE], uw_no[SPACESIZE][SPACESIZE], uw_do[SPACESIZE][SPACESIZE];
-	for (k = 0; k < space_size; k++)av_no[k] = av_up[k] = av_do[k] = 0;	
+	double av_up[SPACESIZE], av_do[SPACESIZE];
+	double uw_up[SPACESIZE][SPACESIZE], uw_do[SPACESIZE][SPACESIZE];
+	for (k = 0; k < space_size; k++)av_up[k] = av_do[k] = 0;	
 	for (k = 0; k < space_size; k++)
 	{
-		for (i = 0; i < space_size; i++)uw_up[k][i] = uw_no[k][i] = uw_do[k][i] = 0;
+		for (i = 0; i < space_size; i++)uw_up[k][i]  = uw_do[k][i] = 0;
 	}
 	//up
 	for (j = 0; j < mah_up; j++)
@@ -1012,8 +1045,28 @@ int main(int argc, char* argv[])
 		for (i = 0; i < space_size; i++)
 		{
 			uw_up[k][i] -= space_size * av_up[k] * av_up[i];
+		}
+	}
+	for (k = 0; k < space_size; k++)
+	{
+		for (i = 0; i < space_size; i++)
+		{
 			uw_up[k][i] /= space_size1;
 		}
+	}
+	for (k = 0; k < space_size; k++)
+	{
+		for (i = 0; i < space_size; i++)uw[k][i] = uw_up[k][i];
+	}
+	if (BackMat(space_size, outlog) == -1)
+	{
+		printf("BackMat Error\n");
+		back_err++;
+		return -1;
+	}
+	for (k = 0; k < space_size; k++)
+	{
+		for (i = 0; i < space_size; i++)uw_up[k][i] = uw[k][i];
 	}
 	//do
 	for (j = 0; j < mah_do; j++)
@@ -1030,40 +1083,19 @@ int main(int argc, char* argv[])
 		for (i = 0; i < space_size; i++)
 		{
 			uw_do[k][i] -= space_size * av_do[k] * av_do[i];
-			uw_do[k][i] /= space_size1;
 		}
 	}
-	//no
-	for (j = 0; j < mah_no; j++)
-	{
-		for (k = 0; k < space_size; k++)
-		{
-			for (i = 0; i < space_size; i++)uw_no[k][i] += vec_no[j][k] * vec_no[j][i];
-		}
-		for (k = 0; k < space_size; k++)av_no[k] += vec_no[j][k];
-	}
-	for (k = 0; k < space_size; k++)av_no[k] /= mah_no;
 	for (k = 0; k < space_size; k++)
 	{
 		for (i = 0; i < space_size; i++)
 		{
-			uw_no[k][i] -= space_size * av_no[k] * av_no[i];
-			uw_no[k][i] /= space_size1;
+			uw_do[k][i] /= space_size1;
 		}
 	}
-	double dmah_up = 0, dmah_do = 0, c0_up = 0, c0_do = 0;
-	double buf_up[SPACESIZE], buf_do[SPACESIZE], df_up[SPACESIZE], df_do[SPACESIZE], av_upno[SPACESIZE], av_dono[SPACESIZE];
+	//up
 	for (k = 0; k < space_size; k++)
 	{
-		df_up[k] = av_up[k] - av_no[k];
-		df_do[k] = av_do[k] - av_no[k];
-		av_upno[k] = (av_up[k] + av_no[k]) / 2;
-		av_dono[k] = (av_do[k] + av_no[k]) / 2;
-	}
-	//up vs no
-	for (k = 0; k < space_size; k++)
-	{
-		for (i = 0; i < space_size; i++)uw[k][i] = (uw_up[k][i] + uw_no[k][i]) / 2;
+		for (i = 0; i < space_size; i++)uw[k][i] = uw_do[k][i];
 	}
 	if (BackMat(space_size, outlog) == -1)
 	{
@@ -1073,36 +1105,9 @@ int main(int argc, char* argv[])
 	}
 	for (k = 0; k < space_size; k++)
 	{
-		buf_up[k] = 0;
-		for (n = 0; n < space_size; n++)buf_up[k] += uw[k][n] * df_up[n];
-		dmah_up += buf_up[k] * df_up[k];
+		for (i = 0; i < space_size; i++)uw_do[k][i] = uw[k][i];
 	}
-	for (k = 0; k < space_size; k++)
-	{
-		buf_up[k] /= dmah_up;
-		c0_up -= av_upno[k] * buf_up[k];
-	}
-	//do vs no
-	for (k = 0; k < space_size; k++)
-	{
-		for (i = 0; i < space_size; i++)uw[k][i] = (uw_do[k][i] + uw_no[k][i]) / 2;
-	}
-	if (BackMat(space_size, outlog) == -1)
-	{
-		printf("BackMat Error\n");
-		return -1;
-	}
-	for (k = 0; k < space_size; k++)
-	{
-		buf_do[k] = 0;
-		for (n = 0; n < space_size; n++)buf_do[k] += uw[k][n] * df_do[n];
-		dmah_do += buf_do[k] * df_do[k];
-	}
-	for (k = 0; k < space_size; k++)
-	{
-		buf_do[k] /= dmah_do;
-		c0_do -= av_dono[k] * buf_do[k];
-	}
+
 	//printf("nonDEGs\n");
 	double thr_log2fc_nemin = 0, thr_log2fc_nemax = 0;
 	for (i = nnedeg_good0; i < nnedeg_good0 + nnedeg_good; i++)
@@ -1114,20 +1119,51 @@ int main(int argc, char* argv[])
 			if (log2fc < thr_log2fc_nemin)thr_log2fc_nemin = log2fc;
 		}
 	}
+	double avr_up = 0, std_up = 0, avr_do = 0, std_do = 0, thr_md_up, thr_md_do;
 	//for (i = nnedeg_good0; i < nnedeg_good0 + nnedeg_good; i++)
 	for (i = 0; i < n_genes_tot; i++)
 	{
-		gene[i].rm_up = c0_up;
-		for (k = 0; k < space_size1; k++)gene[i].rm_up += buf_up[k] * gene[i].dic[k];
-		gene[i].rm_up += buf_up[space_size1] * gene[i].moc;
-		gene[i].rm_up = fabs(gene[i].rm_up);
-		gene[i].rm_do = c0_do;
-		for (k = 0; k < space_size1; k++)gene[i].rm_do += buf_do[k] * gene[i].dic[k];
-		gene[i].rm_do += buf_do[space_size1] * gene[i].moc;
-		gene[i].rm_do = fabs(gene[i].rm_do);
-		gene[i].rm2 = gene[i].rm_do + gene[i].rm_up;		
-		//printf("%d\t%d\t%d\t%f\t%f\t%f\t%g\t%f\n", i + 1, gene[i].gen_type,gene[i].num, gene[i].type, gene[i].rm_up, gene[i].rm_do, gene[i].rm2, gene[i].padj, gene[i].log2fc);
+		gene[i].rm_up = 0;
+		for (k = 0; k < space_size1; k++)vec_no[k] = gene[i].dic[k];
+		vec_no[space_size1] = gene[i].moc;
+		for (k = 0; k < space_size; k++)vec_dif[k] = vec_no[k] - av_up[k];		
+		for (k = 0; k < space_size; k++)
+		{
+			double buf = 0;
+			for (j = 0; j < space_size; j++)buf += uw_up[k][j] * vec_dif[j];
+			gene[i].rm_up += buf * vec_dif[k];
+		}
+		gene[i].rm_up = sqrt(gene[i].rm_up);
+		gene[i].rm_do = 0;
+		for (k = 0; k < space_size; k++)vec_dif[k] = vec_no[k] - av_do[k];
+		for (k = 0; k < space_size; k++)
+		{
+			double buf = 0;
+			for (j = 0; j < space_size; j++)buf += uw_do[k][j] * vec_dif[j];
+			gene[i].rm_do += buf * vec_dif[k];
+		}
+		gene[i].rm_do  = sqrt(gene[i].rm_do);
+		gene[i].rm2 = gene[i].rm_up + gene[i].rm_do;
+	//	printf("%d\t%d\t%d\t%d\t%f\t%f\t%f\t%g\t%f\n", i + 1, gene[i].gen_type,gene[i].num, gene[i].type, gene[i].rm_up, gene[i].rm_do, gene[i].rm2, gene[i].padj, gene[i].log2fc);
 	}
+	for (i = ndegup0; i < ndegup0 + ndegup; i++)
+	{
+		avr_up += gene[i].rm_up;
+		std_up += gene[i].rm_up * gene[i].rm_up;
+	}
+	avr_up /= ndegup;
+	std_up = (std_up - ndegup * avr_up * avr_up) / (ndegup - 1);
+	std_up = sqrt(std_up);
+	for (i = ndegdo0; i < ndegdo0 + ndegdo; i++)	
+	{
+		avr_do += gene[i].rm_do;
+		std_do += gene[i].rm_do * gene[i].rm_do;
+	}
+	avr_do /= ndegdo;
+	std_do = (std_do - ndegdo * avr_do * avr_do) / (ndegdo - 1);	
+	std_do = sqrt(std_do);
+	thr_md_up = avr_up + z_sco_thr * std_up;
+	thr_md_do = avr_do + z_sco_thr * std_do;
 	qsort(&gene[nnedeg_good0], nnedeg_good, sizeof(gene[0]), compare_mah);
 	/*printf("downDEGs\n");
 	for (i = 0; i < ndegdo; i++)
@@ -1151,18 +1187,23 @@ int main(int argc, char* argv[])
 		printf("GType %d\tGinx %d\tpadj %g\tLog2FC %f\tR %f\n", gene[x].gen_type, gene[x].num, gene[x].padj, gene[x].log2fc, gene[x].rm2);
 	}*/
 
-	double rm_up_max = 0, rm_do_max = 0;
 	int nseq_nondeg_mdc = 0;//count of nonDEG with adopted mono- &di- content
-	for (i = nnedeg_good0; i < nnedeg_good0 + size_nedeg_min; i++)
 	{
-		int ii = gene[i].gen_type;
-		if (ii == 1)//non-DEG without mono- & di- content
+		int nb_max = Max(ndegup, ndegdo);
+		nb_max = (int)(rat_nf_nb_max * nb_max);		
+		for (i = nnedeg_good0; i < nnedeg_good0 + nnedeg_good; i++)
 		{
-			if (gene[i].rm_up >= rm_up_max)rm_up_max = gene[i].rm_up;
-			if (gene[i].rm_do >= rm_do_max)rm_do_max = gene[i].rm_do;
-			gene[i].sim = 1;
-			nseq_nondeg_mdc++;
-			//printf("%d\t%d\t%d\t%f\t%f\t%f\t%g\t%f\n", i + 1, gene[i].num, gene[i].type, gene[i].rm_up, gene[i].rm_do, gene[i].rm2, gene[i].padj, gene[i].log2fc);			
+			//int ii = gene[i].gen_type;
+			//if (ii == 1)//non-DEG without mono- & di- content
+			{
+				if (gene[i].rm_up < thr_md_up && gene[i].rm_do < thr_md_do)
+				{
+					gene[i].sim = 1;
+					nseq_nondeg_mdc++;
+					if (nseq_nondeg_mdc >= nb_max)break;
+				}
+				//printf("%d\t%d\t%d\t%f\t%f\t%f\t%g\t%f\n", i + 1, gene[i].num, gene[i].type, gene[i].rm_up, gene[i].rm_do, gene[i].rm2, gene[i].padj, gene[i].log2fc);			
+			}
 		}
 	}
 	qsort(gene, n_genes_tot, sizeof(gene[0]), compare_numg);
@@ -1179,6 +1220,33 @@ int main(int argc, char* argv[])
 		if (thr_log2fc_nemax > 0)thr_log2fc_nemax = pow((double)2, thr_log2fc_nemax);
 		if (thr_log2fc_nemin < 0)thr_log2fc_nemin = pow((double)2, thr_log2fc_nemin);
 	}
+			
+	/*if (random == 1)
+	{
+		int nseq_mix = ndegup + ndegdo + nseq_nondeg_mdc;
+		int* indices;
+		indices = new int[nseq_mix];
+		if (indices == NULL) { puts("Out of memory..."); exit(1); }
+		srand((unsigned)time(NULL));			
+		for (i = 0; i < nseq_mix; i++)
+		{
+			indices[i] = -1;
+		}
+		k = 0;
+		for (i = 0; i < n_genes_tot; i++)
+		{
+			if (gene[i].gen_type >= 2 || (gene[i].gen_type == 1 && gene[i].sim == 1))indices[k++] = i;
+		}
+		int nseq_mix1 = nseq_mix - 1;
+		for (i = 0; i < nseq_mix1; i++)
+		{
+			int i1 = indices[i];																		
+			int i2 = indices[1 + i + (rand() % (nseq_mix1 - i))];													
+			Mix(&gene[i1].gen_type, &gene[i2].gen_type);
+			Mix(&gene[i1].sim, &gene[i2].sim);																		
+		}
+		delete[] indices;
+	}*/
 	int countcas = 0;
 	int lost[5] = { 0,0,0,0,0 };
 	for (i = 0; i < n_genes_tot; i++)
@@ -1278,7 +1346,7 @@ int main(int argc, char* argv[])
 	}
 	if ((out_sta = fopen(fileo_sta, "at")) == NULL)
 	{
-		printf("Input file %s can't be opened!", fileo_sta);
+		printf("Input file %s can't be opened!\n", fileo_sta);
 		return -1;
 	}
 	if (rev == 0)
@@ -1290,7 +1358,8 @@ int main(int argc, char* argv[])
 		for (j = 0; j < nseq_deg; j++)fprintf(out_sta, "\t%f", thr_log2fc_up1[j]);
 		fprintf(out_sta, "\tDOs");
 		for (j = 0; j < nseq_deg; j++)fprintf(out_sta, "\t%f", thr_log2fc_do1[j]);
-		fprintf(out_sta, "\n");
+		fprintf(out_sta, "\tNdi\t%d\tRand\t%d", ndity, random);
+		fprintf(out_sta, "\n");		
 	}
 	else
 	{
@@ -1326,11 +1395,6 @@ int main(int argc, char* argv[])
 		delete[] vec_do[i];
 	}
 	delete[] vec_do;
-	for (i = 0; i < nnedeg_good; i++)
-	{
-		delete[] vec_no[i];
-	}
-	delete[] vec_no;
 	return 1;
 }
 
