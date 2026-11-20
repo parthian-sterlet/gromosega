@@ -373,8 +373,8 @@ double BackLaplace(double u)
 	const double pi = 3.141592653589793;
 	const double step = 0.0001;
 	double x, y;
-	if (u <= 0) return(-1);
-	if (u >= 1) return(-1);
+	if (u <= 0) return(-10000);
+	if (u >= 1) return(-10000);
 	x = 0;
 	y = 0.5;
 	double mnoj = 1 / sqrt(2 * pi);	
@@ -439,6 +439,11 @@ int main(int argc, char* argv[])
 	double rat_nf_nb_max = 3;
 	int back_err = 0;
 	double z_sco_thr = BackLaplace(size_nedeg_fraction);
+	if (z_sco_thr == -10000)
+	{
+		printf("Wrong size_nedeg_fraction = %f parameter, only values (0, 1) are allowed!\n", size_nedeg_fraction);
+		return -1;
+	}
 	{
 		int allowv[3] = { 1,4,10 };
 		int ndity_test = 0;
