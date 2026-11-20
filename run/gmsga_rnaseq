@@ -11,7 +11,8 @@ ext=".tab"
 # $2,$3 int columns log2Fold,,padj in input RNa-seq table
 # $4 Name of dataset used as folder name here
 # $5,$6 Maximal number of motifs per group, step of Maximal number of motifs per group
-# $7 Number of separate non-overlapped sets RNA-seq DEGs, table_rnaseq_knife.exe
+# $7 Number of genes per DEG portion, table_rnaseq_knife.exe
+# $8 Number of separate non-overlapped sets RNA-seq DEGs, table_rnaseq_knife.exe
 # 0.4 Fraction of non-DEGs among all potential non-DEGs, the negative set, table_rnaseq_knife.exe
 # 20 Number of top-scored TF families in output data, minimax_sort.exe
 # 10 Approach to apply a dinucleotide bias (1 only CG; 4 only CG, GC, TA and AT; 10 all ten complementary dinucleotide pairs}, table_rnaseq_knife.exe
@@ -21,7 +22,7 @@ mkdir $4
 cd $4
 my_dir=$PWD$lin
 
-../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 50 $7 0.4 0.05 up_$4 do_$4 no_$4 0 1 0	../../genomes/mono_all_bestsco	../../genomes/di_all_bestsco 10
+../../src/table_rnaseq_knife.exe ../rnaseq/$1 1 $2 $3 ../../genomes/protcod_dm6_m1kb_p100_tss.bed 5 $7 $8 0.4 0.05 up_$4 do_$4 no_$4 0 1 0	../../genomes/mono_all_bestsco	../../genomes/di_all_bestsco 10
 
 if [[ $7 -eq 1 ]]; then
 
